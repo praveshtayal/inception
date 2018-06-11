@@ -1,0 +1,48 @@
+Pokemon Republic: The Pokemon Republic has some very strange customs. Couples only wish to have female children as only females can inherit the family's wealth, so if they have a male child they keep having more children until they have a girl. If they have a girl, they stop having children. What is the ratio of girls to boys in Pokemon Republic? (Ans 1:1 Why?)
+Birthday cake: Karthikeyan arranged a party to celebrate his birth day.20 of his close friends were invited. One friend left before the cake was cut due to an urgent phone call.The big cake was drawing the attention of the party visitors. This cake is to be divided among friends and of course Karthikeyan will get his share. A man eats 3 pieces, a woman eats two pieces and a child eats half a piece of cake. Including Karthikeyan count the number of men,women and children in the party. There are 20 pieces of cake in all.
+Genie and Hats: A bunch of men are on an island.  A genie comes down and gathers everyone together and places a magical hat on some people’s heads (i e , at least one person has a hat).  The hat is magical, it can be seen by other people, but not by the wearer of the hat himself. To remove the hat, those (and only those who have a hat) must dunk themselves underwater at exactly midnight. If there are n people and c hats, how long does it take the men to remove the hats?  The men cannot tell each other (in any way) that they have a hat.
+Chalks and Days: Your teacher has a total of 49 chalks. When a chalk reduces to 1/7 of its original size, it gets too small for her to hold for writing and hence she keeps it aside. But your teacher hates wasting things and so, when she realizes that she has enough of these small pieces to join and make another chalk of the same size, she joins them and uses the new chalkstick. If she uses one chalk each day, how many days would the 49 chalks last? (This needs more explaination in question)
+Fake Note: A man (M) bought a product worth Rs 200 from the Shopkeeper (X).  He paid him through a 1000 Rs Note.  Realizing that he did not have change, the shopkeeper X got change for that note from another shopkeeper (Y) and paid Rs 800 to the man.  After a few days, Y realized that the note is fake, And this railed at X and took 1000 Rs back from him.  So in this whole process how much money did X loose in the end?
+What time it is: There is a clock that has a special way of telling the time. It does not have any hands or numbers on it, but it has a chimer.  If the time is 1 o'clock, it chimes once. If the time is 2 o'clock, it chimes twice, and so forth. The time gap between any two chimes is 3 seconds.  How many seconds would it take you to know the time, after the first chime is heard, if it is 5 o'clock?
+Fortune Tellers: There is a village that has five fortune tellers.  The first fortune teller's prediction has 78 % chance of being correct. The second has 61 % chance of being correct, the third 42 %, the fourth 33 %, and the fifth 9 %.  If you were trying to get the best prediction of your future, which fortune teller would you go to?
+Vacation Time: It was vacation time, and so I decided to visit my cousin's home. What a grand time we had! In the mornings, we both would go for a jog. The evenings were spent on the tennis court. Tiring as these activities were, we could manage only one per day, i.e., either we went for a jog or played tennis each day. There were days when we felt lazy and stayed home all day long.  Now, there were 16 mornings when we did nothing, 15 evenings when we stayed at home, and a total of 13 days when we jogged or played tennis. For how many days did I stay at my cousin's place?
+Gold Coins: A rich merchant had collected many gold coins. He did not want anybody to know about them. One day, his wife asked, "How many gold coins do we have?" After pausing a moment, he replied, "Well! If I divide the coins into two unequal numbers, then 25 times the difference between the two numbers equals the difference between the squares of the two numbers." The wife looked puzzled. Can you help the merchant's wife by finding out how many gold coins they have?
+Truth and Lie: If A speaks the truth 80% of the times, B speaks the truth 60% of the times. What is the probability that they tell the truth at the same time
+Test Marks: In objective test a correct ans score 4 marks and on a wrong ans 2 marks are deducted. A student score 480 marks from 150 question. How many ans were correct?  Note : The student is not confident about all his answers. (Needs inmprovement that all answers are marked)
+Train Crossing: A train 130 meters long travels at a speed of 45 km/hr crosses a bridge in 30 seconds. The length of the bridge is 
+Climbing Monkey: A monkey starts climbing up a tree 20ft. tall. Each hour, it hops 3ft. and slips back 2ft. How much time would it take the monkey to reach the top ?
+Number Sequence: 1, 1, 2, 3, 6, 7, 10, 11, ?
+Lottery Prize: In a lottery, there are 10 prizes and 25 blanks. A lottery is drawn at random. What is the probability of getting a prize?
+Age Ratio: The ages of two friends is in the ratio of 6:5. If the sum of their ages is 66. Then after how many years will the ratio become 7:6?
+Hand shakes: If 10 boys meet at a reunion and each boy shakes hands exactly once with each of the others, then what is the total number of handshakes?
+Letters Arrangement: In how many different ways can the letters of the word 'LEADING' be arranged in such a way that the vowels always come together?
+Even Product: Two dice are thrown simultaneously. What is the probability of getting two numbers whose product is even?
+Equilateral Triangles: An equilateral triangle of sides 3 inch each is given. How many equilateral triangles of side 1 inch can be formed from it ?
+Average Age: The average age of a class of 39 students is 15 years. If the age of the teacher be included, then the average increases by 3 months. Find the age of the teacher.
+Even Odd digits: How many five digit numbers are there such that two left most digits are even and remaining are odd ?
+Tennis Players: 15 tennis players take part in a tournament. Every player plays twice with each of his opponents. How many games are to be played?
+Student Selection: In a class, there are 15 boys and 10 girls. Three students are selected at random. The probability that 1 girl and 2 boys are selected, is -
+
+
+
+Average: You are given 3 numbers. Draw a flow chart that calculates and print the average of given three numbers.  
+Check Number: Draw a flowchart to take a number input from user and check if that number is positive, negative or Zero.  Print 1, if number is positive.  Print -1, if number is negative.  Print 0, if number is 0.
+Form Triangle: Draw a flowchart to take 3 dimensions of a triangle input from user. And check if we can form a triangle using these 3 dimensions or not.  If triangle can be formed, print "Yes", otherwise print "No".
+Print Numbers: Draw a flowchart to take a number N input from user. Then find and print the product of numbers from 1 to N.
+Print Even Numbers: Draw a flowchart to take number N input from user and then print all the even numbers that lies in between 1 to N (both inclusive).
+Find largest of N Numbers
+Check Prime: Draw a flowchart to take a number N from user. And check if that number is prime or not.  Print "Yes" if number is prime, otherwise print "No".  Assume N >= 2.
+Check Triangle: Draw a flowchart to take 3 dimensions of a triangle input from the user. And then check if the triangle formed is equilateral, isosceles or scalene.  Print 1 if triangle is equilateral.  Print 0 if triangle is isosceles.  Print -1 if triangle is scalene.
+Sum of Evens: Draw a flowchart to take a number N input from user. Calculate and print the sum of even numbers which are in between 1 to N (both inclusive).
+GCD: Draw a flowchart to take two numbers input from user and find their GCD(Greatest Common Divisor).
+All Primes: Draw a flowchart to take a number N input from from user and print all the prime numbers which lies in between 2 to N (both inclusive).
+All Fibonacci: Draw a flowchart to take a number N input from user and print all numbers less than N which are part of fibonacci series.
+Member of Fibonacci: Draw a flowchart to take a number N input from user and check if that number is member of fibonacci series or not.  Print "Yes" or "No" accordingly.
+Sum of even Numbers till N: Given a number N, print sum of all even numbers from 1 to N.
+Fahrenheit to Celcius: Given three values - Start Fahrenheit Value (S), End Fahrenheit value (E) and Step Size (W), you need to convert all Fahrenheit values from Start to End at the gap of W, into their corresponding Celsius values and print the table.  Input Format : 3 integers - S, E and W respectively separated by space.
+Number Pattern: Print the following pattern. Pattern for N = 4.
+1
+23
+345
+4567
+
