@@ -11,6 +11,7 @@ public:
 };
 
 int length(Node *head) {
+  /* Given a linked list, find and return the length of input LL. */
   int result=0;
   while(head!=nullptr)
   {
@@ -21,6 +22,8 @@ int length(Node *head) {
 }
 
 void printIthNode(Node *head, int i) {
+  /* Given a linked list and a position i, print the node at ith position. If
+   * position i is greater than length of LL, then don't print anything.*/
   int result=0;
   while(head!=nullptr && i!=result)
   {
@@ -63,6 +66,11 @@ Node* insertNode(Node *head, int pos, int data) {
 }
 
 Node* deleteNode(Node *head, int i) {
+  /* Given a linked list and a position i, delete the node of ith position from
+   * Linked List iteratively. If position i is greater than length of LL, then
+   * you should return the same LL without any change. Indexing starts from 0.
+   * You don't need to print the elements, just delete the node and return the
+   * head of updated LL.*/
   Node *curr=head;
   if(head==nullptr) return nullptr;
   if(i==0)
@@ -89,6 +97,7 @@ Node* deleteNode(Node *head, int i) {
 }
 
 int lengthRecursive(Node *head) {
+  /* Given a linked list, find and return the length of input LL recursively.*/
   if(head==nullptr)
     return 0;
   int result=lengthRecursive(head->next);
@@ -96,6 +105,11 @@ int lengthRecursive(Node *head) {
 }
 
 Node* insertNodeRec(Node *head, int i, int data) {
+  /* Given a linked list, an integer n and a position i, Insert that node
+   * n into Linked List at ith position recursively. If position i is greater
+   * than length of LL, then you should return the same LL without any change.
+   * And if position i is equal to length of input LL, insert the node at last
+   * position. */
   if(head==nullptr&&i!=0) return nullptr;
   if(i==0)
   {
@@ -109,6 +123,9 @@ Node* insertNodeRec(Node *head, int i, int data) {
 }
 
 Node* deleteNodeRec(Node *head, int i) {
+  /* Given a linked list and a position i, delete the node of ith position from
+   * Linked List recursively. If position i is greater than length of LL, then
+   * you should return the same LL without any change.*/
   Node *curr=head;
   if(head==nullptr) return nullptr;
   if(i==0)
@@ -122,6 +139,10 @@ Node* deleteNodeRec(Node *head, int i) {
 }
 
 Node* mergeTwoLLs(Node *head1, Node *head2) {
+  /* Given two linked lists sorted in increasing order. Merge them in such
+   * a way that the result list is also sorted (in increasing order). Try
+   * solving with O(1) auxiliary space (in-place). You just need to return the
+   * head of new linked list, don't print the elements.*/
   Node *head = nullptr;
   if(head1==nullptr)
     return head2;
@@ -194,6 +215,7 @@ bool check_palindrome(Node* head)
 
 Node* midpoint_linkedlist(Node *head)
 {
+  /* Given a linked list, find and return the midpoint. */
   Node *curr=head;
   int result=0;
   while(curr!=nullptr)
@@ -209,6 +231,7 @@ Node* midpoint_linkedlist(Node *head)
 
 Node* midpoint_linkedlist2(Node *head)
 {
+  /* Given a linked list, find and return the midpoint. */
   Node *curr=head, *curr2=head;
   if(curr==nullptr) return nullptr; // 0 Node
   if(curr->next==nullptr || curr->next->next==nullptr) return curr; // 1 or 2 Node
@@ -237,6 +260,7 @@ void print_linkedlist_spl(Node *head)
 
 Node* rev_linkedlist_itr(Node* head)
 {
+  /* Given a linked list, reverse it iteratively. */
   if(head==nullptr) return nullptr;
   else if(head->next==nullptr) return head;
   Node *prev=head, *curr=prev->next, *next=curr->next;
@@ -255,6 +279,7 @@ Node* rev_linkedlist_itr(Node* head)
 
 Node *reverse_linked_list_rec(Node *head)
 {
+  /* Given a linked list, reverse it recursively. */
   if(head==nullptr) return nullptr;
   else if(head->next==nullptr) return head;
   Node *result=reverse_linked_list_rec(head->next);
@@ -265,6 +290,9 @@ Node *reverse_linked_list_rec(Node *head)
 
 Node* swap_nodes(Node *head,int i,int j)
 {
+  /* Given a linked list, i & j, swap the nodes that are present at
+   * i & j position in the LL. You need to swap the entire nodes, not just the
+   * data. */
   if(i==j) return head; 
   if(i>j)
   {
@@ -378,6 +406,7 @@ int indexOfNRecursive(Node *head, int n) {
 }
 
 Node* mergeSort(Node *head) {
+  /* Sort a given linked list using Merge Sort. */
   if(head==nullptr) return nullptr;
   if(head->next==nullptr) return head;
   /* We have atleast 2 Nodes. Split the list into two parts equally */
@@ -395,6 +424,8 @@ Node* mergeSort(Node *head) {
 
 Node* bubble_sort_LinkedList_itr(Node* head)
 {
+  /* Sort a given linked list using Bubble Sort (iteratively). While sorting,
+   * you need to swap the entire nodes, not just the data.*/
   if(head==nullptr) return nullptr;
   if(head->next==nullptr) return head;
   /* We have atleast 2 Nodes. Split the list into two parts equally */
@@ -410,6 +441,36 @@ Node* bubble_sort_LinkedList_itr(Node* head)
     for(int j=0;j<n-i-1;++j)
       if(arr[j]>arr[j+1])
   */
+}
+
+Node* append_LinkedList(Node* head,int n)
+{
+  /* Given a linked list and an integer n, append the last n elements of the LL
+   * to front. */
+    if(head==NULL || n<0) return NULL;
+    int result=0;
+    Node *curr=head, *next, *prev=head;
+    while(curr!=NULL && n!=result)
+    {
+        result++;
+        curr = curr->next;
+    }   
+    /* Here curr is n nodes ahead of prev. Now we will move both prev and curr
+     * simultaneously untill curr is NULL */
+    if(curr==NULL) return NULL;
+    next = curr->next;
+    while(next!=NULL)
+    {   
+        curr = next;
+        next = curr->next;
+        prev = prev->next;
+    }   
+
+    /* curr is last node and prev is prev node */
+    curr->next = head;
+    curr = prev->next;
+    prev->next = NULL;
+    return curr;
 }
 
 int main()

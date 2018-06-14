@@ -22,6 +22,9 @@ void printArray(int arr[], int size)
 }
 
 void print(int n){
+  /* Given the code to print number from 1 to n in increasing order
+   * recursively. But it contains few bugs, that you need to rectify such that
+   * all the test cases should pass.*/
     if(n == 1){
         cout << n << " ";
       return;
@@ -49,6 +52,8 @@ int power(int x, int n) {
 }
 
 int sum(int n) {
+  /* Given an integer n, find and return the sum of numbers from 1 to n using
+   * recursion.*/
     if(n == 1){
         return 1;
     }
@@ -57,6 +62,8 @@ int sum(int n) {
 }
 
 int sumArray(int input[], int n) {
+  /* Given an array of length N, you need to find and return the sum of all
+   * elements of the array.*/
     if(n == 1){
         return input[0];
     }
@@ -65,6 +72,8 @@ int sumArray(int input[], int n) {
 }
 
 bool checkNumber(int input[], int size, int x) {
+  /* Given an array of length N and an integer x, you need to find if x is
+   * present in the array or not. Return true or false.*/
     if(size == 1){
         return x==input[0];
     }
@@ -74,6 +83,11 @@ bool checkNumber(int input[], int size, int x) {
 }
 
 int firstIndex(int input[], int size, int x) {
+  /* Given an array of length N and an integer x, you need to find and return
+   * the first index of integer x present in the array. Return -1 if it is not
+   * present in the array. First index means, the index of first occurrence of
+   * x in the input array. Do this recursively. Indexing in the array starts
+   * from 0. */
     if(size <= 0){
         return -1;
     }
@@ -86,6 +100,10 @@ int firstIndex(int input[], int size, int x) {
 }
 
 int lastIndex(int input[], int size, int x) {
+  /* Given an array of length N and an integer x, you need to find and return
+   * the last index of integer x present in the array. Return -1 if it is not
+   * present in the array. Last index means - if x is present multiple times in
+   * the array, return the index at which x comes last in the array. */
     if(size <= 0){
         return -1;
     }
@@ -98,6 +116,10 @@ int lastIndex(int input[], int size, int x) {
 }
 
 int __allIndexes(int input[], int size, int x, int output[]) {
+  /* Given an array of length N and an integer x, you need to find all the
+   * indexes where x is present in the input array. Save all the indexes in an
+   * array (in increasing order). Do this recursively. Indexing in the array
+   * starts from 0.*/
     if(size <= 0){
         return 0;
     }
@@ -115,6 +137,10 @@ int __allIndexes(int input[], int size, int x, int output[]) {
 }
 
 int allIndexes(int input[], int size, int x, int output[]) {
+  /* Given an array of length N and an integer x, you need to find all the
+   * indexes where x is present in the input array. Save all the indexes in an
+   * array (in increasing order). Do this recursively. Indexing in the array
+   * starts from 0.*/
   int count = __allIndexes(input, size, x, output);
   for(int i=0;i<count/2; i++)
   {
@@ -126,6 +152,9 @@ int allIndexes(int input[], int size, int x, int output[]) {
 }
 
 int multiplyNumbers(int m, int n) {
+  /* Given two integers m & n, calculate and return their multiplication using
+   * recursion. You can only use subtraction and addition for your calculation.
+   * No other operators are allowed.*/
     if(n == 1){
         return m;
     }
@@ -134,6 +163,8 @@ int multiplyNumbers(int m, int n) {
 }
 
 int countZeros(int n){
+  /* Given an integer n, count and return the number of zeros that are present
+   * in the given integer using recursion.*/
     if(n == 0){
         return 0;
     }
@@ -145,6 +176,7 @@ int countZeros(int n){
 }
 
 double geometricSum(int k){
+  /* Given k, find the geometric sum i.e. 1 + 1/2 + 1/4 + 1/8 + ... + 1/(2^k)*/
     if(k == 0){
         return 1;
     }
@@ -153,6 +185,8 @@ double geometricSum(int k){
 }
 
 bool RcheckPalindrome(char input[],int size) {
+  /* Check if a given String S is palindrome or not (using recursion). Return
+   * true or false.*/
     if(size <= 1){
         return true;
     }
@@ -168,6 +202,8 @@ bool checkPalindrome(char input[]) {
 }
 
 int sumOfDigits(int n){
+  /* Write a recursive function that returns the sum of the digits of a given
+   * integer. */
     if(n == 0){
         return 0;
     }
@@ -176,6 +212,8 @@ int sumOfDigits(int n){
 }
 
 void replacePi(char input[]) {
+  /* Given a string, compute recursively a new string where all appearances of
+   * "pi" have been replaced by "3.14".*/
     if(input[0] == '\0')
         return;
     else if(input[0]!='p')
@@ -200,6 +238,8 @@ void replacePi(char input[]) {
 }
 
 void removeX(char input[]) {
+  /* Given a string, compute recursively a new string where all 'x' chars have
+   * been removed.*/
     if(input[0] == '\0')
         return;
     else if(input[0]!='x')
@@ -216,6 +256,10 @@ void removeX(char input[]) {
 
 int stringToNumberNonRecuresive(char input[])
 {
+  /* Write a recursive function to convert a given string into the number it
+   * represents. That is input will be a numeric string that contains only
+   * numbers, you need to convert the string into corresponding integer and
+   * return the answer.*/
   int i, number=0;
   for(i=0;input[i]!='\0';i++)
   {
@@ -227,6 +271,10 @@ int stringToNumberNonRecuresive(char input[])
 
 int stringToNumber(char input[])
 {
+  /* Write a recursive function to convert a given string into the number it
+   * represents. That is input will be a numeric string that contains only
+   * numbers, you need to convert the string into corresponding integer and
+   * return the answer.*/
     if(input[0] == '\0')
       return 0;
     int smallAns = stringToNumber(input+1);
@@ -239,6 +287,9 @@ int stringToNumber(char input[])
 
 void pairStar(char input[])
 {
+  /* Given a string, compute recursively a new string where identical chars
+   * that are adjacent in the original string are separated from each other by
+   * a "*".*/
     if(input[0] == '\0')
       return;
     pairStar(input+1);
@@ -254,6 +305,15 @@ void pairStar(char input[])
 }
 
 void towerOfHanoi(int n, char source, char auxiliary, char destination) {
+  /* Tower of Hanoi is a mathematical puzzle where we have three rods and
+   * n disks. The objective of the puzzle is to move all disks from source rod
+   * to destination rod using third rod (say auxiliary). The rules are:
+   * 1) Only one disk can be moved at a time.
+   * 2) A disk can be moved only if it is on the top of a rod.
+   * 3) No disk can be placed on the top of a smaller disk.
+   * Print the steps required to move n disks from source rod to destination
+   * rod. Source Rod is named as 'a', auxiliary rod as 'b' and destination rod
+   * as 'c'.*/
     if(n == 0) return;
     if(n == 1)
     {

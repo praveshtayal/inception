@@ -24,6 +24,10 @@ void printArray(int arr[], int size)
 
 int BinarySearch(int arr[], int n, int val)
 {
+  /* Given a sorted integer array (in ascending order) and an element x. You
+   * need to search this element x in the given input array using binary
+   * search. Return the index of element in the input. Return -1 if x is not
+   * present in the input array. */
   int front=0,back=n-1,mid;
   // Note that this check is redundant and will be taken care in the loop.
   if(val < arr[front] || arr[back] < val)
@@ -43,6 +47,7 @@ int BinarySearch(int arr[], int n, int val)
 
 void BubbleSort(int arr[], int n)
 {
+  /* Given a random integer array. Sort this array using bubble sort. */
   for(int i=0;i<n;++i)
     for(int j=0;j<n-i-1;++j)
       if(arr[j]>arr[j+1])
@@ -55,6 +60,7 @@ void BubbleSort(int arr[], int n)
 
 void SelectionSort(int arr[], int n)
 {
+  /* Given a random integer array. Sort this array using selection sort. */
   int min;
   for(int i=0;i<n-1;++i)
   {
@@ -70,6 +76,7 @@ void SelectionSort(int arr[], int n)
 
 void InsertionSort(int arr[], int n)
 {
+  /* Given a random integer array. Sort this array using insertion sort. */
   for(int i=1;i<n;++i)
   {
     for(int j=i;j>0;--j)
@@ -84,6 +91,8 @@ void InsertionSort(int arr[], int n)
 
 void merge(int arr1[], int size1, int arr2[], int size2, int ans[])
 {
+  /* Given two sorted arrays of Size M and N respectively, merge them into
+   * a third array such that the third array is also sorted. */
     // We could have raised exception
     if(size1 == 0 || size2 == 0 || arr1 == nullptr || arr2 == nullptr) return;
 
@@ -107,6 +116,11 @@ void merge(int arr1[], int size1, int arr2[], int size2, int ans[])
 
 long maxPathSum(int ar1[], int ar2[], int m, int n)
 {
+  /* Given 2 sorted arrays (in increasing order), find a path through the
+   * intersections that produces maximum sum and return the maximum sum. That
+   * is, we can switch from one array to another array only at common
+   * elements. If no intersection element is present, we need to take sum of
+   * all elements from the array with greater sum. */
     long max=0, suma=0, sumb=0;
     int i=0, j=0;
     while(i<m && j<n)
@@ -136,6 +150,10 @@ long maxPathSum(int ar1[], int ar2[], int m, int n)
 
 void PushZeroesEnd(int arr[], int n)
 {
+  /* Given a random integer array, push all the zeros that are present to end
+   * of the array. The respective order of other elements should remain same.
+   * Change in the input array itself. You don't need to return or print
+   * elements. Don't use extra array. */
     int i, j;
     for ( i=j=0; i<n; i++)
     {
@@ -158,6 +176,9 @@ void Reverse(int arr[], int size)
 
 void Rotate(int arr[], int d, int size)
 {
+  /* Given a random integer array of size n, write a function that rotates the
+   * given array by d elements (towards left). Change in the input array
+   * itself. You don't need to return or print elements. */
   d %= size;
   Reverse(arr,size);
   Reverse(arr,size-d);
@@ -166,6 +187,10 @@ void Rotate(int arr[], int d, int size)
 
 int FindSecondLargest(int arr[], int n)
 {
+  /* Given a random integer array of size n, find and return the second largest
+   * element present in the array. If n <= 1 or all elements are same in the
+   * array, return -2147483648 i.e. -2^31. */
+  if(n <=1 ) return -2147483648;
   int largest=arr[0], secondLargest=arr[1];
   if(largest<secondLargest)
   {
@@ -193,6 +218,10 @@ int FindSecondLargest(int arr[], int n)
 int FindSecondLargest2(int arr[], int n)
 {
   /* This is where secondLargest can not be equal to largest */
+  /* Given a random integer array of size n, find and return the second largest
+   * element present in the array. If n <= 1 or all elements are same in the
+   * array, return -2147483648 i.e. -2^31. */
+  if(n <=1 ) return -2147483648;
   int largest=INT_MIN+1, secondLargest=INT_MIN;
   for(int i=0; i<n; ++i)
   {
@@ -212,6 +241,8 @@ int FindSecondLargest2(int arr[], int n)
 
 int FindSortedArrayRotation(int arr[], int n)
 {
+  /* Given an integer array, which is sorted (in increasing order) and has been
+   * rotated by some number k in clockwise direction. Find and return the k.*/
   for(int i=1; i<n; ++i)
     if(arr[i-1]>arr[i])
       return i;
@@ -221,6 +252,8 @@ int FindSortedArrayRotation(int arr[], int n)
 
 void sort012(int arr[], int n)
 {
+  /* You are given an integer array containing only 0s, 1s and 2s. Write
+   * a solution to sort this array using one scan only. */
   int i,j,count[3];
   // Initialize count[i] to 0
   for(i=0; i<3; ++i)
@@ -240,6 +273,15 @@ void sort012(int arr[], int n)
 void sumOfTwoArrays(int input1[], int size1, int input2[], int size2,
     int output[])
 {
+  /* Two random integer arrays are given A1 and A2, in which numbers from 0 to
+   * 9 are present at every index (i.e. single digit integer is present at
+   * every index of both given arrays). You need to find sum of both the input
+   * arrays (like we add two integers) and put the result in another array i.e.
+   * output array (output arrays should also contain only single digits at
+   * every index). The size A1 & A2 can be different. Note : Output array size
+   * should be 1 more than the size of bigger array and place 0 at the 0th
+   * index if there is no carry. No need to print the elements of output
+   * array. */
   int i1,i2,i3,sum,carry=0;
   int size3=(size1>size2?size1:size2)+1;
   for(i1=size1-1, i2=size2-1, i3=size3-1; i3>=0; --i3)

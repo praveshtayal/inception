@@ -29,6 +29,9 @@ void print2DArray(int arr2D[][THOUSAND], int row, int col)
 
 bool checkPalindrome(char str[])
 {
+  /* Given a String s, check it its palindrome. Return true if string is
+   * palindrome, else return false. Palindrome strings are those, where string
+   * s and its reverse is exactly same. */
   int i,j;
   if(str==nullptr) return false;
   // Initialize j to end of str
@@ -54,6 +57,12 @@ void reverseStringIndexwise(char str[], int i, int j)
 
 void replaceCharacter(char input[], char c1, char c2)
 {
+  /* Given an input string S and two characters c1 and c2, you need to replace
+   * every occurrence of character c1 with character c2 in the given string.
+   * For eg:
+   * Input: abacd  a x
+   * Output: xbxcd
+   ***************************************************************************/
   int i=0;
   if(input==nullptr) return;
   // Initialize j to end of str
@@ -67,6 +76,12 @@ void replaceCharacter(char input[], char c1, char c2)
 
 void trimSpaces(char input[])
 {
+  /* Given an input string S that contains multiple words, you need to remove
+   * all the spaces present in the input string. There can be multiple spaces
+   * present after any word. 
+   * Input: abc def g hi
+   * Output: abcdefghi
+   ***************************************************************************/
   int i=0,j=0;
   if(input==nullptr) return;
   // Initialize j to end of str
@@ -84,6 +99,16 @@ void trimSpaces(char input[])
 
 void printSubstrings(char str[])
 {
+  /* Given a String S of length n, print all its substrings. Substring of
+   * a String S is a part of S (of any length from 1 to n), which contains all
+   * consecutive characters from S. For input "xyz", output will be:
+   * x
+   * xy
+   * xyz
+   * y
+   * yz
+   * z
+   ***************************************************************************/
   int i,j,k,len;
   if(str==nullptr) return;
   // Calculate len
@@ -132,6 +157,8 @@ void reverseEachWord(char input[])
 
 void columWiseSum()
 {
+  /* Given a 2D integer array of size M*N, find and print the sum of ith column
+   * elements separated by space. */
   int matrix[THOUSAND+1][THOUSAND];
   int m, n;
   cin >> m >> n;
@@ -153,6 +180,12 @@ void columWiseSum()
 
 void findLargest(int arr[][1000], int row, int col)
 {
+  /* Largest Row or Column: Given an NxM 2D array, you need to find out which
+   * row or column has largest sum (sum of its elements) overall amongst all
+   * rows and columns. 
+   * Note : If there are more than one rows/columns with maximum sum consider
+   * the row/column that comes first. And if ith row and jth column has same
+   * sum (which is largest), consider the ith row as answer. */
   long rowSum[THOUSAND] = { 0 };
   long colSum[THOUSAND] = { 0 };
   for(int i=0;i<row;++i)
@@ -188,6 +221,14 @@ void findLargest(int arr[][1000], int row, int col)
 
 void wavePrint(int input[][1000], int row, int col)
 {
+  /* Given a two dimensional n*m array, print the array in a sine wave order.
+   * i.e. print the first column top to bottom, next column bottom to top and
+   * so on. For eg for input array of size 3*4:
+   * 1  2  3  4
+   * 5  6  7  8 
+   * 9 10 11 12
+   * Output: 1 5 9 10 6 2 3 7 11 12 8 4
+   ***************************************************************************/
   int i=0,j=0;
   for(j=0;j<col;++j)
     if(j%2==0)
@@ -201,6 +242,15 @@ void wavePrint(int input[][1000], int row, int col)
 
 void spiralPrint(int input[][1000], int row, int col)
 {
+  /* Given an N*M 2D array, print it in spiral form. That is, first you need to
+   * print the 1st row, then last column, then last row and then first column
+   * and so on. For eg for 4*4 matrix :
+   * 1 2 3 4
+   * 5 6 7 8
+   * 9 10 11 12
+   * 13 14 15 16
+   * Output: 1 2 3 4 8 12 16 15 14 13 9 5 6 7 11 10 
+   ***************************************************************************/
   enum dir {front, down, back, up} direction = front;
   int dimensionFront = col;
   int dimensionDown = row-1;
@@ -266,6 +316,10 @@ void spiralPrint(int input[][1000], int row, int col)
 
 bool isPermutation(char input1[], char input2[])
 {
+  /* Given two strings, check if they are permutations of each other. Return
+   * true or false. Permutation means - length of both the strings should same
+   * and should contain same set of characters. Order of characters doesn't
+   * matter. Note : Input strings contain only lowercase english alphabets. */
   int chars[CHARSIZE] = {0};
   int i=0;
 
@@ -313,6 +367,7 @@ int findString(char S[], char T[])
 
 void convertStringToLowerCase(char input[])
 {
+  /* Write a function that converts a given string to lower case. */
   int j;
   if(input==nullptr) return;
   for(j=0;input[j]!='\0';j++)
@@ -322,6 +377,7 @@ void convertStringToLowerCase(char input[])
 
 void ReverseString(char arr[], int size)
 {
+  /* We have given size because we do not assume null terminated string */
   for(int i=0;i<size/2;++i)
   {
     char temp = arr[i];
@@ -332,6 +388,8 @@ void ReverseString(char arr[], int size)
 
 void rotateStringByNChars(char input[], int n)
 {
+  /* Given a string and an integer n, shift and rotate the given string by
+   * n characters in right. */
   int size=0;
   if(input==nullptr) return;
   while(input[size]!='\0') size++;
@@ -343,6 +401,8 @@ void rotateStringByNChars(char input[], int n)
 
 void removeAllOccurrencesOfChar(char input[], char c)
 {
+  /* Given a string and a character x. Write a function to remove all
+   * occurrences of x character from the given string. */
     int i, j=0;
     if(input==nullptr) return;
     for(i=0; input[i]!='\0'; i++)
@@ -355,6 +415,9 @@ void removeAllOccurrencesOfChar(char input[], char c)
 
 void removeConsecutiveDuplicates(char input[])
 {
+  /* Given a string, remove all the consecutive duplicates that are present in
+   * the given string. That means, if 'aaa' is present in the string then it
+   * should become 'a' in the output string. */
     int i, j=0;
     if(input==nullptr || input[0]=='\0') return;
     input[j++] = input[0];
@@ -368,6 +431,10 @@ void removeConsecutiveDuplicates(char input[])
 
 char highestOccurringChar(char input[])
 {
+  /* Given a string, find and return the highest occurring character present in
+   * the given string. If there are 2 characters in the input string with same
+   * frequency, return the character which comes first. Assume all the
+   * characters in the given string are lowercase. */
   int chars[CHARSIZE] = {0};
   int maxIndex=0;
 
@@ -382,6 +449,11 @@ char highestOccurringChar(char input[])
 
 void stringCompression(char input[])
 {
+  /* Write a program to do basic string compression. For a character which is
+   * consecutively repeated more than once, replace consecutive duplicate
+   * occurrences with the count of repetitions. For e.g. if a String has 'x'
+   * repeated 5 times, replace this "xxxxx" with "x5". Note : Consecutive count
+   * of every character in input string is less than equal to 9.*/
     int i, j=0, count;
     if(input==nullptr || input[0]=='\0') return;
     input[j++] = input[0];

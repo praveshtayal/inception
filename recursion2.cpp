@@ -23,12 +23,15 @@ void printArray(int arr[], int size)
 
 void printSArray(string a[], int size)
 {
+  /* This function is for non null terminated strings */
     cout << "The Array of size " << size << " is ";
     for(int i=0;i<size;i++) cout << a[i] << ' ';
     cout << endl;
 }
 
 void mergeSort(int input[], int size){
+  /* Sort an array A using Merge Sort. Change in the input array itself. So no
+   * need to return or print anything. */
   int result[THOUSAND];
   if(size <= 1)
     return;
@@ -54,6 +57,8 @@ void mergeSort(int input[], int size){
 
 void replaceCharacter(char input[], char c1, char c2)
 {
+  /* Given an input string S and two characters c1 and c2, you need to replace
+   * every occurrence of character c1 with character c2 in the given string.*/
   if(input[0]=='\0') return;
   if(input[0]==c1)
     input[0] = c2;
@@ -61,6 +66,7 @@ void replaceCharacter(char input[], char c1, char c2)
 }
 
 void removeConsecutiveDuplicates(char *input) {
+  /* Given a string S, remove consecutive duplicates from it recursively. */
   if(input[0]=='\0') return;
   removeConsecutiveDuplicates(input+1);
   if(input[0]==input[1])

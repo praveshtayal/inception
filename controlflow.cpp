@@ -34,9 +34,9 @@ int averageBest2Marks(){
   cin >> name;
   cin >> a >> b >> c;
   cout << name << " ";
-  if(a<b && a<c)
+  if(a<=b && a<=c)
       cout << (b+c)/2 << "\n";
-  else if(b<a && b<c)
+  else if(b<=a && b<=c)
       cout << (a+c)/2 << "\n";
   else
       cout << (a+b)/2 << "\n";

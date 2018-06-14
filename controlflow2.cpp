@@ -3,6 +3,8 @@ using namespace std;
 
 int printPrimes()
 {
+  /* Given an integer N, print all the prime numbers that lies in between 2 to
+   * N (both inclusive). Print the prime numbers in different lines. */
   static int _primeList[] = {2,3,5,7,11,13,17,19,23,29,31,37};
   int n, i, j, divisor;
   cin >> n;
@@ -31,7 +33,9 @@ int printPrimes()
 
 int fib()
 {
-  // Print the nth fibonnaci number
+  /* Print the nth fibonnaci number. Nth term of fibonacci series F(n) is
+   * calculated using following formula: F(n) = F(n-1) + F(n-2). 
+   * Also F(1) = F(2) = 1. And F(0) = 0. */
   int n, i, j, divisor;
   cin >> n;
 
@@ -49,7 +53,9 @@ int fib()
 
 int fib2()
 {
-  // Print the nth fibonnaci number
+  /* Print the nth fibonnaci number. Nth term of fibonacci series F(n) is
+   * calculated using following formula: F(n) = F(n-1) + F(n-2). 
+   * Also F(1) = F(2) = 1. And F(0) = 0. */
   int n, i;
   cin >> n;
 
@@ -66,6 +72,10 @@ int fib2()
 
 int trailingZerosInFact()
 {
+  /* Given an integer n, find the number of trailing 0s in its factorial. Do
+   * this without actually finding the n!, as the integer given can be large
+   * and its factorial can exceed the integer limits. For eg for input 50,
+   * output should be 12 */
   int n, result=0, power=5;
   cin >> n;
   while(n>=power)
@@ -102,6 +112,18 @@ int countChar()
 
 int arrowPattern()
 {
+  /* Print the following pattern for the given number of rows. Assume N is 
+   * always odd.
+   * N=7
+   *    *
+   *     * *
+   *       * * *
+   *         * * * *
+   *       * * *
+   *     * *
+   *    *
+   *
+   ***********************************************************************/    
   int n, i,j;
   cin >> n;
   for(i=0;i<=n/2;++i)
@@ -125,6 +147,12 @@ int arrowPattern()
 
 int numberPattern()
 {
+  /* Print the following pattern for the given number of rows.
+   * N=3
+   * 333
+   * 233
+   * 123
+   ***********************************************************************/    
   int n, i,j,k;
   cin >> n;
   for(i=n;i>=1;--i)
@@ -142,6 +170,13 @@ int numberPattern()
 
 int sumOrProduct()
 {
+  /* Write a program that asks the user for a number N and a choice C. And then
+   * give him the possibility to choose between computing the sum and computing
+   * the product of 1 ,..., N. If user enters C is equal to:
+   * 1 : Print sum of 1 to N numbers
+   * 2 : Print product of 1 to N numbers
+   * Any other number : print -1
+   ***********************************************************************/ 
   int n,c,j,result;
   cin >> n >> c;
   if(c==1)
@@ -168,6 +203,8 @@ int sumOrProduct()
 
 int termsAP()
 {
+  /* Write a program to print first x terms of the series 3N + 2 which are not
+   * multiples of 4. */
   int n,j,k,result;
   cin >> n;
   for(j=1,k=1;k<=n;++j)
@@ -184,6 +221,9 @@ int termsAP()
 
 int squareRoot()
 {
+  /* Given a number N, find its square root. You need to find and print only
+   * the integral part of square root of N. For eg. if number given is 18,
+   * answer is 4. */
   int n,j,result;
   cin >> n;
   for(j=1;j<=n;++j)
@@ -198,6 +238,8 @@ int squareRoot()
 
 int reverseDigits()
 {
+  /* Write a program to generate the reverse of a given number N. Print the
+   * corresponding reverse number. For eg. 1234 should return 4321 */
   int n,result=0;
   cin >> n;
   while(n)
@@ -212,6 +254,11 @@ int reverseDigits()
 
 int decimalToBinary()
 {
+  /* Given a decimal number (integer N), convert it into binary and print. The
+   * binary number should be in the form of an integer. Note : The given input
+   * number could be large, so the corresponding binary number can exceed the
+   * integer range. So take the answer as long. For eg. for input 12 output
+   * should be 1100 */
   long n,result=0,i=1;
   cin >> n;
   while(n)
@@ -229,6 +276,8 @@ int decimalToBinary()
 
 int binaryToDecimal()
 {
+  /* Given a binary number as an integer N, convert it into decimal and print.
+   * For eg for input 1100 output should be 12 */
   long n,result=0,i=1;
   cin >> n;
   while(n)

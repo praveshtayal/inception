@@ -23,6 +23,7 @@ void printArray(int arr[], int size)
 
 void printSArray(string a[], int size)
 {
+  /* This function is for non null terminated strings */
     cout << "The Array of size " << size << " is ";
     for(int i=0;i<size;i++) cout << a[i] << ' ';
     cout << endl;
@@ -31,6 +32,7 @@ void printSArray(string a[], int size)
 bool checkBB(char input[]);
 bool checkA(char input[])
 {
+  /* Each 'a' is followed by nothing or an 'a' or "bb" */
   if(input[0]=='\0') return true;
   if(input[0]=='a') return checkA(input+1);
   if(input[0]=='b')
@@ -43,6 +45,7 @@ bool checkA(char input[])
 
 bool checkBB(char input[])
 {
+  /* Each "bb" is followed by nothing or an 'a' */
   if(input[0]=='\0') return true;
   if(input[0]=='a') return checkA(input+1);
   return false;
@@ -50,6 +53,12 @@ bool checkBB(char input[])
 
 bool checkAB(char input[])
 {
+  /* Suppose you have a string made up of only 'a' and 'b'. Write a recursive
+   * function that checks if the string was generated using the following
+   * rules:
+   * a. The string begins with an 'a'
+   * b. Each 'a' is followed by nothing or an 'a' or "bb"
+   * c. Each "bb" is followed by nothing or an 'a' */
   if(input[0]!='a') return false;
   return checkA(input+1);
 }
@@ -67,6 +76,10 @@ int staircase(int n)
 
 int binarySearchIndex(int arr[], int start, int end, int val)
 {
+  /* Given an integer sorted array (sorted in increasing order) and an element
+   * x, find the x in given array using binary search. Return the index of x.
+   * Return -1 if x is not present in the given array. Note : If given array
+   * size is even, take first mid.*/
   if(start<end) return -1;
   int mid=(start+end)/2;
   if(val == arr[mid])
@@ -104,6 +117,19 @@ void printSubsetsOfArrayHelper(int input[], int num, string str) {
     printSubsetsOfArrayHelper(input+1,num-1,str);
 }
 void printSubsetsOfArray(int input[], int size) {
+  /* Given an integer array (of length n), find and return all the subsets of
+   * input array. Subsets are of length varying from 0 to n, that contain
+   * elements of the array. But the order of elements should remain same as in
+   * the input array. Note : The order of subsets are not important. For input
+   * array of size 3 with elements 15 20 12 is:
+   * 12
+   * 20
+   * 20 12
+   * 15
+   * 15 12
+   * 15 20
+   * 15 20 12
+   **************************************************************************/
   printSubsetsOfArrayHelper(input, size, "");
 }
 

@@ -20,6 +20,20 @@ public:
 };
 
 void printLevelWise(TreeNode<int>* root) {
+  /* Given a generic tree, print the input tree in level wise order. ####For
+   * printing a node with data N, you need to follow the exact format:
+   * N:x1,x2,x3,...,xn
+   * wherer, N is data of any node present in the binary tree. x1, x2, x3,
+   * ...., xn are the children of node N. There is no space in between. You
+   * need to print all nodes in the level order form in different lines.
+   * Input: 10 3 20 30 40 2 40 50 0 0 0 0 
+   * 10:20,30,40
+   * 20:40,50
+   * 30:
+   * 40:
+   * 40:
+   * 50:
+   * */
   if(root==nullptr) return;
   queue<TreeNode<int>*> q;
   q.push(root);
@@ -44,6 +58,8 @@ void printLevelWise(TreeNode<int>* root) {
 }
 
 int countOfNodes(TreeNode<int>* root) {
+  /* Given a generic tree, count and return the total number of nodes present
+   * in the given tree.*/
   if(root==nullptr) return 0;
   int result = 1; // root node
   int childCount = root->children.size();
@@ -53,6 +69,8 @@ int countOfNodes(TreeNode<int>* root) {
 }
 
 int sumOfNodes(TreeNode<int>* root) {
+  /* Given a generic tree, count and return the sum of all nodes present in the
+   * given tree.*/
   if(root==nullptr) return 0;
   int result = root->data; // root node
   int childCount = root->children.size();
@@ -62,6 +80,9 @@ int sumOfNodes(TreeNode<int>* root) {
 }
 
 TreeNode<int>* maxDataNode(TreeNode<int>* root) {
+  /* Given a generic tree, find and return the node with maximum data. You need
+   * to return the complete node which is having maximum data. Return null if
+   * tree is empty. */
   if(root==nullptr) return nullptr;
   TreeNode<int> *result = root; // root node
   int max = root->data; // root node
@@ -79,6 +100,7 @@ TreeNode<int>* maxDataNode(TreeNode<int>* root) {
 }
 
 void postOrder(TreeNode<int>* root) {
+  /* post Order Traversal recursive */
   if(root==nullptr) return;
   int result = root->data; // root node
   int childCount = root->children.size();
@@ -88,6 +110,7 @@ void postOrder(TreeNode<int>* root) {
 }
 
 int sumNode(TreeNode<int> *root){
+  /* Called by maxSumNode */
   if(root==nullptr) return 0;
   int sum = root->data; // Calculate sumNode for root Node
   int childCount = root->children.size();
@@ -142,6 +165,9 @@ bool isIdentical(TreeNode<int> *root1, TreeNode<int> * root2) {
 }
 
 void replaceWithDepthValueHelper(TreeNode<int> *root, int value){
+  /* In a given Generic Tree, replace each node with its depth value. You need
+   * to just update the data of each node, no need to return or print anything.
+   * */
   if(root==nullptr) return;
   root->data = value; // root node
   int childCount = root->children.size();
@@ -149,5 +175,8 @@ void replaceWithDepthValueHelper(TreeNode<int> *root, int value){
     replaceWithDepthValueHelper(root->children[i],value+1);
 }
 void replaceWithDepthValue(TreeNode<int> *root){
+  /* In a given Generic Tree, replace each node with its depth value. You need
+   * to just update the data of each node, no need to return or print anything.
+   * */
     replaceWithDepthValueHelper(root,0);
 }

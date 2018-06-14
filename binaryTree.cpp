@@ -74,6 +74,7 @@ class PairAns {
  };
 
 int sumOfAllNodes(BinaryTreeNode<int>* root) {
+  /* Given a binary tree, find and return the sum of all nodes. */
   if(root==nullptr) return 0;
   int result = root->data; // root node
   result += sumOfAllNodes(root->left);
@@ -82,6 +83,8 @@ int sumOfAllNodes(BinaryTreeNode<int>* root) {
 }
 
 BinaryTreeNode<int>* maxDataNode(BinaryTreeNode<int>* root) {
+  /* Given a Binary Tree, find and return the node with maximum data. Return
+   * the complete node. Return null is binary tree is empty.*/
   if(root==nullptr) return nullptr;
   BinaryTreeNode<int>* left = maxDataNode(root->left);
   BinaryTreeNode<int>* right = maxDataNode(root->right);
@@ -92,12 +95,17 @@ BinaryTreeNode<int>* maxDataNode(BinaryTreeNode<int>* root) {
 }
 
 int countLeafNodes(BinaryTreeNode<int>* root) {
+  /* Given a Binary Tree, find and return the count of leaf nodes. Leaf nodes
+   * are those, who don't have any children. Root is also leaf node if both its
+   * child are null. */
   if(root==nullptr) return 0;
   if(root->left == nullptr && root->right == nullptr) return 1; // root node
   return countLeafNodes(root->left) + countLeafNodes(root->right);
 }
 
 int countNodesGreaterThanX(BinaryTreeNode<int>* root, int x) {
+  /* Given a Binary Tree and an integer x, find and return the count of nodes
+   * which are having data greater than x.*/
   if(root==nullptr) return 0;
   int result = 0;
   if(root->data > x) result += 1;
@@ -107,6 +115,8 @@ int countNodesGreaterThanX(BinaryTreeNode<int>* root, int x) {
 }
 
 bool isNodePresent(BinaryTreeNode<int>* root, int x) {
+  /* Given a Binary Tree and an integer x, check if node with data x is present
+   * in the input binary tree or not. Return true or false.*/
   if(root==nullptr) return false;
   if(root->data == x) return true;
   if(isNodePresent(root->left, x)) return true;
@@ -115,6 +125,8 @@ bool isNodePresent(BinaryTreeNode<int>* root, int x) {
 }
 
 void mirrorBinaryTree(BinaryTreeNode<int>* root) {
+  /* Mirror the given binary tree. That is, right child of every nodes should
+   * become left and left should become right.*/
   if(root==nullptr) return;
   BinaryTreeNode<int> *left = root->left;
   root->left = root->right;
@@ -124,6 +136,7 @@ void mirrorBinaryTree(BinaryTreeNode<int>* root) {
 }
 
 int depth(BinaryTreeNode<int> *root) {
+  /* Used internally by diameter and other functions */
   if(root==nullptr) return 0;
   int left = depth(root->left);
   int right = depth(root->right);
@@ -132,6 +145,7 @@ int depth(BinaryTreeNode<int> *root) {
 }
 
 int depthDiff(BinaryTreeNode<int> *root) {
+  /* Presently Unused. But may be used by isBalanced */
   if(root==nullptr) return 0;
   int left = depth(root->left);
   int right = depth(root->right);
@@ -141,13 +155,13 @@ int depthDiff(BinaryTreeNode<int> *root) {
   return max+1;
 }
 
-int min3(int a, int b, int c)
+inline int min3(int a, int b, int c)
 {
   int min = (a<b?a:b);
   return (min<c?min:c);
 }
 
-int max3(int a, int b, int c)
+inline int max3(int a, int b, int c)
 {
   int max = (a>b?a:b);
   return (max>c?max:c);
@@ -167,6 +181,9 @@ int diameter(BinaryTreeNode<int>* root) {
 }
 
 PairAns minMax(BinaryTreeNode<int> *root) {
+  /* Given a binary tree, find and return the min and max data value of given
+   * binary tree. Return the output as an object of PairAns class, which is
+   * already created. */
   PairAns answer;
   answer.min = INT_MAX;
   answer.max = INT_MIN;
@@ -180,6 +197,13 @@ PairAns minMax(BinaryTreeNode<int> *root) {
 }
 
 void printLevelWise(BinaryTreeNode<int> *root) {
+  /* Given a binary tree, print the tree in level wise order. For printing
+   * a node with data N, you need to follow the exact format: 
+   * N:L:x,R:y
+   * wherer, N is data of any node present in the binary tree. x and y are the
+   * values of left and right child of node N. Print -1. if any child is null.
+   * There is no space in between. You need to print all nodes in the level
+   * order form in different lines. */
   if(root==nullptr) return;
   queue<BinaryTreeNode<int>*> q;
   q.push(root);
@@ -209,12 +233,16 @@ void inOrderRecursive(BinaryTreeNode<int> *root) {
   inOrderRecursive(root->right);
 }
 void preOrder(BinaryTreeNode<int> *root) {
+  /* Given a binary tree, print the preorder traversal of given tree. Pre-order
+   * traversal is: Root LeftChild RightChild */
   if(root==nullptr) return;
   cout<< root->data << ' ';
   preOrder(root->left);
   preOrder(root->right);
 }
 void postOrder(BinaryTreeNode<int> *root) {
+  /* Given a binary tree, print the postorder traversal of given tree.
+   * Post-order traversal is: LeftChild RightChild Root */
   if(root==nullptr) return;
   postOrder(root->left);
   postOrder(root->right);
@@ -224,6 +252,11 @@ void postOrder(BinaryTreeNode<int> *root) {
 BinaryTreeNode<int>* buildTree(int *preorder, int preLength,
     int *inorder, int inLength) 
 {
+  /* Given Preorder and Inorder traversal of a binary tree, create the binary
+   * tree associated with the traversals.You just need to construct the tree
+   * and return the root. For 12 Nodes with following input:
+   * preOrder: 1 2 3 4 15 5 6 7 8 10 9 12
+   * inOrder: 4 15 3 2 5 1 6 10 8 7 9 12 */
   if(preLength!=inLength || preorder==nullptr || inorder==nullptr ||
       preLength==0)
     return nullptr;
@@ -241,6 +274,11 @@ BinaryTreeNode<int>* buildTree(int *preorder, int preLength,
 }
 BinaryTreeNode<int>* getTreeFromPostorderAndInorder(int *postorder,
     int postLength, int *inorder, int inLength) {
+  /* Given Postorder and Inorder traversal of a binary tree, create the binary
+   * tree associated with the traversals.You just need to construct the tree
+   * and return the root. For 8 Nodes with following input:
+   * postOrder: 8 4 5 2 6 7 3 1
+   * inOrder: 4 8 2 5 1 6 3 7 */
   if(postLength!=inLength || postorder==nullptr || inorder==nullptr ||
       postLength==0)
     return nullptr;
@@ -272,6 +310,8 @@ bool isBalanced(BinaryTreeNode<int> *root) {
 }
 
 void printLevelATNewLine(BinaryTreeNode<int> *root) {
+  /* Given a binary tree, print the level order traversal. Make sure each level
+   * start in new line.*/
   if(root==nullptr) return;
   queue<BinaryTreeNode<int>*> *inputQ, *outputQ, *temp;
   inputQ = new queue<BinaryTreeNode<int>*>();
@@ -300,6 +340,8 @@ void printLevelATNewLine(BinaryTreeNode<int> *root) {
 }
 
 BinaryTreeNode<int>* removeLeafNodes(BinaryTreeNode<int> *root) {
+  /* Remove all leaf nodes from a given Binary Tree. Leaf nodes are those
+   * nodes, which don't have any children. */
   if(root==nullptr) return nullptr;
   if(root->left==nullptr && root->right==nullptr)
   {
@@ -312,6 +354,9 @@ BinaryTreeNode<int>* removeLeafNodes(BinaryTreeNode<int> *root) {
 }
 
 vector<node<int>*> createLLForEachLevel(BinaryTreeNode<int> *root) {
+  /* Given a binary tree, write code to create a separate linked list for each
+   * level. You need to return the array which contains head of each level
+   * linked list. */
   vector<node<int>*> result;
   if(root==nullptr) return result;
   queue<BinaryTreeNode<int>*> *inputQ, *outputQ, *temp;

@@ -48,6 +48,8 @@ bool checkMember(int n)
 
 int sumArray()
 {
+  /* Given an array of length N, you need to find and print the sum of all
+   * elements of the array. */
   int n,j,result, number;
   cin >> n;
     result = 0;
@@ -62,6 +64,12 @@ int sumArray()
 
 void reverseArray(int arr[], int size)
 {
+  /* An integer array is given. You need to reverse that array without using
+   * any other extra array. That is, you need to change in the given array
+   * itself. For eg: for input arrays of size 5:
+   * Input: 1 2 3 4 5 
+   * Output: 5 4 3 2 1 
+   ***********************************************************************/
   int j,number;
   for(j=0;j<size/2;++j)
   {
@@ -73,6 +81,9 @@ void reverseArray(int arr[], int size)
 
 int diffEvenOddArray()
 {
+  /* Given an array A with N elements, you need to find difference of sum of
+   * elements at even indices (E) and sum of elements at odd indices(O). Output
+   * will be E - O */
   int n,j,even=0,odd=0;
   int arr[SIZE];
   cin >> n;
@@ -89,6 +100,12 @@ int diffEvenOddArray()
 
 int linearSearch(int arr[], int n ,int val)
 {
+  /* Given a random integer array A and an element x. You need to search this
+   * element x in the given array using linear search. Return the index of
+   * element in the input. 
+   * Linear search means, we need to compare elements from the array A one by
+   * one with the element x, till we found the match or we reach the end of
+   * array. If match found, return its index, and if not return -1. */
   for(int j=0;j<n;++j)
   {
     if(val==arr[j])
@@ -99,6 +116,11 @@ int linearSearch(int arr[], int n ,int val)
 
 void swapAlternate(int arr[], int size)
 {
+  /* Given an array of length N, swap every pair of alternate elements in the
+   * array. For eg for input array of size 6:
+   * Input: 9 3 6 12 4 32
+   * Output: 3 9 12 6 32 4
+   ***********************************************************************/
   int j,number;
   for(j=0;j<size-1;j+=2)
   {
@@ -110,6 +132,8 @@ void swapAlternate(int arr[], int size)
 
 void arrange(int arr[], int n)
 {
+  /* Given a number n, put all elements from 1 to n in an array in order
+   * 1,3,.......4,2. */
   int j,k;
   for(j=0;j<n/2;++j)
     arr[j]=j*2+1;
@@ -122,6 +146,8 @@ void arrange(int arr[], int n)
 
 void arrange2(int arr[], int n)
 {
+  /* Given a number n, put all elements from 1 to n in an array in order
+   * 1,3,.......4,2. */
   int si = 0, ei = n-1, val=1;
   while(si<ei)
   {
@@ -134,6 +160,12 @@ void arrange2(int arr[], int n)
 
 int uniqueElement(int arr[], int size)
 {
+  /* Given an integer array of size 2N + 1. In this given array, N numbers are
+   * present twice and one number is present only once in the array. You need
+   * to find and return that number which is unique in the array. For eg for
+   * input array of size 7
+   * Input: 2 3 1 6 3 6 2
+   * Output: 1 */
   int i, j;
   for(i=0;i<size;++i)
   {
@@ -149,6 +181,12 @@ int uniqueElement(int arr[], int size)
 
 int missingNumber(int arr[], int size)
 {
+  /* Find duplicate: Given an array of integers of size n which contains
+   * numbers from 0 to n - 2. Each number is present at least once. That is, if
+   * n = 5, numbers from 0 to 3 is present in the given array at least once and
+   * one number is present twice. You need to find and return that duplicate
+   * number present in the array. Assume, duplicate number is always present in
+   * the array. */
   int i, j;
   for(i=0;i<size;++i)
   {
@@ -160,6 +198,9 @@ int missingNumber(int arr[], int size)
 
 void intersection(int input1[], int input2[], int size1, int size2)
 {
+  /* Given two random integer arrays of size m and n, print their intersection.
+   * That is, print all the elements that are present in both the given
+   * arrays. Input arrays can contain duplicate elements. */
   int i, j;
   int *input3=new int[size2];
 
@@ -205,14 +246,14 @@ void pairSum(int input[], int size, int x)
 
 void printOrder(int a, int b, int c)
 {
-  if(a<b && a<c)
+  if(a<=b && a<=c)
   {
     if(b<c)
       cout << a << ' ' << b << ' ' << c << endl;
     else
       cout << a << ' ' << c << ' ' << b << endl;
   }
-  else if(b<a && b<c)
+  else if(b<=a && b<=c)
   {
     if(a<c)
       cout << b << ' ' << a << ' ' << c << endl;
@@ -230,6 +271,12 @@ void printOrder(int a, int b, int c)
 
 void FindTriplet(int arr[], int size, int x)
 {
+  /* Triplet Sum: Given a random integer array and a number x. Find and print
+   * the triplets of elements in the array which sum to x. While printing
+   * a triplet, print the smallest element first. That is, if a valid triplet
+   * is (6, 5, 10) print "5 6 10". There is no constraint that out of
+   * 5 triplets which have to be printed on 1st line. You can print triplets in
+   * any order, just be careful about the order of elements in a triplet. */
   int i, j, k;
   for(i=0;i<size;++i)
     for(j=i+1;j<size;++j)
@@ -240,6 +287,10 @@ void FindTriplet(int arr[], int size, int x)
 
 void SortZeroesAndOne(int arr[], int n)
 {
+  /* You are given an integer array A that contains only integers 0 and 1.
+   * Write a function to sort this array. Find a solution which scans the array
+   * only once. Don't use extra array. You need to change in the given array
+   * itself. So no need to return or print anything. */
   int i, j, k;
   i=0;j=n-1;
   while(i<j)
