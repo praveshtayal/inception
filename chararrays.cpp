@@ -251,6 +251,46 @@ void spiralPrint(int input[][1000], int row, int col)
    * 13 14 15 16
    * Output: 1 2 3 4 8 12 16 15 14 13 9 5 6 7 11 10 
    ***************************************************************************/
+  int startRow = 0, endRow = row-1, startCol = 0, endCol = col-1;
+  while(startRow<=endRow && startCol<=endCol)
+  {
+    /* Print startRow */
+    for(int j=startCol; j<=endCol; j++)
+      cout << input[startRow][j] << ' ';
+    startRow++;
+    if(startRow>endRow || startCol>endCol) break;
+
+    /* Print endCol */
+    for(int i=startRow; i<=endRow; i++)
+      cout << input[i][endCol] << ' ';
+    endCol--;
+    if(startRow>endRow || startCol>endCol) break;
+
+    /* Print endRow */
+    for(int j=endCol; j>=startCol; j--)
+      cout << input[endRow][j] << ' ';
+    endRow--;
+    if(startRow>endRow || startCol>endCol) break;
+
+    /* Print startCol */
+    for(int i=endRow; i>=startRow; i--)
+      cout << input[i][startCol] << ' ';
+    startCol++;
+  }
+  cout << endl;
+}
+
+void spiralPrint2(int input[][1000], int row, int col)
+{
+  /* Given an N*M 2D array, print it in spiral form. That is, first you need to
+   * print the 1st row, then last column, then last row and then first column
+   * and so on. For eg for 4*4 matrix :
+   * 1 2 3 4
+   * 5 6 7 8
+   * 9 10 11 12
+   * 13 14 15 16
+   * Output: 1 2 3 4 8 12 16 15 14 13 9 5 6 7 11 10 
+   ***************************************************************************/
   enum dir {front, down, back, up} direction = front;
   int dimensionFront = col;
   int dimensionDown = row-1;
