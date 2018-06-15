@@ -199,8 +199,8 @@ void printSubsetSumToKHelper(int input[], int n, int k, int out[], int outSize) 
   {
     if(input[0]==k)
     {
-      cout << k << ' ';
       for(int i=0; i<outSize; i++) cout << out[i] << ' ';
+      cout << k << ' ';
       cout << endl;
     }
     return;
@@ -208,8 +208,8 @@ void printSubsetSumToKHelper(int input[], int n, int k, int out[], int outSize) 
 
   if(k==input[n-1])
   {
-    cout << k << ' ';
     for(int i=0; i<outSize; i++) cout << out[i] << ' ';
+    cout << k << ' ';
     cout << endl;
   }
   printSubsetSumToKHelper(input,n-1,k,out,outSize);
@@ -257,6 +257,7 @@ int getCodes(string input, string output[10000]) {
    * codes and store in the output string array. Don’t print the codes. Also,
    * return the number of codes return to the output string. You do not need to
    * print anything. */
+  /* TODO: map is initialized each time which can be optimized using flag */
   unordered_map<string,string> map;
   initMap(map);
   int len = input.length(), count, sum=0;
@@ -266,14 +267,8 @@ int getCodes(string input, string output[10000]) {
     return sum;
   }
   else if(len==2 && map.count(input))
-  {
     output[sum++] = map[input];
-    count = getCodes(input.substr(1), output+sum);
-    for(int j=0; j<count; j++)
-      output[sum+j] = map[input.substr(0,1)] + output[sum+j];
-    sum += count;
-    return sum;
-  }
+
   /* Print possiblities after removing 1 character */
   count = getCodes(input.substr(1), output+sum);
   for(int j=0; j<count; j++)
@@ -281,7 +276,7 @@ int getCodes(string input, string output[10000]) {
   sum += count;
 
   /* Print possiblities after removing 2 character */
-  if(map.count(input.substr(0,2)))
+  if(len>2 && map.count(input.substr(0,2)))
   {
     count = getCodes(input.substr(2), output+sum);
     for(int j=0; j<count; j++)
@@ -332,7 +327,6 @@ void printAllPossibleCodes(string input) {
   printAllPossibleCodesHelper(input, "",map);
 }
 
-
 int returnPermutations(string input, string output[]){
   /* Given a string, find and return all the possible permutations of the input
    * string. The order of permutations are not important. Just return them in
@@ -361,6 +355,7 @@ int returnPermutations(string input, string output[]){
   }
   return sum;
 }
+
 void printPermutationsHelper(string input, string output){
   int len = input.length();
   if(len==1)
@@ -395,13 +390,14 @@ int main()
   int n;
   int arr[THOUSAND];
   int output[THOUSAND];
-  //n=getArray(arr,THOUSAND);
+  n=getArray(arr,THOUSAND);
   //printArray(output,n);
-  //int sum, count, out[THOUSAND][50]; cin>>sum;
+  int sum, count, out[THOUSAND][50]; cin>>sum;
   //count = subsetSumToK(arr,n,out,sum); cout<<count<<endl;
+  printSubsetSumToK(arr,n,sum); 
   //string in; cin >> in; printPermutations(in);
   //string in; cin >> in; printAllPossibleCodes(in);
-  string in, out[10000]; cin >> in; int count = getCodes(in, out);
-  for(int j=0; j<count; j++) cout << out[j] << endl;
+  //string in, out[10000]; cin >> in; int count = getCodes(in, out);
+  //for(int j=0; j<count; j++) cout << out[j] << endl;
   return 0;
 }

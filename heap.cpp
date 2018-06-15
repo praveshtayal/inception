@@ -42,13 +42,14 @@ public:
   }
   void removeMin()
   {
+    /* TODO: Implement */
     if(size==0) return;
     heap[0] = heap[--size];
     int index = 0, child1 = 2*index+1, child2 = child1+1;
     while(child1<size && heap[index]>heap[(index-1)/2])
     {
       heap[index] = heap[(index-1)/2];
-      heap[(index-1)/2] = value;
+      //heap[(index-1)/2] = value;
       index = (index-1)/2;
     }
   }
