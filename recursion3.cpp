@@ -199,8 +199,8 @@ void printSubsetSumToKHelper(int input[], int n, int k, int out[], int outSize) 
   {
     if(input[0]==k)
     {
-      for(int i=0; i<outSize; i++) cout << out[i] << ' ';
       cout << k << ' ';
+      for(int i=outSize-1; i>=0; i--) cout << out[i] << ' ';
       cout << endl;
     }
     return;
@@ -208,8 +208,8 @@ void printSubsetSumToKHelper(int input[], int n, int k, int out[], int outSize) 
 
   if(k==input[n-1])
   {
-    for(int i=0; i<outSize; i++) cout << out[i] << ' ';
     cout << k << ' ';
+    for(int i=outSize-1; i>=0; i--) cout << out[i] << ' ';
     cout << endl;
   }
   printSubsetSumToKHelper(input,n-1,k,out,outSize);

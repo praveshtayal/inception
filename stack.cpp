@@ -44,11 +44,31 @@ void reverseStack(stack<int> &input, stack<int> &extra) {
    * will be given. Out of which first contains some integers and second one is
    * empty. You need to reverse the first one using second stack. Change in the
    * given first stack itself.*/
+  if(input.empty()) return;
+  int top=input.top();
+  input.pop();
+  reverseStack(input,extra);
+  while(!input.empty())
+  {
+    extra.push(input.top());
+    input.pop();
+  }
+  input.push(top);
+  while(!extra.empty())
+  {
+    input.push(extra.top());
+    extra.pop();
+  }
 }
 
 void reverseQueue(queue<int> &q) {
   /* Given a queue of integers, reverse it without help of any explicit stack
    * or queue. You need to change in the given queue itself. */
+  if(q.empty()) return;
+  int front = q.front();
+  q.pop();
+  reverseQueue(q);
+  q.push(front);
 }
 
 bool checkRedundantBrackets(char *input) {

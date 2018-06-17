@@ -1,3 +1,4 @@
+#include"qsort.cpp"
 #include <iostream>
 #define SIZE 1000
 using namespace std;
@@ -306,7 +307,7 @@ void SortZeroesAndOne(int arr[], int n)
   }
 }
 
-void arrays()
+int main()
 {
   int n;
   int arr[SIZE];
@@ -314,8 +315,10 @@ void arrays()
   //cout << checkMember(n) <<endl;
   //arrange(arr, n);
   n=getArray(arr,SIZE);
+  quickSort(arr,n);
   //cout << uniqueElement(arr,n) <<endl;
-  int x; cin >> x; FindTriplet(arr, n, x);
+  //int x; cin >> x; FindTriplet(arr, n, x);
   //SortZeroesAndOne(arr, n);
-  //printArray(arr,n);
+  printArray(arr,n);
+  return 0;
 }

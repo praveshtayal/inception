@@ -42,20 +42,46 @@ public:
   }
   void removeMin()
   {
-    /* TODO: Implement */
-    if(size==0) return;
+    if(size<=0) return;
+    if(size==1)
+    {
+      size--;
+      return;
+    }
     heap[0] = heap[--size];
     int index = 0, child1 = 2*index+1, child2 = child1+1;
-    while(child1<size && heap[index]>heap[(index-1)/2])
+    while(child2<size)
     {
-      heap[index] = heap[(index-1)/2];
-      //heap[(index-1)/2] = value;
-      index = (index-1)/2;
+      /* Index has both child nodes */
+      int swapIndex = heap[child1]<heap[child2] ? child1 : child2;
+      if(heap[index]<heap[swapIndex]) return;
+      /* Swap index & swapIndex */
+      int temp = heap[index];
+      heap[index] = heap[swapIndex];
+      heap[swapIndex] = temp;
+      index = swapIndex;
+      child1 = 2*index+1;
+      child2 = child1+1;
+    }
+    /* Here: index does not have 2 children but may have left child */
+    if(child1<size && heap[index]>heap[child1])
+    {
+      int temp = heap[index];
+      heap[index] = heap[child1];
+      heap[child1] = temp;
     }
   }
-  int min()
+  int min() const
   {
     return heap[0];
+  }
+  int currSize() const
+  {
+    return size;
+  }
+  int currCapacity() const
+  {
+    return capacity;
   }
   void print() const
   {
@@ -68,13 +94,22 @@ public:
 int main()
 {
   minHeap h;
-  int nElements, value;
-  cin >> nElements;
-  for(int i=0; i<nElements; i++)
+  int choice, value;
+  cin >> choice;
+  while(choice)
   {
-    cin >> value;
-    h.insert(value);
+    switch(choice)
+    {
+      case 1:
+        // insert the value
+        cin >> value;
+        h.insert(value);
+        break;
+      case 2:
+        h.removeMin();
+    }
     h.print();
+    cin >> choice;
   }
 }
 

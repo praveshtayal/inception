@@ -1,4 +1,7 @@
 #include<iostream>
+#include<stack>
+#include<queue>
+//using namespace std;
 
 class Node{
 public:
@@ -209,8 +212,25 @@ Node* eliminate_duplicate(Node* head)
 
 bool check_palindrome(Node* head)
 {
-  return false;
-    //write your code here
+  /* Note: This check for nullptr is redundant */
+  if(head==nullptr) return true;
+  std::stack<int> s;
+  std::queue<int> q;
+  while(head!=nullptr)
+  {
+    s.push(head->data);
+    q.push(head->data);
+    head = head->next;
+  }
+  int halfSize = s.size()/2;
+  while(s.size()>halfSize)
+  {
+    int top = s.top();
+    int front = q.front();
+    if(top!=front) return false;
+    s.pop(); q.pop();
+  }
+  return true;
 }
 
 Node* midpoint_linkedlist(Node *head)
@@ -473,6 +493,75 @@ Node* append_LinkedList(Node* head,int n)
     return curr;
 }
 
+Node* kReverse(Node *head, int n)
+{
+  /* Implement kReverse( int k ) in a linked list i.e. you need to reverse
+   * first K elements then reverse next k elements and join the linked list and
+   * so on. Indexing starts from 0. If less than k elements left in the last,
+   * you need to reverse them as well. If k is greater than length of LL,
+   * reverse the complete LL. If n is 4 and LL is:
+   * Input: 1 2 3 4 5 6 7 8 9 10
+   * Output: 4 3 2 1 8 7 6 5 10 9 */
+  if(head==nullptr || n<=1) return head;
+  else if(head->next==nullptr) return head;
+  // n is atleast 2 and we have atleast 2 nodes
+  Node *prev=head, *curr=prev->next, *next=curr->next, *newHead = curr;
+  /* Create Reversed List */
+  prev->next =nullptr;
+  while(next!=nullptr)
+  {
+    curr->next = prev;
+    prev = curr;
+    curr = next;
+    next = next->next;
+  }
+  curr->next = prev;
+  return curr;
+
+
+}
+
+Node* arrange_LinkedList(Node* head)
+{
+  /* Even after Odd LinkedList: Arrange elements in a given Linked List such
+   * that, all even numbers are placed after odd numbers. Respective order of
+   * elements should remain same.*/
+  if(head==nullptr) return head;
+  Node *even=nullptr, *odd=nullptr, *evenLast, *oddLast, *next;
+  while(head!=nullptr)
+  {
+    next = head->next;
+    if(head->data%2==0)
+    {
+      // add node to evenList
+      if(even==nullptr)
+        even = evenLast = head;
+      else
+      {
+        evenLast = evenLast->next = head;
+        //evenLast = head;
+      }
+    }
+    else
+    {
+      // add node to oddList
+      if(odd==nullptr)
+        odd = oddLast = head;
+      else
+      {
+        oddLast->next = head;
+        oddLast = head;
+      }
+    }
+    head->next = nullptr;
+    head = next;
+  }
+  if(odd==nullptr) return even;
+  oddLast->next = even;
+  return odd;
+}
+
+
 int main()
 {
   Node *ll=nullptr, *pNode1;
@@ -483,8 +572,9 @@ int main()
     ll = insertNode(ll,i,data);
     std::cin >> data;
   }
+  pNode1 = arrange_LinkedList(ll);
   //ll = mergeSort(ll);
-  ll = bubble_sort_LinkedList_itr(ll);
+  //ll = bubble_sort_LinkedList_itr(ll);
   len = length(ll);
   std::cout << "The link list has " << len << " elements\n";
   for(i=0; i<len; i++)
