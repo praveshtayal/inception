@@ -537,10 +537,7 @@ Node* arrange_LinkedList(Node* head)
       if(even==nullptr)
         even = evenLast = head;
       else
-      {
         evenLast = evenLast->next = head;
-        //evenLast = head;
-      }
     }
     else
     {
@@ -548,10 +545,7 @@ Node* arrange_LinkedList(Node* head)
       if(odd==nullptr)
         odd = oddLast = head;
       else
-      {
-        oddLast->next = head;
-        oddLast = head;
-      }
+        oddLast = oddLast->next = head;
     }
     head->next = nullptr;
     head = next;
@@ -561,6 +555,59 @@ Node* arrange_LinkedList(Node* head)
   return odd;
 }
 
+Node* skipMdeleteN(Node *head, int M, int N) {
+  /* Given a linked list and two integers M and N. Traverse the linked list
+   * such that you retain M nodes then delete next N nodes, continue the same
+   * until end of the linked list. That is, in the given linked list you need
+   * to delete N nodes after every M nodes.*/
+  if(head==nullptr || N<=0 || M<0)  return head;
+  Node *curr=head, *prev, *next;
+  int i;
+  while(curr!=nullptr)
+  {
+    // skip M-1 nodes
+    for(i=0; i<M-1 && curr!=nullptr; i++, curr = curr->next);
+    if(curr==nullptr) return head;
+    prev = curr; curr = curr->next;
+    // delete N nodes
+    for(i=0; i<N && curr!=nullptr; i++) 
+    {
+      next = curr->next;
+      delete curr;
+      curr = next;
+    }
+    prev->next = curr;
+  }
+  return head;
+}
+
+Node<int>* rearrange(Node<int> *head)
+{
+  /* Given a singly linked list L : L0→L1→…→Ln-1→Ln . Rearrange the nodes in
+   * the list so that the new formed list is : L0→Ln→L1→Ln-1→L2→Ln-2→… 
+   * You are required do this in-place without altering the nodes' values.
+   * Input: 2 5 8 12
+   * Output: 2 12 5 8 */
+  if(head==nullptr) return head;
+  Node<int> *first=head, *second=first->next, *prev=second, *last;
+  if(prev==nullptr) return head;
+  last = prev->next;
+  if(last==nullptr) return head;
+  // atleast 3 nodes are present
+  while(last->next!=nullptr)
+  {
+    prev = last;
+    last = last->next;
+  }
+  // here we have 4 pointers poing to first node, second node, last node and
+  // 2nd last node(pointed to by prev). Note that second and prev may point to
+  // same node
+  first->next = last;
+  last->next = second;
+  prev->next = nullptr;
+  last->next = rearrange(last->next);
+  return head;
+}
 
 int main()
 {
