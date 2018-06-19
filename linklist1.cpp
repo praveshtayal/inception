@@ -589,7 +589,7 @@ Node<int>* rearrange(Node<int> *head)
    * Input: 2 5 8 12
    * Output: 2 12 5 8 */
   if(head==nullptr) return head;
-  Node<int> *first=head, *second=first->next, *prev=second, *last;
+  Node<int> *second=head->next, *prev=second, *last;
   if(prev==nullptr) return head;
   last = prev->next;
   if(last==nullptr) return head;
@@ -599,10 +599,10 @@ Node<int>* rearrange(Node<int> *head)
     prev = last;
     last = last->next;
   }
-  // here we have 4 pointers poing to first node, second node, last node and
+  // here we have 4 pointers poing to head node, second node, last node and
   // 2nd last node(pointed to by prev). Note that second and prev may point to
   // same node
-  first->next = last;
+  head->next = last;
   last->next = second;
   prev->next = nullptr;
   last->next = rearrange(last->next);

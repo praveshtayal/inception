@@ -165,31 +165,25 @@ public:
 };
 //const static float myMap::load_factor = 0.7;
 
-int highestFrequency(int *input, int n){
-  /* You are given with an array of integers that contain numbers in random
-   * order. Write a program to find and return the number which occurs maximum
-   * times in the given input. If more than one element occurs same number of
-   * times in the input, return the element which is present in the input
-   * first. */
-  if(n<=0 || input==nullptr) return 0;
-  map<int,int> mymap;
-  int max = 0;
-  int maxElement;
-  for(int i=0; i<n; i++)
+void intersection(int input1[], int input2[], int size1, int size2) {
+   /* Given two random integer arrays, print their intersection. That is, print
+   * all the elements that are present in both the given arrays. Input arrays
+   * can contain duplicate elements. */
+  if(input1==nullptr || size1<=0) return;
+  if(input2==nullptr || size2<=0) return;
+  unordered_map<int,int> count;
+  for(int i=0; i<size1; i++)
   {
-    int count = mymap[input[i]] + 1;
-    mymap[input[i]] = count;
-    if(count>max)
-    {
-      max = count;
-      maxElement = input[i];
-    }
+      count[input1[i]] += 1;
   }
-  return maxElement;
+  for(int i=0; i<size2 && count.count(input2[i]); i++)
+  {
+    cout << input2[i] << endl;
+    if(count[input2[i]]==1)
+      count.erase(input2[i]);
+  }
 }
 
-void intersection(int input1[], int input2[], int size1, int size2) {
-}
 int main()
 {
   myMap<int> map(5); 

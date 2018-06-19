@@ -1,5 +1,6 @@
 #include <iostream>
 #include <queue>
+#include <unordered_map>
 #include <vector>
 #include <list>
 using namespace std;
@@ -466,14 +467,64 @@ int getArray(int arr[], int size)
   return size;
 }
 
+void updateMap(BinaryTreeNode<int>* root, int level,
+    unordered_map<int, queue<int> > &map)
+{
+  if(root==nullptr) return;
+  map[level].push(root->data);
+  updateMap(root->left, level-1, map);
+  updateMap(root->right, level+1, map);
+}
+
+void printBinaryTreeVerticalOrder(BinaryTreeNode<int>* root)
+{
+  /* Print the binary tree in vertical order */
+  unordered_map<int, queue<int> > map;
+  updateMap(root, 0, map);
+  unordered_map<int, queue<int> > :: iterator it = map.begin();
+  while(it != map.end()){
+    queue<int>& q=it->second;
+    while(!q.empty())
+    {
+      cout << q.front() << ' ';
+      q.pop();
+    }
+    cout << endl;
+    it++;
+  }
+}
+
+BinaryTreeNode<int>* buildLevelTree(int *levelorder, int length)
+{
+  if(length<=0 || levelorder==nullptr)
+    return nullptr;
+  BinaryTreeNode<int> **nodes = new BinaryTreeNode<int>*[length];
+  for(int i=0; i<length; i++)
+  {
+    if(levelorder[i]==-1)
+      nodes[i] = nullptr;
+    else
+      nodes[i] = new BinaryTreeNode<int>(levelorder[i]);
+  }
+  for(int i=0; i<length && nodes[i]!=nullptr; i++)
+  {
+    int left = (i*2)+1;
+    if(nodes[left]!=nullptr) nodes[i]->left = nodes[left];
+    if(nodes[left+1]!=nullptr) nodes[i]->right = nodes[left+1];
+  }
+  return nodes[0];
+}
+
 int main()
 {
   static int maxNodeCount = 100;
   int nodeCount, preOrder[maxNodeCount], inOrder[maxNodeCount],
      postOrder[maxNodeCount];
   nodeCount = getArray(preOrder,maxNodeCount);
-  nodeCount = getArray(inOrder,maxNodeCount);
-  BinaryTreeNode<int>* root=buildTree(preOrder,nodeCount,inOrder,nodeCount);
+  BinaryTreeNode<int>* root = buildLevelTree(preOrder, nodeCount);
+  printBinaryTreeVerticalOrder(root);
+  //nodeCount = getArray(inOrder,maxNodeCount);
+  //BinaryTreeNode<int>* root=buildTree(preOrder,nodeCount,inOrder,nodeCount);
   //BinaryTreeNode<int>* root=getTreeFromPostorderAndInorder(preOrder,nodeCount,inOrder,nodeCount);
-  vector<node<int>*> v = createLLForEachLevel(root);
+  //vector<node<int>*> v = createLLForEachLevel(root);
 }
