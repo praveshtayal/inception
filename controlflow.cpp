@@ -11,7 +11,7 @@ int averageMarks(){
   *  That is, you need to print the integer part of average only, neglect 
   *  the decimal part. */
   char name;
-  long a,b,c;
+  int a,b,c;
   
   cin >> name;
   cin >> a >> b >> c;
@@ -29,7 +29,7 @@ int averageBest2Marks(){
   *  That is, you need to print the integer part of average only, neglect 
   *  the decimal part. */
   char name;
-  long a,b,c;
+  int a,b,c;
   
   cin >> name;
   cin >> a >> b >> c;
@@ -84,7 +84,7 @@ int fahrToCel()
 
 int numberPatternC1()
 {
-  long n;
+  int n;
   cin >> n;
 
   for(int i=0;i<n; i++)
@@ -98,7 +98,7 @@ int numberPatternC1()
 
 int numberPatternC2()
 {
-  long n;
+  int n;
   cin >> n;
 
   for(int i=0;i<n; i++)
@@ -114,7 +114,7 @@ int numberPatternC2()
 
 int starPattern()
 {
-  long n;
+  int n;
   cin >> n;
 
   for(int i=0;i<n; i++)
@@ -130,7 +130,7 @@ int starPattern()
 
 int trianglePattern()
 {
-  long n;
+  int n;
   cin >> n;
   int j;
 
@@ -174,7 +174,7 @@ int totalSalary() {
 
 int quadraticRoots() {
 	// Write your code here
-  long a,b,c;
+  int a,b,c;
   cin >> a >> b >> c;
 
   int discriminant = (b*b) - 4*a*c;
@@ -273,7 +273,7 @@ int power()
 
 int numberPattern1()
 {
-  long n;
+  int n;
   cin >> n;
 
   for(int i=0;i<n; i++)
@@ -287,7 +287,7 @@ int numberPattern1()
 
 int numberPattern2()
 {
-  long n;
+  int n;
   cin >> n;
 
   cout << '1' << endl;
@@ -305,7 +305,7 @@ int numberPattern2()
 
 int numberPattern3()
 {
-  long n;
+  int n;
   cin >> n;
 
   for(int i=0;i<n; i++)
@@ -322,7 +322,7 @@ int numberPattern3()
 
 int numberPattern4()
 {
-  long n;
+  int n;
   cin >> n;
 
   for(int i=0;i<n; i++)
