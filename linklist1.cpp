@@ -505,20 +505,20 @@ Node* kReverse(Node *head, int n)
   if(head==nullptr || n<=1) return head;
   else if(head->next==nullptr) return head;
   // n is atleast 2 and we have atleast 2 nodes
-  Node *prev=head, *curr=prev->next, *next=curr->next, *newHead = curr;
+  Node *prev=head, *curr=prev->next, *next;
   /* Create Reversed List */
+  int i=1;
   prev->next =nullptr;
-  while(next!=nullptr)
+  while(curr!=nullptr && i<n)
   {
+    next = curr->next;
     curr->next = prev;
     prev = curr;
     curr = next;
-    next = next->next;
+    i++;
   }
-  curr->next = prev;
-  return curr;
-
-
+  head->next = kReverse(curr, n);
+  return prev;
 }
 
 Node* arrange_LinkedList(Node* head)
@@ -581,7 +581,7 @@ Node* skipMdeleteN(Node *head, int M, int N) {
   return head;
 }
 
-Node<int>* rearrange(Node<int> *head)
+Node* rearrange(Node *head)
 {
   /* Given a singly linked list L : L0→L1→…→Ln-1→Ln . Rearrange the nodes in
    * the list so that the new formed list is : L0→Ln→L1→Ln-1→L2→Ln-2→… 
@@ -589,7 +589,7 @@ Node<int>* rearrange(Node<int> *head)
    * Input: 2 5 8 12
    * Output: 2 12 5 8 */
   if(head==nullptr) return head;
-  Node<int> *second=head->next, *prev=second, *last;
+  Node *second=head->next, *prev=second, *last;
   if(prev==nullptr) return head;
   last = prev->next;
   if(last==nullptr) return head;
@@ -619,9 +619,10 @@ int main()
     ll = insertNode(ll,i,data);
     std::cin >> data;
   }
-  pNode1 = arrange_LinkedList(ll);
+  //pNode1 = arrange_LinkedList(ll);
   //ll = mergeSort(ll);
   //ll = bubble_sort_LinkedList_itr(ll);
+  ll = kReverse(ll, 4);
   len = length(ll);
   std::cout << "The link list has " << len << " elements\n";
   for(i=0; i<len; i++)
@@ -630,6 +631,7 @@ int main()
     std::cout << ' ';
   }
   std::cout << std::endl;
+
   /*
   std::cout << "The elements to swap have index "; 
   std::cin >> i >> data;
