@@ -1,8 +1,8 @@
 #include <iostream>
 #include <queue>
+#include <unordered_map>
 #include <vector>
 #include <list>
-#define NODE_COUNT 1000
 using namespace std;
 
 template <typename T>
@@ -223,49 +223,61 @@ BinaryTreeNode<int>* buildLevelTree(int *levelorder, int length)
   return nodes[0];
 }
 
+void updateMap(BinaryTreeNode<int>* root, unordered_map<int, int> &map)
+{
+  if(root==nullptr) return;
+  map[root->data] = 1;
+  updateMap(root->left, map);
+  updateMap(root->right, map);
+}
+
+void nodesSumToS(BinaryTreeNode<int> *root, int sum) {
+  /* Given a binary tree and an integer S, print all the pair of nodes whose
+   * sum equals S. Assume binary tree contains all unique elements. Note : In
+   * a pair, print the smaller element first. Order of different pair doesn't
+   * matter.*/
+  unordered_map<int, int> map;
+  updateMap(root, map);
+  unordered_map<int, int>:: iterator it = map.begin();
+  while(it != map.end()){
+    if( (it->first<=sum-it->first) && (map.count(sum-it->first)) )
+      cout << it->first << ' ' << sum-it->first << endl;
+    it++;
+  }
+}
+
 void rootToLeafPathsSumToK(BinaryTreeNode<int> *root, int k) {
   /* Given a binary tree and a number k, print out all root to leaf paths where
    * the sum of all nodes value is same as the given number k. */
   /* Here we will traverse the tree is inorder using stack */
   if(root==nullptr) return;
-  BinaryTreeNode<int> **nodes = new BinaryTreeNode<int>*[NODE_COUNT];
-  nodes[0] = root;
-  int top = 1;  // This <nodes,top> act as a stack of pointer to nodes
-  BinaryTreeNode<int> *curr = root;
-  int sum = 0;
-  while(top>0)
-  {
-    curr = nodes[--top];
+  vector<BinaryTreeNode<int> *> s;
+  s.push_back(root);
+  int sum = root->data;
+  BinaryTreeNode<int> *curr = s.back();
+  do {
     while(curr->left!=nullptr) {
       // left subtree exist
-      nodes[top++] = curr;
-      sum += curr->data;
       curr = curr->left;
+      s.push_back(curr);
+      sum += curr->data;
     }
     // curr has no left subtree
-    cout << curr->data << ' ';
-    // push curr->right
-    if(curr->right==nullptr)
+    if(curr->right==nullptr && sum==k)
     {
-      // curr is leaf node
-      /*
-      if(sum==k)
-      {
         // print the stack
-        for(int i=0; i<top; i++)
-          cout << nodes[i]->data << ' ';
+        for(int i=0; i<s.size(); i++)
+          cout << s[i]->data << ' ';
         cout << endl;
-      }
-      else
-        curr = curr->right;
-      */
-      // pop the last item from stack
-      if(top==0) return;
-      curr = nodes[--top];
     }
-    else
-      curr = curr->right;
-  }
+    if(!s.empty())
+    {
+      // pop the last item from stack
+      sum -= s.back()->data;
+      s.pop_back();
+      curr = s.back()->right;
+    }
+  } while(!s.empty() || curr!=nullptr);
 }
 
 int getArray(int arr[], int size)

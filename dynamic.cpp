@@ -9,6 +9,12 @@ inline int min(int a, int b, int c=INT_MAX)
   return (min2<c?min2:c);
 }
 
+inline int max(int a, int b, int c=INT_MIN)
+{
+  int max2 = (a>b?a:b);
+  return (max2>c?max2:c);
+}
+
 int countStepsTo1(int n, int *ans){
   /* Given a positive integer n, find the minimum number of steps s, that takes
    * n to 1. You can perform any one of the following 3 steps. 
@@ -130,8 +136,223 @@ int balancedBTs2(int h) {
   return 0;
 }
 
+int minCostPath(int **input, int m, int n) {
+  /* Given an integer matrix of size m*n, you need to find out the value of
+   * minimum cost to reach from the cell (0, 0) to (m-1, n-1). 
+   * From a cell (i, j), you can move in three directions : (i+1, j), (i, j+1)
+   * and (i+1, j+1).
+   * Cost of a path is defined as the sum of values of each cell through which
+   * path passes. */
+  /* Solution: we will calculate minCostPath for each cell dynamically */
+  for(int j=1; j<n; j++)
+    input[0][j] += input[0][j-1];
+  for(int i=1; i<m; i++)
+    input[i][0] += input[i-1][0];
+  for(int i=1; i<m; i++)
+    for(int j=1; j<n; j++)
+      input[i][j] += min(input[i-1][j],input[i][j-1],input[i-1][j-1]);
+
+  return input[m-1][n-1];
+}
+
+int lcsBF(string s1, string s2){
+  /* Given 2 strings of S1 and S2 with lengths m and n respectively, find the
+   * length of longest common subsequence.*
+   * A subsequence of a string S whose length is n, is a string containing
+   * characters in same relative order as they are present in S, but not
+   * necessarily contiguous. Subsequences contain all the strings of length
+   * varying from 0 to n. E.g. subsequences of string "abc" are
+   * - "",a,b,c,ab,bc,ac,abc. */
+  if(s1.length()==0 || s2.length()==0) return 0;
+  // both strings have atleast one character
+  int a = s1[0]==s2[0] ? lcsBF(s1.substr(1), s2.substr(1)) : INT_MIN;
+  int b=lcsBF(s1.substr(1), s2);
+  int c=lcsBF(s1, s2.substr(1));
+
+  return max(a+1, b, c);
+}
+
+int lcsMZ(string s1, string s2, int** result){
+  int m = s1.length(), n = s2.length();
+  if(m==0 || n==0) return 0;
+  if(result[m-1][n-1]!=-1) return result[m-1][n-1];
+  int a = s1[0]==s2[0] ? lcsMZ(s1.substr(1), s2.substr(1), result) :
+    INT_MIN;
+  int b=lcsMZ(s1.substr(1), s2, result);
+  int c=lcsMZ(s1, s2.substr(1), result);
+
+  result[m-1][n-1] = max(a+1, b, c);
+  return result[m-1][n-1];
+}
+
+int lcsMZ(string s1, string s2){
+  /* Given 2 strings of S1 and S2 with lengths m and n respectively, find the
+   * length of longest common subsequence.*
+   * A subsequence of a string S whose length is n, is a string containing
+   * characters in same relative order as they are present in S, but not
+   * necessarily contiguous. Subsequences contain all the strings of length
+   * varying from 0 to n. E.g. subsequences of string "abc" are
+   * - "",a,b,c,ab,bc,ac,abc. */
+  if(s1.length()==0 || s2.length()==0) return 0;
+  // both strings have atleast one character
+  // Initialize result (2D Array of size m*n) to -1
+  int m = s1.length(), n = s2.length();
+  int **result = new int*[m];
+  for(int i=0; i<m; i++)
+  {
+    result[i] = new int[n];
+    for(int j=0; j<n; j++)
+      result[i][j] = -1;
+  }
+  int ans = lcsMZ(s1, s2, result);
+  for(int i=0; i<m; i++)
+  {
+    delete [] result[i];
+  }
+  delete [] result;
+  return ans;
+}
+
+int lcsDP(string s1, string s2){
+  /* Given 2 strings of S1 and S2 with lengths m and n respectively, find the
+   * length of longest common subsequence.*
+   * A subsequence of a string S whose length is n, is a string containing
+   * characters in same relative order as they are present in S, but not
+   * necessarily contiguous. Subsequences contain all the strings of length
+   * varying from 0 to n. E.g. subsequences of string "abc" are
+   * - "",a,b,c,ab,bc,ac,abc. */
+  if(s1.length()==0 || s2.length()==0) return 0;
+  // both strings have atleast one character
+  // Initialize result (2D Array of size m*n) to -1
+  int m = s1.length(), n = s2.length();
+  int **result = new int*[m];
+  for(int i=0; i<m; i++)
+  {
+    result[i] = new int[n];
+  }
+  // Fill in the first row
+  for(int j=0; j<n; j++)
+    result[0][j] = (s1[m-1]==s2[n-1-j])? 1:0;
+  // Fill in the first column
+  for(int i=1; i<m; i++)
+    result[i][0] = (s1[m-1-i]==s2[n-1])? 1:0;
+
+  for(int i=1; i<m; i++)
+    for(int j=1; j<n; j++)
+    {
+      int a = s1[m-1-i]==s2[n-1-j] ? result[i-1][j-1] : INT_MIN;
+      int b = result[i-1][j];
+      int c = result[i][j-1];
+      result[i][j] =  max(a+1, b, c);
+    }
+  int ans = result[m-1][n-1];
+  for(int i=0; i<m; i++)
+  {
+    delete [] result[i];
+  }
+  delete [] result;
+  return ans;
+}
+
+int editDistanceBF(string s1, string s2){
+  /* Given two strings s and t of lengths m and n respectively, find the Edit
+   * Distance between the strings. Edit Distance of two strings is minimum
+   * number of steps required to make one string equal to other. In order to do
+   * so you can perform following three operations only :*
+   * 1. Delete a character
+   * 2. Replace a character with another one
+   * 3. Insert a character */
+  // return max(s1.length(),s2.length()) - lcsDP(s1,s2);
+  if(s1.length()==0) return s2.length();
+  if(s2.length()==0) return s1.length();
+
+  // both strings have atleast one character
+  if(s1[0]==s2[0]) return editDistanceBF(s1.substr(1), s2.substr(1));
+  int a=editDistanceBF(s1.substr(1), s2);           //Insert Operation
+  int b=editDistanceBF(s1, s2.substr(1));           //Delete Operation
+  int c=editDistanceBF(s1.substr(1), s2.substr(1)); //Replace Operation
+
+  return min(a, b, c)+1;
+}
+
+int editDistanceDP(string s1, string s2){
+  /* Given two strings s and t of lengths m and n respectively, find the Edit
+   * Distance between the strings. Edit Distance of two strings is minimum
+   * number of steps required to make one string equal to other. In order to do
+   * so you can perform following three operations only :*
+   * 1. Delete a character
+   * 2. Replace a character with another one
+   * 3. Insert a character */
+  // return max(s1.length(),s2.length()) - lcsDP(s1,s2);
+  if(s1.length()==0) return s2.length();
+  if(s2.length()==0) return s1.length();
+
+  // both strings have atleast one character
+  // Initialize result (2D Array of size m*n) to -1
+  int m = s1.length(), n = s2.length();
+  int **result = new int*[m];
+  for(int i=0; i<m; i++)
+  {
+    result[i] = new int[n];
+  }
+  bool found;
+  // Fill in the first row
+  for(int j=0, found=false; j<n; j++)
+  {
+    if(s1[m-1]==s2[n-1-j]) found = true;
+    result[0][j] = found? j:j+1;
+  }
+  // Fill in the first column
+  for(int i=1, found=false; i<m; i++)
+  {
+    if(s1[m-1-i]==s2[n-1]) found = true;
+    result[i][0] = found? i:i+1;
+  }
+
+  for(int i=1; i<m; i++)
+    for(int j=1; j<n; j++)
+    {
+      if(s1[m-1-i]==s2[n-1-j]) result[i][j] =  result[i-1][j-1];
+      else
+      {
+        int a = result[i-1][j];
+        int b = result[i][j-1];
+        int c = result[i-1][j-1];
+        result[i][j] =  min(a, b, c) + 1;
+      }
+    }
+  int ans = result[m-1][n-1];
+  for(int i=0; i<m; i++)
+  {
+    delete [] result[i];
+  }
+  delete [] result;
+  return ans;
+}
+
+int knapsack(int* weights, int* values, int n, int maxWeight){
+  /* A thief robbing a store and can carry a maximal weight of W into his
+   * knapsack. There are N items and ith item weigh wi and is value vi. What is
+   * the maximum value V, that thief can take ?*/
+  if(weights==nullptr || values==nullptr || n<=0 || maxWeight<=0) return 0;
+  if(n==1)  // Base Case
+  {
+    if(weights[0]<=maxWeight) return values[0];
+    return 0;
+  }
+  if(weights[0]>maxWeight)  // 0 item cannot be included
+    return knapsack(weights+1, values+1, n-1, maxWeight);
+  // 0 item can be included
+  int included = knapsack(weights+1, values+1, n-1, maxWeight-weights[0]);
+  int notincluded = knapsack(weights+1, values+1, n-1, maxWeight);
+  return max(included+values[0], notincluded);
+}
+
 int main()
 {
-  balancedBTs(10);
+  //balancedBTs(10);
+  //cout << lcsMZ("adebc", "dcadb") << endl;
+  //cout << editDistanceBF("adebc", "dcadb") << endl;
+  cout << editDistanceDP("adebc", "dcadb") << endl;
   return 0;
 }
