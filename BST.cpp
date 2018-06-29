@@ -108,6 +108,11 @@ bool isBST(BinaryTreeNode<int> *root){
   return true;
 }
 
+void insertDuplicateNode(BinaryTreeNode<int> *root) {
+  /* Given a BST with N number of nodes, for each node create a new duplicate
+   * node, and insert that duplicate as left child of the original node.*/
+}
+
 BinaryTreeNode<int>* searchInBinaryTree(BinaryTreeNode<int> *root , int x){
   if(root==nullptr) return nullptr;
   if(root->data == x) return root;
@@ -250,34 +255,40 @@ void rootToLeafPathsSumToK(BinaryTreeNode<int> *root, int k) {
   /* Given a binary tree and a number k, print out all root to leaf paths where
    * the sum of all nodes value is same as the given number k. */
   /* Here we will traverse the tree is inorder using stack */
-  if(root==nullptr) return;
-  vector<BinaryTreeNode<int> *> s;
-  s.push_back(root);
-  int sum = root->data;
-  BinaryTreeNode<int> *curr = s.back();
+  // if(root==nullptr) return; This check is not required
+  vector<BinaryTreeNode<int> *> s, path;
   do {
-    while(curr->left!=nullptr) {
-      // left subtree exist
-      curr = curr->left;
-      s.push_back(curr);
-      sum += curr->data;
-    }
-    // curr has no left subtree
-    if(curr->right==nullptr && sum==k)
-    {
-        // print the stack
-        for(int i=0; i<s.size(); i++)
-          cout << s[i]->data << ' ';
-        cout << endl;
+    while(root!=nullptr) {
+      s.push_back(root);
+      path.push_back(root);
+      root = root->left;
     }
     if(!s.empty())
     {
-      // pop the last item from stack
-      sum -= s.back()->data;
+      root = s.back();
       s.pop_back();
-      curr = s.back()->right;
+      if(root->right==nullptr)
+      {
+        // root is leaf node, calculate sum
+        int sum = 0;
+        for(int i=0; i<path.size(); i++)
+          sum += path[i]->data;
+        if(sum==k)
+        {
+          for(int i=0; i<path.size(); i++)
+            cout << path[i]->data << ' ';
+          cout << endl;
+        }
+        // pop from path untill path is s
+        if(!s.empty())
+        {
+          while(path.back()!=s.back())
+            path.pop_back();
+        }
+      }
+      root = root->right;
     }
-  } while(!s.empty() || curr!=nullptr);
+  } while(!s.empty() || root!=nullptr);
 }
 
 int getArray(int arr[], int size)

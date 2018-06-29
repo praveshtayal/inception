@@ -9,24 +9,24 @@ class trie {
 private:
   class trieNode {
   public:
-    char data;
-    trieNode **children;
-    bool isTerminal;
+    char c;
+    trieNode **child;
+    bool terminal;
     V value;
     trieNode(char _c='\0', V _value=0)
-      : data(_c), isTerminal(false), value(_value)
+      : c(_c), terminal(false), value(_value)
     {
-      children = new trieNode*[TRIE_SIZE];
+      child = new trieNode*[TRIE_SIZE];
       for(int i=0; i<TRIE_SIZE; i++)
-        children[i] = nullptr;
+        child[i] = nullptr;
     }
     ~trieNode()
     {
-      if(children==nullptr) return;
+      if(child==nullptr) return;
       for(int i=0; i<TRIE_SIZE; i++)
-        if(children[i]!=nullptr)
-          delete children[i];
-      delete [] children;
+        if(child[i]!=nullptr)
+          delete child[i];
+      delete [] child;
     }
   };
   trieNode *root;
@@ -43,13 +43,13 @@ public:
   {
     for(int i=0; i<TRIE_SIZE; i++)
     {
-      trieNode *curr=root->children[i],*prev=nullptr;
+      trieNode *curr=root->child[i],*prev=nullptr;
       if(curr==nullptr) continue;
       char string[STRING_SIZE];
       int len=0;
       while(curr!=nullptr)
       {
-        string[len++]=curr->data;
+        string[len++]=curr->c;
       }
       cout << string << endl;
     }
@@ -62,15 +62,15 @@ public:
     for(i=0; i<len;i++)
     {
       int index = key[i] - 'a';
-      if(curr->children[index]==nullptr)
+      if(curr->child[index]==nullptr)
         return;
-      curr = curr->children[index];
+      curr = curr->child[index];
       s.push(curr);
       prev = curr;
     }
     /* curr holds the node to be deleted */
     s.pop();
-    while(curr && curr->isTerminal==true)
+    while(curr && curr->terminal==true)
     {
       delete curr;
       curr = nullptr;
@@ -79,10 +79,10 @@ public:
       {
         curr = s.top();
         s.pop();
-        curr->children[index] = nullptr;
+        curr->child[index] = nullptr;
       }
       else
-        root->children[index] = nullptr;
+        root->child[index] = nullptr;
     }
   }
   V& operator[](string key)
@@ -92,9 +92,9 @@ public:
     for(int i=0; i<len;i++)
     {
       int index = key[i] - 'a';
-      if(curr->children[index]==nullptr)
+      if(curr->child[index]==nullptr)
         return root->value;
-      curr = curr->children[index];
+      curr = curr->child[index];
     }
     return curr->value;
   }
@@ -106,34 +106,17 @@ public:
     for(int i=0; i<len;i++)
     {
       int index = key[i] - 'a';
-      if(curr->children[index]==nullptr)
-        curr->children[index] = new trieNode(key[i], 0);
-      curr = curr->children[index];
+      if(curr->child[index]==nullptr)
+        curr->child[index] = new trieNode(key[i], 0);
+      curr = curr->child[index];
       if(prev==nullptr)
-        root->children[index] = curr;
+        root->child[index] = curr;
       prev = curr;
     }
-    curr->isTerminal = true;
+    curr->terminal = true;
     curr->value = value;
   }
 };
-
-bool patternMatching(vector<string> vect, string pattern) {
-  /* Given a list of n words and a pattern p that we want to search. Check if
-   * the pattern p is present the given words or not. Return true or false */
-}
-
-bool findIfPalindromePair(vector<string> arr) {
-  /* Givan n number of words, you need to find if there exist any two words
-   * which can be joined to make a palindrome or any word itself is
-   * a palindrome. Return true or false */
-}
-
-void autoComplete(vector<string> input, string pattern) {
-  /* Givan n number of words and an incomplete word w. You need to
-   * auto-complete that word w. That means, find and print all the possible
-   * words which can be formed using the incomplete word w. */
-}
 
 int main()
 {

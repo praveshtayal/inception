@@ -121,7 +121,11 @@ int balancedBTs(int h) {
   int *ans = new int[h+1];
   ans[0] = ans[1] = 1;   /* Base Cases */
   for (int i=2;i<=h;i++)
-    ans[i] = (ans[i-1]*ans[i-1] + 2*ans[i-1]*ans[i-2]) % BIGNUMBER;
+  {
+    int a = ((long)ans[i-1]*ans[i-1]) % BIGNUMBER;
+    int b = (2l*ans[i-1]*ans[i-2]) % BIGNUMBER;
+    ans[i] = ((long)a + b) % BIGNUMBER;
+  }
 
   int result = ans[h];
   delete [] ans;

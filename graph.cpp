@@ -121,7 +121,7 @@ int main()
     g[edge] = 1;
   }
   g.printAdjacency();
-  g.printDepthFirst(nVertices-1);
+  //g.printDepthFirst(nVertices-1);
   g.printBreadthFirst(0);
   return 0;
 }

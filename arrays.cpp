@@ -228,13 +228,11 @@ void pairSum(int input[], int size, int x)
    * 5 pairs which have to be printed in 1st line. You can print pairs in any
    * order, just be careful about the order of elements in a pair. */
 {
-  int i, j;
-  int candidate, pair;
-  for(i=0;i<size;++i)
+  for(int i=0;i<size;++i)
   {
-    candidate = input[i];
-    pair = x - candidate;
-    for(j=i+1;j<size;++j)
+    int candidate = input[i];
+    int pair = x - candidate;
+    for(int j=i+1;j<size;++j)
       if(pair == input[j])
       {
         if(candidate < pair)
