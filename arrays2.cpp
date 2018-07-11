@@ -148,6 +148,33 @@ long maxPathSum(int ar1[], int ar2[], int m, int n)
     return max;
 }
 
+int equilibrium(int arr[], int n) {
+  /* Find and return the equilibrium index of an array. Equilibrium index of an
+   * array is an index i such that the sum of elements at indices less than
+   * i is equal to the sum of elements at indices greater than i. Element at
+   * index i is not included in either part. If more than one equilibrium index
+   * is present, you need to return the first one. And return -1 if no
+   * equilibrium index is present.*/
+    int f = 0;
+    int b = n-1;
+
+    if (n<3) return -1;
+    int sizef = arr[f];
+    int sizeb = arr[b];
+    while (b>2)
+        sizeb += arr[--b];
+    /* Here f=0, b=2 */
+    int eq = 1;
+    for(eq=1; eq<n-2; eq++)
+    {
+        if (sizef == sizeb) return eq;
+        sizef += arr[eq];
+        sizeb -= arr[eq+1];
+    }
+
+    return -1;
+}
+
 void PushZeroesEnd(int arr[], int n)
 {
   /* Given a random integer array, push all the zeros that are present to end

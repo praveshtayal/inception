@@ -15,7 +15,7 @@ int getArray(int arr[], int size)
 void printArray(int arr[], int size)
 {
   // Print Array
-  cout << "The array of size " << size << " is: " << endl;
+  // cout << "The array of size " << size << " is: " << endl;
   for(int i=0;i<size;++i)
     cout << arr[i] << ' ';
   cout << endl;
@@ -53,6 +53,35 @@ void mergeSort(int input[], int size){
       result[k++] = input[j++];
   for(i=0;i<size;i++)
     input[i]=result[i];
+}
+
+void swap(int input[], int i, int j)
+{
+  int temp = input[i];
+  input[i]= input[j];
+  input[j] = temp;
+}
+
+void quickSort(int input[], int size) {
+  if(input==nullptr || size<=1) return;
+  // size is atleast 2. 
+  // Count no of elements smaller than input[0]
+  int count=0;
+  for(int i=1; i<size; i++)
+    if(input[i]<input[0])
+      count++;
+  // count may be zero as well
+  swap(input, 0, count);
+  int left=0, right=size-1;
+  while(left<count && right>count)
+  {
+    while(input[left]<input[count]) left++;
+    while(input[right]>=input[count]) right--;
+    if(left<right)
+      swap(input, left++, right--);
+  }
+  quickSort(input, count);
+  quickSort(input+count+1, size-count-1);
 }
 
 void replaceCharacter(char input[], char c1, char c2)
@@ -129,13 +158,14 @@ void printKeypad(int number) {
   printKeypadHelper(number,"");
 }
 
-int recursion2()
+int main()
 {
   int n,x,val;
   int arr[THOUSAND];
   int output[THOUSAND];
   n=getArray(arr,THOUSAND);
-  mergeSort(arr,n);
+  //mergeSort(arr,n);
+  quickSort(arr,n);
   printArray(arr,n);
 
   /*

@@ -115,64 +115,48 @@ int lastIndex(int input[], int size, int x) {
       return smallAns;
 }
 
-int __allIndexes(int input[], int size, int x, int output[]) {
-  /* Given an array of length N and an integer x, you need to find all the
-   * indexes where x is present in the input array. Save all the indexes in an
-   * array (in increasing order). Do this recursively. Indexing in the array
-   * starts from 0.*/
-    if(size <= 0){
-        return 0;
-    }
-    if(x==input[size-1])
-    {
-      output[0] = size-1;
-      int smallAns = __allIndexes(input,size-1,x,output+1);
-      return 1+smallAns;
-    }
-    else
-    {
-      int smallAns = __allIndexes(input,size-1,x,output);
-      return smallAns;
-    }
-}
-
 int allIndexes(int input[], int size, int x, int output[]) {
   /* Given an array of length N and an integer x, you need to find all the
    * indexes where x is present in the input array. Save all the indexes in an
    * array (in increasing order). Do this recursively. Indexing in the array
    * starts from 0.*/
-  int count = __allIndexes(input, size, x, output);
-  for(int i=0;i<count/2; i++)
-  {
-    int temp = output[i];
-    output[i] = output[count-1-i];
-    output[count-1-i] = temp;
-  }
-  return count;
+    if(size <= 0) return 0;
+    int smallAns = allIndexes(input,size-1,x,output);
+    if(x==input[size-1])
+      output[smallAns++] = size-1;
+    return smallAns;
 }
 
 int multiplyNumbers(int m, int n) {
   /* Given two integers m & n, calculate and return their multiplication using
    * recursion. You can only use subtraction and addition for your calculation.
    * No other operators are allowed.*/
-    if(n == 1){
-        return m;
+    if(m==0 || n==0) return 0;
+    if(n>0)
+    {
+      int smallAns = multiplyNumbers(m,n-1);
+      return smallAns + m;
     }
-    int smallAns = multiplyNumbers(m,n-1);
-    return smallAns + m;
+    else
+    {
+      int smallAns = multiplyNumbers(m,n+1);
+      return smallAns - m;
+    }
 }
 
 int countZeros(int n){
   /* Given an integer n, count and return the number of zeros that are present
    * in the given integer using recursion.*/
-    if(n == 0){
-        return 0;
-    }
-    int smallAns = countZeros(n / 10);
-    int r = n%10;
-    if(r==0)
-      smallAns++;
-    return smallAns;
+  if(n<0) n *= -1;  // Make n positive
+  if(n<10)
+  {
+    if(n == 0) return 1;
+    return 0;
+  }
+  int smallAns = countZeros(n / 10);
+  if(n%10==0)
+    smallAns++;
+  return smallAns;
 }
 
 double geometricSum(int k){

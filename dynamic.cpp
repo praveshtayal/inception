@@ -118,16 +118,16 @@ int balancedBTs(int h) {
    * */
 #define BIGNUMBER 1000000007
   if(h<=1) return 1;
-  int *ans = new int[h+1];
+  long *ans = new long[h+1];
   ans[0] = ans[1] = 1;   /* Base Cases */
   for (int i=2;i<=h;i++)
   {
-    int a = ((long)ans[i-1]*ans[i-1]) % BIGNUMBER;
-    int b = (2l*ans[i-1]*ans[i-2]) % BIGNUMBER;
-    ans[i] = ((long)a + b) % BIGNUMBER;
+    long a = (ans[i-1]*ans[i-1]) % BIGNUMBER;
+    long b = (2*ans[i-1]*ans[i-2]) % BIGNUMBER;
+    ans[i] = (a + b) % BIGNUMBER;
   }
 
-  int result = ans[h];
+  int result = (int)ans[h];
   delete [] ans;
   return result;
 }
