@@ -39,16 +39,15 @@ int fib()
   int n, i, j, divisor;
   cin >> n;
 
-  int *fib= new int[n+1];
+  int fib[3];
   fib[0]=0;
   fib[1]=1;
   for(i=2;i<=n;++i)
   {
-    fib[i] =fib[i-1]+fib[i-2];
+    fib[i%2] =fib[(i+1)%3]+fib[(i+2)%3];
   }
-  cout << fib[n] <<endl;
-  delete [] fib;
-  return 0;
+  cout << fib[n%3] <<endl;
+  return fib[(n%3)];
 }
 
 int fib2()

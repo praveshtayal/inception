@@ -107,6 +107,38 @@ void removeConsecutiveDuplicates(char *input) {
   }
 }
 
+int subsequence(string input, string output[]){
+  if(input.size()==0) // Base case
+  {
+    output[0] = ""; // Null string
+    return 1;
+  }
+
+  int ans = subsequence(input.substr(1), output);
+
+  // copy the output
+  for(int i=0; i<ans; i++)
+  {
+    output[ans+i] = input[0] + output[i];
+  }
+  return ans*2;
+}
+
+void printSubsequence(string prefix, string input){
+  if(input.size()==0) // Base case
+  {
+    cout << prefix << endl; // Null string
+    return;
+  }
+
+  printSubsequence(prefix, input.substr(1));
+  printSubsequence(prefix+input[0], input.substr(1));
+}
+
+void printSubsequence(string input){
+  printSubsequence("", input);
+}
+
 int keypad(int num, string output[]){
   /* Given an integer n, using phone keypad find out all the possible strings
    * that can be made using digits of input n. Return empty string for numbers
@@ -151,6 +183,11 @@ void printKeypadHelper(int num, string str) {
     int small = num/10;
     int remainder = num%10;
     int optionslen = options[remainder].length();
+    if(optionslen==0)
+    {
+      printKeypadHelper(small, str);
+      return;
+    }
     for (int i = 0; i< optionslen; i++)
       printKeypadHelper(small, options[remainder][i] + str);
 }
@@ -163,18 +200,19 @@ int main()
   int n,x,val;
   int arr[THOUSAND];
   int output[THOUSAND];
+  /*
   n=getArray(arr,THOUSAND);
   //mergeSort(arr,n);
   quickSort(arr,n);
   printArray(arr,n);
-
-  /*
-    string out[1000];
-    int number;
-    cout << "Please input the number for keypad: ";
-    cin >> number;
-    n = keypad(number, out);
-    printSArray(out,n);
   */
+
+  string in("abc"), out[1000];
+  //int number; cout << "Please input the number for keypad: "; cin >> number;
+  //n = keypad(number, out);
+  //n = subsequence(in, out); printSArray(out,n);
+  //printSubsequence("abcd");
+  //printKeypad(22);
+  printKeypad(21303);
   return 0;
 }

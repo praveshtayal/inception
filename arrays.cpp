@@ -33,9 +33,18 @@ void printTable(int start, int end, int step)
       cout << fahr << '\t' << int((fahr-32)*5.0/9.0) << endl;
 }
 
+bool isPerfectSquare(int n)
+{
+  int s = sqrt(n);
+  return s*s==n;
+}
+
 bool checkMember(int n)
 {
   /* Check if n is fibonacci number */
+  // n is fibonacci number if and only if 5x^2+-4 is perfect square
+  n *= 5*n;
+  return isPerfectSquare(n+4) || isPerfectSquare(n-4);
   int i, fib[SIZE];
   fib[0]=0;
   fib[1]=1;
