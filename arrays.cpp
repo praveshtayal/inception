@@ -1,4 +1,3 @@
-#include"qsort.cpp"
 #include <iostream>
 #define SIZE 1000
 using namespace std;
