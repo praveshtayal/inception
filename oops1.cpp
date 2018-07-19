@@ -122,27 +122,28 @@ void ComplexNumbers::print() const
 
 class Polynomial {
   public:
-    void setCoefficient(int degree, int coff)
+    void setCoefficient(int degree, int coeff)
     {
       int i=getCoefficientIndex(degree);
-      // Here we should insert degree and coff at index i
-      pair<int,int> x(degree,coff);
+      // Here we should insert degree and coeff at index i
+      pair<int,int> x(degree,coeff);
       if(i<p.size())
       {
         if(p[i].first==degree)
         {
           // We already have a term of this degree
-          p[i].second = coff;
+          if(coeff==0)
+          {
+            p.erase(p.begin()+i);
+            return;
+          }
+          p[i].second = coeff;
           return;
         }
-        p.push_back(x);  //Dummy entry to increase size
-        // Shift the remaning entries to right
-        for(int j=p.size(); j>i; j--)
-          p[j] = p[j-1];
-        p[i] = x; //Essentially we are only adding 
+        if(coeff!=0) p.insert(p.begin()+i, x);
         return;
       }
-      p.push_back(x);
+      if(coeff!=0) p.push_back(x);
     }
 
     Polynomial& add(const Polynomial& b)
@@ -172,12 +173,20 @@ class Polynomial {
     Polynomial& multiply(const Polynomial& b)
     {
       vector< pair<int,int> > old = p;
+      p.clear(); // p is now empty
       for(int i=0; i<b.p.size(); i++)
       {
-        int degree = b.p[i].first;
-        int coeff=getCoefficient(degree) ;
+        int degreeB = b.p[i].first;
+        int coeffB = b.p[i].second;
+        //int coeff=getCoefficient(degree) ;
         for(int j=0; j<old.size(); j++)
-          ;
+        {
+          int degreeA = old[j].first;
+          int coeffA = old[j].second;
+          Polynomial temp;
+          temp.setCoefficient(degreeA+degreeB, coeffA*coeffB);
+          add(temp);
+        }
       }
       return (*this);
     }
@@ -252,7 +261,7 @@ int main()
   b.setCoefficient(1,5);
   b.print();
 
-  a.add(b);
+  a.multiply(b);
   a.print();
     return 0;
 }
