@@ -310,6 +310,47 @@ Node *reverse_linked_list_rec(Node *head)
 
 Node* swap_nodes(Node *head,int i,int j)
 {
+  Node *prev, *curr=head, *previ, *curri, *prevj, *currj;
+  prev = previ = curri = prevj = currj = nullptr;
+  int count = 0;
+  while(curr != nullptr)
+  {
+    if(count==i)
+    {
+      previ = prev;
+      curri = curr;
+    }
+    else if(count==j)
+    {
+      prevj = prev;
+      currj = curr;
+    }
+    prev = curr;
+    curr = curr->next;
+    count++;
+  }
+  if(curri==nullptr || currj==nullptr)
+    return;
+
+  if(previ==nullptr)
+    head = currj;
+  else
+    previ->next = currj;
+
+  if(prevj==nullptr)
+    head = curri;
+  else
+    prevj->next = curri;
+
+  curr = curri->next;
+  curri->next = currj->next;
+  currj->next = curr;
+
+  return head;
+}
+
+Node* swap_nodes2(Node *head,int i,int j)
+{
   /* Given a linked list, i & j, swap the nodes that are present at
    * i & j position in the LL. You need to swap the entire nodes, not just the
    * data. */
@@ -446,18 +487,17 @@ Node* bubble_sort_LinkedList_itr(Node* head)
 {
   /* Sort a given linked list using Bubble Sort (iteratively). While sorting,
    * you need to swap the entire nodes, not just the data.*/
-  if(head==nullptr) return nullptr;
-  if(head->next==nullptr) return head;
+  if(head==nullptr || head->next==nullptr) return head;
   /* We have atleast 2 Nodes. Split the list into two parts equally */
   Node *nodei,*nodej;
   int i,j;
-  for(i=0, nodei=head; nodei!=nullptr; i++, nodei=nodei->next)
+  for(i=0, nodei=head; nodei!=nullptr && nodei->next!=nullptr; i++, nodei=nodei->next)
     for(j=0, nodej=head; nodej->next!=nullptr; j++, nodej=nodej->next)
       if(nodej->data > nodej->next->data)  // if(arr[j]>arr[j+1])
         head = swap_nodes(head,j,j+1);
   return head;
   /*   
-  for(int i=0;i<n;++i)
+  for(int i=0;i<n-1;++i)
     for(int j=0;j<n-i-1;++j)
       if(arr[j]>arr[j+1])
   */
