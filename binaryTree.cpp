@@ -168,6 +168,21 @@ inline int max3(int a, int b, int c)
   return (max>c?max:c);
 }
 
+pair<int,int> diameterNDepth(BinaryTreeNode<int>* root) {
+  /* First has diameter and second has depth */
+  pair<int,int> ans(0,0);
+  if(root==nullptr) return ans;
+  pair<int,int> left = diameterNDepth(root->left);
+  pair<int,int> right = diameterNDepth(root->right);
+  ans.second = 1+max(left.second, right.second);
+  int diameterwithRoot = left.second + right.second + 1;
+  ans.first = max( max(left.first,right.first), diameterwithRoot);
+  return ans;
+
+}
+int diameter2(BinaryTreeNode<int>* root) {
+  return diameterNDepth(root).first;
+}
 int diameter(BinaryTreeNode<int>* root) {
   /* Given a Binary Tree, find and return the diameter of input binary tree.
    * Diameter is - largest count of nodes between any two leaf nodes in the

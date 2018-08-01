@@ -96,6 +96,20 @@ BinaryTreeNode<int>* constructTree(int *input, int n) {
   return root;
 }
 
+bool isBSTandInRange(BinaryTreeNode<int> *root, int min, int max){
+  /* Given a binary tree with N number of nodes, check if that input tree is
+   * BST (Binary Search Tree) or not. If yes, return true, return false
+   * otherwise. Duplicate elements should be in right subtree. */
+  if(root==nullptr) return true;
+  if(min > root->data || root->data > max) return false;
+  if(!isBSTandInRange(root->left, min, root->data-1)) return false;
+  if(!isBSTandInRange(root->right, root->data, max)) return false;
+  return true;
+}
+bool isBST2(BinaryTreeNode<int> *root){
+  return isBSTandInRange(root, INT_MIN, INT_MAX);
+}
+
 bool isBST(BinaryTreeNode<int> *root){
   /* Given a binary tree with N number of nodes, check if that input tree is
    * BST (Binary Search Tree) or not. If yes, return true, return false
@@ -111,6 +125,12 @@ bool isBST(BinaryTreeNode<int> *root){
 void insertDuplicateNode(BinaryTreeNode<int> *root) {
   /* Given a BST with N number of nodes, for each node create a new duplicate
    * node, and insert that duplicate as left child of the original node.*/
+  if(root==nullptr) return;
+  BinartTreeNode<int>* node = new BinaryTreeNode<int>(root->data);
+  node->left = root->left;
+  root->left = node;
+  insertDuplicateNode(node->left);
+  insertDuplicateNode(root->right);
 }
 
 BinaryTreeNode<int>* searchInBinaryTree(BinaryTreeNode<int> *root , int x){
