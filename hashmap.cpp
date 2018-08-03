@@ -164,26 +164,6 @@ public:
 
 };
 //const static float myMap::load_factor = 0.7;
-
-void intersection(int input1[], int input2[], int size1, int size2) {
-   /* Given two random integer arrays, print their intersection. That is, print
-   * all the elements that are present in both the given arrays. Input arrays
-   * can contain duplicate elements. */
-  if(input1==nullptr || size1<=0) return;
-  if(input2==nullptr || size2<=0) return;
-  unordered_map<int,int> count;
-  for(int i=0; i<size1; i++)
-  {
-      count[input1[i]] += 1;
-  }
-  for(int i=0; i<size2 && count.count(input2[i]); i++)
-  {
-    cout << input2[i] << endl;
-    if(count[input2[i]]==1)
-      count.erase(input2[i]);
-  }
-}
-
 int main()
 {
   myMap<int> map(5); 

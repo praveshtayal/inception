@@ -2,6 +2,7 @@
 #include <queue>
 #include <unordered_map>
 #include <vector>
+#include <algorithm>
 #include <list>
 using namespace std;
 
@@ -122,11 +123,33 @@ bool isBST(BinaryTreeNode<int> *root){
   return true;
 }
 
+vector<int>* findPath(BinaryTreeNode<int> *root , int data){
+  /* Given a BST and an integer k. Find and return the path from the node with
+   * data k and root (if a node with data k is present in given BST). Return
+   * null otherwise. Assume that BST contains all unique elements. */
+  vector<int>* path = new vector<int>;
+  while(root!=nullptr)
+  {
+    path->push_back(root->data);
+    if(root->data==data)
+    {
+      reverse(path->begin(),path->end());
+      return path;
+    }
+    else if(root->data<data)
+      root = root->right;
+    else
+      root = root->left;
+  }
+  delete path;
+  return nullptr;
+}
+
 void insertDuplicateNode(BinaryTreeNode<int> *root) {
   /* Given a BST with N number of nodes, for each node create a new duplicate
    * node, and insert that duplicate as left child of the original node.*/
   if(root==nullptr) return;
-  BinartTreeNode<int>* node = new BinaryTreeNode<int>(root->data);
+  BinaryTreeNode<int>* node = new BinaryTreeNode<int>(root->data);
   node->left = root->left;
   root->left = node;
   insertDuplicateNode(node->left);

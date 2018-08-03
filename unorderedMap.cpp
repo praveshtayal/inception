@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <unordered_map>
+#include <unordered_set>
 #include <map>
 #include <string>
 #define MILLION 1000000
@@ -136,6 +137,41 @@ vector<int> longestSubsequence(int *arr, int n){
    * output: 8 9 10 11 12 */
   vector<int> result;
   if(arr==nullptr || n<=0) return result;
+  unordered_map<int, int> myMap; // Stores Values and their index
+  // We move backwards beacuse we want to store the first index of duplicate
+  // elements. If we move forward, we need to check if element is already
+  // present
+  for(int i=n-1; i>=0; i++)
+    myMap[arr[i]] = i;
+  unordered_map<int, int>::iterator it=myMap.begin();
+  int maxSize = 1, first, last, maxFirst, maxLast;
+  maxFirst=maxLast=first=last=it->first;
+  while(!myMap.empty())
+  {
+    // Try to maximise the current sequence.
+    
+    // Search for first-1 and add it if it exist
+  }
+
+  // Create the result vector with values from maxFirst to maxLast
+  for(int i=maxFirst; i<=maxLast; i++)
+    result.push_back(i);
+  return result;
+}
+
+vector<int> longestSubsequence10(int *arr, int n){
+  /* Longest Consecutive Subsequence: You are given with an array of integers
+   * that contain numbers in random order. Write a program to find the longest
+   * possible sub sequence of consecutive numbers using the numbers from given
+   * array. 
+   * You need to return the output array which contains consecutive elements.
+   * Order of elements in the output is not important.
+   * If two arrays are of equal length return the array whose index of smallest
+   * element comes first. For input array of size 13:
+   * input: 2 12 9 16 10 5 3 20 25 11 1 8 6 
+   * output: 8 9 10 11 12 */
+  vector<int> result;
+  if(arr==nullptr || n<=0) return result;
   map<int, int> myMap;
   // We move backwards beacuse we want to store the first index of duplicate
   // elements. If we move forward, we need to check if element is already
@@ -223,6 +259,27 @@ void printPairs(int *input, int n, int k) {
   /* You are given with an array of integers and an integer K. Write a program
    * to find and print all pairs which have difference K. Best solution takes
    * O(n) time. And take difference as absolute. */
+  if(input==nullptr || n<=0) return;
+  if(k<0) k *= -1; // k is positive
+  unordered_map<int,int> myMap;
+  for(int i=0; i<n; i++)
+  {
+    int solutionBig = input[i] + k;
+    int solutionSmall = input[i] - k;
+    if(myMap.count(solutionBig))
+    {
+      int count = myMap[solutionBig];  // print count times
+      for(int j=0; j<count; j++)
+        cout << input[i] << ' ' << solutionBig << endl;
+    }
+    if(k && myMap.count(solutionSmall))
+    {
+      int count = myMap[solutionSmall];  // print count times
+      for(int j=0; j<count; j++)
+        cout << solutionSmall << ' ' << input[i] << endl;
+    }
+    myMap[input[i]]++;
+  }
 }
 
 int lengthOfLongestSubsetWithZeroSum(int* arr, int size){
@@ -231,6 +288,40 @@ int lengthOfLongestSubsetWithZeroSum(int* arr, int size){
    * return the length of longest subset. For eg for input array of size 10:
    * input: 95 -97 -387 -435 -5 -70 897 127 23 284
    * output: 6 */
+  /* Solution uses the fact that if sum of x consecutive number is zero, then
+   * their sum starting from index 0 will be same */
+  if(arr==nullptr || size<=0) return 0;
+  //int startIndex=-1, endIndex=-1;
+  int maxLength=0;
+  vector<int> sum;
+  unordered_map<int, int> m; // stores sum and index
+  sum.push_back(arr[0]); 
+  m[arr[0]] = 0;
+  if(arr[0]==0)
+  {
+    maxLength = 1;
+    //startIndex = endIndex = 0;
+  }
+  for(int i=1; i<size; i++)
+  {
+    sum.push_back(sum[i-1]+arr[i]);
+    if(sum[i]==0)
+    {
+      //start = 0;
+      //endIndex = i;
+      maxLength = i+1;
+    }
+    else if(m.count(sum[i]))
+    {
+      if(i-m[sum[i]]>maxLength)
+        maxLength = i-m[sum[i]];
+        //startIndex = m[sum[i]];
+        //endIndex = i;
+    }
+    else
+      m[sum[i]] = i;
+  }
+  return maxLength;
 }
 
 int getArray(int arr[], int size)
