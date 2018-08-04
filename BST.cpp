@@ -123,6 +123,22 @@ bool isBST(BinaryTreeNode<int> *root){
   return true;
 }
 
+bool findPathBinaryTree(BinaryTreeNode<int> *root , int data, vector<int>& v){
+  /* Given a Binary Tree and integer k. Find and return path from the node with
+   * data k and root (if a node with data k is present in given BST). Return
+   * null otherwise. Assume that BST contains all unique elements. */
+  if(root==nullptr) return false;
+  v.push_back(root->data);
+  if(root->data==data)
+    return true;
+  bool left = findPathBinaryTree(root->left, data, v);
+  if(left == true) return true;
+  bool right = findPathBinaryTree(root->right, data, v);
+  if(right == true) return true;
+  v.pop_back();
+  return false;
+}
+
 vector<int>* findPath(BinaryTreeNode<int> *root , int data){
   /* Given a BST and an integer k. Find and return the path from the node with
    * data k and root (if a node with data k is present in given BST). Return
@@ -294,7 +310,29 @@ void nodesSumToS(BinaryTreeNode<int> *root, int sum) {
   }
 }
 
-void rootToLeafPathsSumToK(BinaryTreeNode<int> *root, int k) {
+void rootToLeafPathsSumToK(BinaryTreeNode<int> *root, int k, vector<int>& v) {
+  if(root==nullptr) return;
+  if(root->left==nullptr && root->right==nullptr)
+  {
+    // Reached leaf node
+    if(root->data==k)
+    {
+      //ostream_iterator<int> out(cout, " ");
+      //copy(v.begin(), v.end(), out);
+      copy(v.begin(), v.end(), ostream_iterator<int>(cout, " "));
+      // for(int i=0; i<v.size(); i++)
+      //  cout << v[i] << ' ';
+      cout << k << endl;
+    }
+    return;
+  }
+  v.push_back(root->data);
+  rootToLeafPathsSumToK(root->left, k-root->data, v);
+  rootToLeafPathsSumToK(root->right, k-root->data, v);
+  v.pop_back();
+}
+
+void rootToLeafPathsSumToKIterative(BinaryTreeNode<int> *root, int k) {
   /* Given a binary tree and a number k, print out all root to leaf paths where
    * the sum of all nodes value is same as the given number k. */
   /* Here we will traverse the tree is inorder using stack */
@@ -343,6 +381,80 @@ int getArray(int arr[], int size)
   return size;
 }
 
+bool largestBSTSubtree(BinaryTreeNode<int>*root, int&minV, int&maxV, int& ht) {
+  // If function return true, subtree is BST with ht, minV and maxV updated
+  // If function returns false, subtree is not BST but ht has max height of BST
+  if(root==nullptr) {
+    minV = INT_MAX; maxV = INT_MIN; ht = 0;
+    return true;
+  }
+  if(root->left==nullptr && root->right==nullptr) {
+    ht = 1; minV = root->data; maxV = root->data;
+    return true;
+  }
+  int minLeft, maxLeft, htLeft;
+  bool left = largestBSTSubtree(root->left, minLeft, maxLeft, htLeft); 
+  int minRight, maxRight, htRight;
+  bool right = largestBSTSubtree(root->right, minRight, maxRight, htRight); 
+  if(left && right)
+  {
+    if(maxLeft < root->data && root->data <= minRight) {
+      // We have a BST
+      minV = minLeft; maxV = maxRight; ht = max(htLeft,htRight)+1;
+      return true;
+    }
+  }
+
+  ht = max(htLeft,htRight);
+  return false;
+}
+
+int largestBSTSubtree(BinaryTreeNode<int> *root) {
+  /* Given a Binary tree, find the largest BST subtree. That is, you need to
+   * find the BST with maximum height in the given binary tree. */
+  int minV, maxV,  ht;
+  largestBSTSubtree(root, minV, maxV, ht);
+  return ht;
+}
+
+void replaceWithLargerNodesSum(BinaryTreeNode<int> *root, int increment) {
+  if(root==nullptr) return;
+  if(root->right)
+  {
+    replaceWithLargerNodesSum(root->right, increment);
+    root->data += root->right->data;
+  }
+  else
+    root->data += increment;
+  replaceWithLargerNodesSum(root->left, root->data);
+}
+void replaceWithLargerNodesSum(BinaryTreeNode<int> *root) {
+  /* Given a binary search tree, replace each nodes' data with the sum of all
+   * nodes' which are greater or equal than it. You need to include the current
+   * node's data also. 
+   * That is, if in given BST there is a node with data 5, you need to replace
+   * it with sum of its data (i.e. 5) and all nodes whose data is greater than
+   * or equal to 5.*/
+  replaceWithLargerNodesSum(root, 0);
+}
+
+/* This is my understanding of problem */
+void replaceWithLargerNodesSumPravesh(BinaryTreeNode<int> *root) {
+  /* Given a binary search tree, replace each nodes' data with the sum of all
+   * nodes' which are greater or equal than it. You need to include the current
+   * node's data also. 
+   * That is, if in given BST there is a node with data 5, you need to replace
+   * it with sum of its data (i.e. 5) and all nodes whose data is greater than
+   * or equal to 5.*/
+  if(root==nullptr) return;
+  replaceWithLargerNodesSum(root->left);
+  if(root->right)
+  {
+    replaceWithLargerNodesSum(root->right);
+    root->data += root->right->data;
+  }
+}
+
 int main()
 {
   static int maxNodeCount = 1000;
@@ -351,5 +463,5 @@ int main()
   BinaryTreeNode<int>* root=buildLevelTree(levelOrder, nodeCount);
   int val1, val2;
   //cin >> val1 >> val2; cout << lcaBinaryTree(root, val1, val2) << endl;
-  cin >> val1; rootToLeafPathsSumToK(root, val1);
+  cin >> val1; rootToLeafPathsSumToKIterative(root, val1);
 }

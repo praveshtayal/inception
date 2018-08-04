@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stack>
 #include <queue>
 #include <unordered_map>
 #include <vector>
@@ -141,8 +142,7 @@ int depth(BinaryTreeNode<int> *root) {
   if(root==nullptr) return 0;
   int left = depth(root->left);
   int right = depth(root->right);
-  int max = (left>right?left:right);
-  return max+1;
+  return max(left,right)+1;
 }
 
 int depthDiff(BinaryTreeNode<int> *root) {
@@ -156,25 +156,13 @@ int depthDiff(BinaryTreeNode<int> *root) {
   return max+1;
 }
 
-inline int min3(int a, int b, int c)
-{
-  int min = (a<b?a:b);
-  return (min<c?min:c);
-}
-
-inline int max3(int a, int b, int c)
-{
-  int max = (a>b?a:b);
-  return (max>c?max:c);
-}
-
 pair<int,int> diameterNDepth(BinaryTreeNode<int>* root) {
   /* First has diameter and second has depth */
   pair<int,int> ans(0,0);
   if(root==nullptr) return ans;
   pair<int,int> left = diameterNDepth(root->left);
   pair<int,int> right = diameterNDepth(root->right);
-  ans.second = 1+max(left.second, right.second);
+  ans.second = 1+max(left.second, right.second);  // Calculating depth
   int diameterwithRoot = left.second + right.second + 1;
   ans.first = max( max(left.first,right.first), diameterwithRoot);
   return ans;
@@ -193,7 +181,7 @@ int diameter(BinaryTreeNode<int>* root) {
   int leftDia = diameter(root->left);
   int rightDia = diameter(root->right);
   int d = depth(root->left) + depth(root->right) + 1;
-  return max3(leftDia,rightDia,d);
+  return max(max(leftDia,rightDia),d);
 }
 
 PairAns minMax(BinaryTreeNode<int> *root) {
@@ -207,8 +195,8 @@ PairAns minMax(BinaryTreeNode<int> *root) {
   // Initialize answer as root node data
   PairAns left = minMax(root->left);
   PairAns right = minMax(root->right);
-  answer.min = min3(root->data, left.min, right.min);
-  answer.max = max3(root->data, left.max, right.max);
+  answer.min = min(root->data, min(left.min, right.min));
+  answer.max = max(root->data, max(left.max, right.max));
   return answer;
 }
 
@@ -528,6 +516,54 @@ BinaryTreeNode<int>* buildLevelTree(int *levelorder, int length)
     if(nodes[left+1]!=nullptr) nodes[i]->right = nodes[left+1];
   }
   return nodes[0];
+}
+
+bool find(BinaryTreeNode<int>* root, int x, vector<BinaryTreeNode<int>*>& v) {
+  /* Given a Binary Tree and an integer x, check if node with data x is present
+   * in the input binary tree or not. Return true or false.*/
+  if(root==nullptr) return false;
+  v.push_back(root);
+  if(root->data == x) return true;
+  if(find(root->left, x, v)) return true;
+  if(find(root->right, x, v)) return true;
+  v.pop_back();
+  return false;
+}
+
+void nodesAtDistanceK(BinaryTreeNode<int> *root, int k) {
+  if(root==nullptr || k<0) return;
+  if(k==0) {
+    cout << root->data << endl;
+    return;
+  }
+  nodesAtDistanceK(root->left, k-1);
+  nodesAtDistanceK(root->right, k-1);
+}
+
+void nodesAtDistanceK(BinaryTreeNode<int> *root, int node, int k) {
+  /* Given a binary tree, a node and an integer K, print nodes which are at
+   * K distance from the the given node. */
+  if(root==nullptr || k<0) return;
+  vector<BinaryTreeNode<int>*> v;
+  if(find(root, node, v)==false) return;  // Node doesn't exist
+  BinaryTreeNode<int> *curr = v.back(), *parent=nullptr, *sibling;
+  nodesAtDistanceK(curr,k);
+  int distance = 0;
+  while(!v.empty() && distance<k)
+  {
+    curr = v.back();
+    v.pop_back();
+    if(v.empty()) break;
+    parent = v.back();
+    if(parent->left==curr)
+      sibling = parent->right;
+    else 
+      sibling = parent->left;
+    distance += 2;
+    nodesAtDistanceK(sibling,k-distance);
+  }
+  if(parent)
+    cout << parent->data << endl;
 }
 
 int main()

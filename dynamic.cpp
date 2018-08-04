@@ -3,18 +3,6 @@
 #include <iostream>
 using namespace std;
 
-inline int min(int a, int b, int c=INT_MAX)
-{
-  int min2 = (a<b?a:b);
-  return (min2<c?min2:c);
-}
-
-inline int max(int a, int b, int c=INT_MIN)
-{
-  int max2 = (a>b?a:b);
-  return (max2>c?max2:c);
-}
-
 int countStepsTo1(int n, int *ans){
   /* Given a positive integer n, find the minimum number of steps s, that takes
    * n to 1. You can perform any one of the following 3 steps. 
@@ -31,7 +19,7 @@ int countStepsTo1(int n, int *ans){
   if(n%2 == 0) b = countStepsTo1(n/2,ans);
   c = countStepsTo1(n-1,ans);
   
-  ans[n] = min(a,b,c) + 1;
+  ans[n] = min(min(a,b),c) + 1;
   return ans[n];
 }
 
@@ -54,7 +42,7 @@ int countStepsTo1_MIN(int n){
       int a = (i%3 == 0) ? ans[i/3]+1: INT_MAX;
       int b = (i%2 == 0) ? ans[i/2]+1: INT_MAX;
       int c = ans[i-1] + 1;
-      ans[i] = min(a,b,c);
+      ans[i] = min(min(a,b),c);
   }
 
   int result = ans[n];
@@ -154,7 +142,7 @@ int minCostPath(int **input, int m, int n) {
     input[i][0] += input[i-1][0];
   for(int i=1; i<m; i++)
     for(int j=1; j<n; j++)
-      input[i][j] += min(input[i-1][j],input[i][j-1],input[i-1][j-1]);
+      input[i][j] += min(min(input[i-1][j],input[i][j-1]),input[i-1][j-1]);
 
   return input[m-1][n-1];
 }
@@ -173,7 +161,7 @@ int lcsBF(string s1, string s2){
   int b=lcsBF(s1.substr(1), s2);
   int c=lcsBF(s1, s2.substr(1));
 
-  return max(a+1, b, c);
+  return max(a+1, max(b, c));
 }
 
 int lcsMZ(string s1, string s2, int** result){
@@ -185,7 +173,7 @@ int lcsMZ(string s1, string s2, int** result){
   int b=lcsMZ(s1.substr(1), s2, result);
   int c=lcsMZ(s1, s2.substr(1), result);
 
-  result[m-1][n-1] = max(a+1, b, c);
+  result[m-1][n-1] = max(a+1, max(b, c));
   return result[m-1][n-1];
 }
 
@@ -247,7 +235,7 @@ int lcsDP(string s1, string s2){
       int a = s1[m-1-i]==s2[n-1-j] ? result[i-1][j-1] : INT_MIN;
       int b = result[i-1][j];
       int c = result[i][j-1];
-      result[i][j] =  max(a+1, b, c);
+      result[i][j] =  max(a+1, max(b, c));
     }
   int ans = result[m-1][n-1];
   for(int i=0; i<m; i++)
@@ -276,7 +264,7 @@ int editDistanceBF(string s1, string s2){
   int b=editDistanceBF(s1, s2.substr(1));           //Delete Operation
   int c=editDistanceBF(s1.substr(1), s2.substr(1)); //Replace Operation
 
-  return min(a, b, c)+1;
+  return min(min(a, b), c)+1;
 }
 
 int editDistanceDP(string s1, string s2){
@@ -322,7 +310,7 @@ int editDistanceDP(string s1, string s2){
         int a = result[i-1][j];
         int b = result[i][j-1];
         int c = result[i-1][j-1];
-        result[i][j] =  min(a, b, c) + 1;
+        result[i][j] =  min(min(a, b), c) + 1;
       }
     }
   int ans = result[m-1][n-1];
