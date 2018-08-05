@@ -417,16 +417,13 @@ int largestBSTSubtree(BinaryTreeNode<int> *root) {
   return ht;
 }
 
-void replaceWithLargerNodesSum(BinaryTreeNode<int> *root, int increment) {
-  if(root==nullptr) return;
-  if(root->right)
-  {
-    replaceWithLargerNodesSum(root->right, increment);
-    root->data += root->right->data;
-  }
-  else
-    root->data += increment;
-  replaceWithLargerNodesSum(root->left, root->data);
+int replaceWithLargerNodesSum(BinaryTreeNode<int> *root, int increment) {
+  if(root==nullptr) return 0;
+  int sumRight = replaceWithLargerNodesSum(root->right, increment);
+  int rootData = root->data;
+  root->data += sumRight + increment;
+  int sumLeft = replaceWithLargerNodesSum(root->left, root->data);
+  return sumLeft + rootData + sumRight;
 }
 void replaceWithLargerNodesSum(BinaryTreeNode<int> *root) {
   /* Given a binary search tree, replace each nodes' data with the sum of all

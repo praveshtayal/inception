@@ -530,24 +530,51 @@ bool find(BinaryTreeNode<int>* root, int x, vector<BinaryTreeNode<int>*>& v) {
   return false;
 }
 
-void nodesAtDistanceK(BinaryTreeNode<int> *root, int k) {
+void printNodesatDistanceK(BinaryTreeNode<int> *root, int k)
+{
   if(root==nullptr || k<0) return;
-  if(k==0) {
+  if(k==0)
+  {
     cout << root->data << endl;
     return;
   }
-  nodesAtDistanceK(root->left, k-1);
-  nodesAtDistanceK(root->right, k-1);
+  printNodesatDistanceK(root->left, k-1);
+  printNodesatDistanceK(root->right, k-1);
+}
+int nodesAtDistanceKH(BinaryTreeNode<int> *root, int node, int k) {
+  if(root==nullptr || k<0) return -1;
+  if(root->data==node) {
+    printNodesatDistanceK(root, k);
+    return 0;
+  }
+  int distance = nodesAtDistanceKH(root->left, node, k);
+  if(distance != -1) {
+    // node found in left subtree
+    if(distance+1==k) cout << root->data << endl;
+    printNodesatDistanceK(root->right, k-distance-2);
+    return distance+1;
+  }
+  distance = nodesAtDistanceKH(root->right, node, k);
+  if(distance != -1) {
+    // node found in right subtree
+    if(distance+1==k) cout << root->data << endl;
+    printNodesatDistanceK(root->left, k-distance-2);
+    return distance+1;
+  }
+  return -1;
 }
 
 void nodesAtDistanceK(BinaryTreeNode<int> *root, int node, int k) {
+  nodesAtDistanceKH(root, node, k);
+}
+void nodesAtDistanceKOld(BinaryTreeNode<int> *root, int k) {
   /* Given a binary tree, a node and an integer K, print nodes which are at
    * K distance from the the given node. */
   if(root==nullptr || k<0) return;
   vector<BinaryTreeNode<int>*> v;
-  if(find(root, node, v)==false) return;  // Node doesn't exist
+  //if(find(root, node, v)==false) return;  // Node doesn't exist
   BinaryTreeNode<int> *curr = v.back(), *parent=nullptr, *sibling;
-  nodesAtDistanceK(curr,k);
+  nodesAtDistanceKOld(curr,k);
   int distance = 0;
   while(!v.empty() && distance<k)
   {
@@ -560,10 +587,15 @@ void nodesAtDistanceK(BinaryTreeNode<int> *root, int node, int k) {
     else 
       sibling = parent->left;
     distance += 2;
-    nodesAtDistanceK(sibling,k-distance);
+    nodesAtDistanceKOld(sibling,k-distance);
   }
   if(parent)
     cout << parent->data << endl;
+}
+
+void printNodesSumToS(BinaryTreeNode<int> *root, int s) {
+  /* Given a binary search tree and a integer S, find pair of nodes in the BST
+   * which sum to S. You can use extra space only O(log n). */
 }
 
 int main()
