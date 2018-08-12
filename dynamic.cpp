@@ -3,6 +3,16 @@
 #include <iostream>
 using namespace std;
 
+// Brute Force
+int countStepsTo1(int n){
+  if(n<=1) return 0;
+  int subtract = countStepsTo1(n-1);
+  int div2 = (n%2==0)?countStepsTo1(n/2):INT_MAX;
+  int div3 = (n%3==0)?countStepsTo1(n/3):INT_MAX;
+  return 1+min(subtract,min(div2,div3));
+}
+
+// Memoiztion
 int countStepsTo1(int n, int *ans){
   /* Given a positive integer n, find the minimum number of steps s, that takes
    * n to 1. You can perform any one of the following 3 steps. 
@@ -23,7 +33,8 @@ int countStepsTo1(int n, int *ans){
   return ans[n];
 }
 
-int countStepsTo1(int n){
+// Memoiztion
+int countStepsTo1Mem(int n){
   int *ans = new int[n+1];
   
   for (int i=0;i<=n;i++)
@@ -34,7 +45,8 @@ int countStepsTo1(int n){
   return result;
 }
 
-int countStepsTo1_MIN(int n){
+// Dynamic Programming
+int countStepsTo1DP(int n){
   int *ans = new int[n+1];
   ans[0] = ans[1] = 0;   /* Base Cases */
   for (int i=2;i<=n;i++)
@@ -50,17 +62,30 @@ int countStepsTo1_MIN(int n){
   return result;
 }
 
+// Brute Force
 long staircase(int n){
   /* A child is running up a staircase with n steps and can hop either 1 step,
    * 2 steps or 3 steps at a time. Implement a method to count how many
    * possible ways the child can run up to the stairs. You need to return all
    * possible number of ways. */
   if(n<=2) return n;
+  if(n==3) return 4;
+  return staircase(n-1) + staircase(n-2) + staircase(n-3);
+}
+
+// Dynamic Programming
+long staircaseDP(int n){
+  /* A child is running up a staircase with n steps and can hop either 1 step,
+   * 2 steps or 3 steps at a time. Implement a method to count how many
+   * possible ways the child can run up to the stairs. You need to return all
+   * possible number of ways. */
+  if(n<=2) return n;
   long *ans = new long[n+1];
-  ans[0] = 1;   /* Base Cases */
+  ans[0] = 0;   /* Base Cases */
   ans[1] = 1;   /* Base Cases */
   ans[2] = 2;   /* Base Cases */
-  for (int i=3;i<=n;i++)
+  ans[3] = 4;   /* Base Cases */
+  for (int i=4;i<=n;i++)
       ans[i] = ans[i-3] +  ans[i-2] + ans[i-1];
 
   long result = ans[n];
@@ -99,11 +124,26 @@ int minCount(int n){
   return result;
 }
 
+// Brute Force
 int balancedBTs(int h) {
   /* Given an integer h, find the possible number of balanced binary trees of
    * height h. You just need to return the count of possible binary trees which
-   * are balanced. This number can be huge, so return output modulus 10^9 + 7.
-   * */
+   * are balanced. This number can be huge, so return output modulus 10^9 + 7. */
+#define BIGNUMBER 1000000007
+  if(h<=1) return 1;
+  long h1 = balancedBTs(h-1);
+  long h2 = balancedBTs(h-2);
+  // (h1*h1) + 2*(h1*h2)
+  long h1Mul = (h1*h1)%BIGNUMBER;
+  long h2Mul = (h1*h2)%BIGNUMBER;
+  return (h1Mul + ((2*h2Mul)%BIGNUMBER))%BIGNUMBER;
+}
+
+// Dynamic Programming
+int balancedBTsDP(int h) {
+  /* Given an integer h, find the possible number of balanced binary trees of
+   * height h. You just need to return the count of possible binary trees which
+   * are balanced. This number can be huge, so return output modulus 10^9 + 7. */
 #define BIGNUMBER 1000000007
   if(h<=1) return 1;
   long *ans = new long[h+1];
@@ -118,14 +158,6 @@ int balancedBTs(int h) {
   int result = (int)ans[h];
   delete [] ans;
   return result;
-}
-
-int balancedBTs2(int h) {
-  /* Given an integer h, find the possible number of balanced binary trees of
-   * height h. You just need to return the count of possible binary trees which
-   * are balanced. This number can be huge, so return output modulus 10^9 + 7.
-   * */
-  return 0;
 }
 
 int minCostPath(int **input, int m, int n) {
@@ -340,11 +372,114 @@ int knapsack(int* weights, int* values, int n, int maxWeight){
   return max(included+values[0], notincluded);
 }
 
+// Brute Force
+int getMaxMoney(int arr[], int n){
+  /* A thief wants to loot houses. He knows the amount of money in each house.
+   * He cannot loot two consecutive houses. Find the maximum amount of money he
+   * can loot.*/
+  if(arr==nullptr || n<=0) return 0;
+  if(n==1) return arr[0]; // Base Case
+  int dontchoose0 = getMaxMoney(arr+1, n-1);
+  int choose0 = getMaxMoney(arr+2, n-2);
+  return max(arr[0]+choose0, dontchoose0);
+}
+
+// Memoization
+int getMaxMoney(int arr[], int n, int *ans){
+  /* A thief wants to loot houses. He knows the amount of money in each house.
+   * He cannot loot two consecutive houses. Find the maximum amount of money he
+   * can loot.*/
+  if(arr==nullptr || n<=0) return 0;
+  if(n==1)
+  {
+    return arr[0]; // Base Case
+  }
+  if(ans[n]!=-1) return ans[n];
+  int dontchoose0 = getMaxMoney(arr+1, n-1, ans);
+  int choose0 = getMaxMoney(arr+2, n-2, ans);
+  ans[n] =  max(arr[0]+choose0, dontchoose0);
+  return ans[n];
+}
+
+int getMaxMoneyMem(int arr[], int n){
+  /* A thief wants to loot houses. He knows the amount of money in each house.
+   * He cannot loot two consecutive houses. Find the maximum amount of money he
+   * can loot.*/
+  int *ans = new int[n+1];
+  for (int i=0;i<=n;i++)
+    ans[i] = -1;
+  int result = getMaxMoney(arr, n, ans);
+  delete [] ans;
+  return result;
+}
+
+int getMaxMoneyDP(int arr[], int n){
+  /* A thief wants to loot houses. He knows the amount of money in each house.
+   * He cannot loot two consecutive houses. Find the maximum amount of money he
+   * can loot.*/
+  if(arr==nullptr || n<=0) return 0;
+  if(n==1) return arr[0];
+  int *ans = new int[n+1];
+  ans[0]=arr[0];
+  ans[1]=max(arr[0], arr[1]);
+  for (int i=2;i<=n;i++)
+    ans[i] = max(ans[i-2]+arr[i], ans[i-1]);
+  int result = ans[n];
+  delete [] ans;
+  return result;
+}
+
+/*
+int lis(int arr[], int n) {
+  if(arr==nullptr || n<=0) return 0;
+  if(n==1) return 1;
+  if(
+}
+*/
+int lisDP(int arr[], int n) {
+  /* Given an array with N elements, you need to find the length of the longest
+   * subsequence of a given sequence such that all elements of the subsequence
+   * are sorted in strictly increasing order.*/
+  if(arr==nullptr || n<=0) return 0;
+  if(n==1) return 1;
+  int *ans = new int[n+1];
+  // ans[i] represents longest subsequence length if n=i
+  ans[0]=1;
+  for (int i=1;i<=n;i++)
+  {
+    ans[i] = ans[i-1];
+    for (int j=0;j<i;j++)
+      if(arr[i]>arr[j])
+        if(ans[i]<ans[j]+1)
+          ans[i]=ans[j]+1;
+  }
+  copy(ans, &ans[n], ostream_iterator<int>(cout, " "));
+  int result = ans[n];
+  delete [] ans;
+  return result;
+}
+
+int getArray(int arr[], int size)
+{
+  cin >> size;
+  // Read the array
+  for(int j=0;j<size;++j) 
+    cin >> arr[j];
+  return size;
+}
+
+
 int main()
 {
   //balancedBTs(10);
   //cout << lcsMZ("adebc", "dcadb") << endl;
   //cout << editDistanceBF("adebc", "dcadb") << endl;
-  cout << editDistanceDP("adebc", "dcadb") << endl;
+  //cout << editDistanceDP("adebc", "dcadb") << endl;
+  int n, arr[1000000];
+  n = getArray(arr,1000000);
+  //copy(arr, &arr[n-1], istream_iterator<int>(cin, " "));
+  cout << lisDP(arr, n) <<  endl; 
+  //copy(arr, &arr[n], ostream_iterator<int>(cout, " "));
+
   return 0;
 }

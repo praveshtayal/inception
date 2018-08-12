@@ -452,6 +452,24 @@ void replaceWithLargerNodesSumPravesh(BinaryTreeNode<int> *root) {
   }
 }
 
+void printNodesSumToS(BinaryTreeNode<int>*root,BinaryTreeNode<int>*node,int s){
+}
+
+void printNodesSumToS(BinaryTreeNode<int> *root, int s) {
+  /* Given a binary search tree and a integer S, find pair of nodes in the BST
+   * which sum to S. You can use extra space only O(log n).
+   * Assume BST contains all unique elements.
+   * Note : In a pair, print the smaller element first with utput format : Each
+   * pair in different line (pair elements separated by space) */
+  if(root==nullptr) return;
+  int pair = s - root->data;
+  if(pair<root->data && searchInBST(root->left, pair)!=nullptr )
+    cout << pair << ' ' << root->data << endl;
+  if(pair>=root->data && searchInBST(root->right, pair)!=nullptr )
+    cout << root->data << ' ' << pair << endl;
+}
+
+
 int main()
 {
   static int maxNodeCount = 1000;
