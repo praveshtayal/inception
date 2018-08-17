@@ -443,20 +443,107 @@ int lisDP(int arr[], int n) {
   if(arr==nullptr || n<=0) return 0;
   if(n==1) return 1;
   int *ans = new int[n+1];
-  // ans[i] represents longest subsequence length if n=i
+  // ans[i] represents longest subsequence length if n=i && i is included
   ans[0]=1;
+  int max=1;
   for (int i=1;i<=n;i++)
   {
-    ans[i] = ans[i-1];
+    ans[i] = 1;
     for (int j=0;j<i;j++)
       if(arr[i]>arr[j])
         if(ans[i]<ans[j]+1)
+        {
           ans[i]=ans[j]+1;
+          if(ans[i]>max) max=ans[i];
+        }
   }
-  copy(ans, &ans[n], ostream_iterator<int>(cout, " "));
-  int result = ans[n];
+  //copy(ans, &ans[n], ostream_iterator<int>(cout, " "));
   delete [] ans;
-  return result;
+  return max;
+  /* Note the complexity for this code is n square. We can optimize it further
+   * using ordered maps to nlogn. */
+}
+
+int allWays(int x, int n) {
+  /* Given two integers a and b. You need to find and return the count of
+   * possible ways in which we can represent the number a as the sum of unique
+   * integers raise to the power b. For eg. if a = 10 and b = 2, only way to
+   * represent 10 as: 10 = 1^2 + 3^2.
+   * Hence, answer is 1. */
+  vector<int> p;
+  // p[i] represents i^n
+  p.push_back(1);
+  for (int i=2, j=pow(i,n);j<=x;j=pow(++i,n))
+    p.push_back(j);
+  // Here i represents valid index for array p
+  int ans=0;
+  for(int j=i; j>=0; j--) {
+    sumLeft = x;
+    if(p[j]==sumLeft) 
+    {
+      ans++;
+
+    }
+  }
+  delete [] p;
+  return ans;
+}
+
+int countWaysToMakeChange(int denominations[], int numDenominations, int value){
+  /* You are given an infinite supply of coins of each of denominations
+   * D = {D0, D1, D2, D3, ...... Dn-1}. You need to figure out the total number
+   * of ways W, in which you can make change for Value V using coins of
+   * denominations D. Note : Return 0, if change isn't possible. */
+  if(denominations==nullptr || numDenominations<=0) return 0;
+  int ans=0;
+  if(denominations[0]<value)
+}
+
+int mcm(int* p, int n){
+  /* Given a chain of matrices A1, A2, A3,.....An, you have to figure out the
+   * most efficient way to multiply these matrices i.e. determine where to
+   * place parentheses to minimise the number of multiplications.
+   * You will be given an array p[] of size n + 1. Dimension of matrix Ai is
+   * p[i - 1]*p[i]. You need to find minimum number of multiplications needed
+   * to multiply the chain.*/
+  if(p==nullptr || n<3) return 0; // Invalid input
+  if(n==3) return p[0]*p[1]*p[2]; // Base Case, only 1 possibility
+
+  // If we do first matrix multiplication (A1*A2)*..An
+  int opt1 = p[0]*p[1]*p[2]; 
+  swap<int>(p[0],p[1]); // We need to save p[1] and pass p[0]
+  opt1 += mcm(p+1, n-1);
+  swap<int>(p[0],p[1]); // Reverse the swap
+
+  // If we do matrix multiplication A1*(A2*..An)
+  int opt2 = mcm(p+1,n-1);
+  opt2 += p[0]*p[1]*p[n-1];
+  return min(opt1, opt2);
+}
+
+string solve(int n, int x, int y)
+{
+  /* Coin Tower: Whis and Beerus are playing a new game today . They form
+   * a tower of N coins and make a move in alternate turns . Beerus being the
+   * God plays first . In one move player can remove 1 or X or Y coins from the
+   * tower . The person to make the last move wins the Game . Can you find out
+   * who wins the game ?
+   * Output will be A string containing the name of the winner like “Whis” or
+   * “Beerus” (without quotes)
+   * Constraints: 1<=n<=10^6, 2<=x<=y<=50 */
+}
+
+int findMaxSquareWithAllZeros(int** arr, int row, int col){
+  /* Given a n*m matrix which contains only 0s and 1s, find out the size of
+   * maximum square sub-matrix with all 0s. You need to return the size of
+   * square with all 0s. */
+}
+
+int solve(string S,string V)
+{
+  /* Gary has two string S and V. Now Gary wants to know the length shortest
+   * subsequence in S such that it is not a subsequence in V. Note: input data
+   * will be such so there will always be a solution.*/
 }
 
 int getArray(int arr[], int size)

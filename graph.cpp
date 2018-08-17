@@ -1,6 +1,6 @@
 #include<iostream>
 #include<vector>
-#include<stack>
+#include<queue>
 using namespace std;
 
 class graph {
@@ -22,14 +22,13 @@ class graph {
         adjacencyMatrix[i][j] = 0;
     }
   }
-  ~graph()
-  {
+  ~graph() {
     for(int i=0; i<nVertices; i++)
       delete [] adjacencyMatrix[i];
     delete [] adjacencyMatrix;
   }
-  void printAdjacency() const
-  {
+
+  void printAdjacency() const {
     for(int i=0; i<nVertices; i++)
     {
       for(int j=0; j<nVertices; j++)
@@ -37,35 +36,124 @@ class graph {
       cout << endl;
     }
   }
-  int& operator[](pair<int,int> p)
-  {
+
+  int& operator[](pair<int,int> p) {
     return adjacencyMatrix[p.first][p.second];
   }
+
+  bool hasPath(int source, int dest) const {
+    vector<bool> nodesVisited(nVertices);
+    int visitCount = 0;
+    /* Queue of Nodes */
+    queue<int> q;
+    //cout << "Nodes Visited in Depth First traversal are : ";
+    q.push(source);
+    while(!q.empty())
+    {
+      source = q.front();
+      if(adjacencyMatrix[source][dest]) return true;
+      q.pop();
+      nodesVisited[source] = true;
+      visitCount++;
+      for (int j=0; j<nVertices; j++)
+        if(adjacencyMatrix[source][j] && !nodesVisited[j])
+          q.push(j);
+    }
+    return false;
+  }
+
+  bool DFSPath(int source, int dest, vector<int>& path) const
+  {
+    vector<bool> nodesVisited(nVertices);
+    int visitCount = 0;
+    /* Queue of Nodes */
+    queue<int> q;
+    //cout << "Nodes Visited in Depth First traversal are : ";
+    q.push(source);
+    path.push_back(source);
+    while(!q.empty())
+    {
+      source = q.front();
+      path.push_back(source);
+      if(adjacencyMatrix[source][dest])
+      {
+        path.push_back(dest);
+        return true;
+      }
+      q.pop();
+      nodesVisited[source] = true;
+      visitCount++;
+      for (int j=0; j<nVertices; j++)
+        if(adjacencyMatrix[source][j] && !nodesVisited[j])
+          q.push(j);
+    }
+    return false;
+
+  }
+
+  bool getPathDFS(int source, int dest, vector<bool>& nodesVisited, 
+      vector<int>& path) const {
+    if(adjacencyMatrix[source][dest])
+    {
+      path.push_back(dest);
+      return true;
+    }
+    if(nodesVisited[source]) return false;
+    nodesVisited[source] = true;
+    for (int j=0; j<nVertices; j++)
+      if(adjacencyMatrix[source][j] && !nodesVisited[j])
+        if(getPathDFS(j, dest, nodesVisited, path))
+        {
+          path.push_back(j);
+          return true;
+        }
+    return false;
+  }
+  bool hasPathDFS(int source, int dest, vector<bool>& nodesVisited) const {
+    if(adjacencyMatrix[source][dest]) return true;
+    if(nodesVisited[source]) return false;
+    nodesVisited[source] = true;
+    for (int j=0; j<nVertices; j++)
+      if(adjacencyMatrix[source][j] && !nodesVisited[j])
+        if(hasPathDFS(j, dest, nodesVisited)) return true;
+    return false;
+  }
+
+  void printDepthFirst(int node, vector<bool>& nodesVisited) const
+  {
+    if(nodesVisited[node]) return;
+    nodesVisited[node] = true;
+    cout << node << ' ';
+    for (int j=0; j<nVertices; j++)
+      if(adjacencyMatrix[node][j] && !nodesVisited[j])
+        printDepthFirst(j, nodesVisited);
+  }
+
   void printDepthFirst(int node=0) const
   {
     vector<bool> nodesVisited(nVertices);
     int visitCount = 0;
-    /* Stack of Nodes */
-    stack<int> s;
-    cout << "Nodes Visited in Depth First traversal are : ";
-    s.push(node);
+    /* Queue of Nodes */
+    queue<int> q;
+    //cout << "Nodes Visited in Depth First traversal are : ";
+    q.push(node);
     while(visitCount!=nVertices)
     {
-      while(!s.empty())
+      while(!q.empty())
       {
-        node = s.top();
-        s.pop();
+        node = q.front();
+        q.pop();
         nodesVisited[node] = true;
         visitCount++;
         for (int j=0; j<nVertices; j++)
           if(adjacencyMatrix[node][j] && !nodesVisited[j])
-            s.push(j);
+            q.push(j);
         cout << node << ' ';
       }
       if(visitCount!=nVertices)
       {
         for (node=0; node<nVertices && nodesVisited[node]; node++);
-        s.push(node);
+        q.push(node);
       }
     }
     cout << endl;
@@ -74,26 +162,26 @@ class graph {
   {
     vector<bool> nodesVisited(nVertices);
     int visitCount = 0;
-    /* Stack of Nodes */
-    stack<int> s;
-    cout << "Nodes Visited in Breadth First traversal are : ";
+    /* Queue of Nodes */
+    queue<int> q;
+    //cout << "Nodes Visited in Breadth First traversal are : ";
     nodesVisited[node] = true;
     visitCount++;
     cout << node << ' ';
-    s.push(node);
+    q.push(node);
     while(visitCount!=nVertices)
     {
-      while(!s.empty())
+      while(!q.empty())
       {
-        node = s.top();
-        s.pop();
+        node = q.front();
+        q.pop();
         for (int j=0; j<nVertices; j++)
           if(adjacencyMatrix[node][j] && !nodesVisited[j])
           {
             nodesVisited[j] = true;
             visitCount++;
             cout << j << ' ';
-            s.push(j);
+            q.push(j);
           }
       }
       if(visitCount!=nVertices)
@@ -102,7 +190,7 @@ class graph {
         nodesVisited[node] = true;
         visitCount++;
         cout << node << ' ';
-        s.push(node);
+        q.push(node);
       }
     }
     cout << endl;
@@ -119,9 +207,25 @@ int main()
   {
     cin >> edge.first >> edge.second;
     g[edge] = 1;
+    swap<int>(edge.first, edge.second);
+    g[edge] = 1;
   }
-  g.printAdjacency();
+  cin >> edge.first >> edge.second;
+  vector<bool> nodesVisited(nVertices);
+  /*
+  if(g.hasPathDFS(edge.first, edge.second, nodesVisited))
+    cout << "true" << endl;
+  else
+    cout << "false" << endl;
+    */
+  vector<int> path;
+  if(g.getPathDFS(edge.first, edge.second, nodesVisited, path))
+  {
+    copy(path.begin(), path.end(), ostream_iterator<int>(cout, " "));
+    cout << edge.first << endl;
+  }
+  //g.printAdjacency();
   //g.printDepthFirst(nVertices-1);
-  g.printBreadthFirst(0);
+  //g.printBreadthFirst(0);
   return 0;
 }
