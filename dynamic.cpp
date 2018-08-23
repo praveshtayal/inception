@@ -1,5 +1,6 @@
 #include <climits>
 #include <cmath>
+#include <vector>
 #include <iostream>
 using namespace std;
 
@@ -464,6 +465,21 @@ int lisDP(int arr[], int n) {
    * using ordered maps to nlogn. */
 }
 
+int vectorSum(int *arr, int size, int sum) {
+  /* How many ways can elements of array arr add to sum. */
+  if(size<=0) return 0;
+  if(size==1) {
+    if(arr[0]==sum) return 1;
+    return 0;
+  }
+  int ans=0;
+  // Can the last element of array be included
+  if(arr[size-1]==sum) return 1+vectorSum(arr, size-1, sum);
+  if(arr[size-1]<sum) return vectorSum(arr, size-1, sum-arr[size-1])+
+    vectorSum(arr, size-1, sum);
+  return vectorSum(arr, size-1, sum);
+}
+
 int allWays(int x, int n) {
   /* Given two integers a and b. You need to find and return the count of
    * possible ways in which we can represent the number a as the sum of unique
@@ -475,18 +491,7 @@ int allWays(int x, int n) {
   p.push_back(1);
   for (int i=2, j=pow(i,n);j<=x;j=pow(++i,n))
     p.push_back(j);
-  // Here i represents valid index for array p
-  int ans=0;
-  for(int j=i; j>=0; j--) {
-    sumLeft = x;
-    if(p[j]==sumLeft) 
-    {
-      ans++;
-
-    }
-  }
-  delete [] p;
-  return ans;
+  return vectorSum(&p[0], p.size(), x);
 }
 
 int countWaysToMakeChange(int denominations[], int numDenominations, int value){
@@ -495,8 +500,39 @@ int countWaysToMakeChange(int denominations[], int numDenominations, int value){
    * of ways W, in which you can make change for Value V using coins of
    * denominations D. Note : Return 0, if change isn't possible. */
   if(denominations==nullptr || numDenominations<=0) return 0;
-  int ans=0;
-  if(denominations[0]<value)
+  int last = denominations[numDenominations-1];
+  if(last==value)
+    return 1+countWaysToMakeChange(denominations, numDenominations-1, value);
+  if(last<value)
+    return countWaysToMakeChange(denominations, numDenominations, value-last)
+      + countWaysToMakeChange(denominations, numDenominations-1, value);
+  return countWaysToMakeChange(denominations, numDenominations-1, value);
+}
+
+int countWaysToMakeChangeDP(int denominations[], int numDenominations, int value){
+  /* You are given an infinite supply of coins of each of denominations
+   * D = {D0, D1, D2, D3, ...... Dn-1}. You need to figure out the total number
+   * of ways W, in which you can make change for Value V using coins of
+   * denominations D. Note : Return 0, if change isn't possible. */
+  if(denominations==nullptr || numDenominations<=0) return 0;
+  // Allocate memory for 2D array
+  int **result = new int*[numDenominations];
+  for(int i=0; i<numDenominations; i++)
+    result[i] = new int[value+1];
+
+  // Update result array
+  for(int i=0; i<numDenominations; i++)
+    for(int j=0; j<=value; j++)
+    {
+      result[i][j] = 0;
+    }
+
+  // Save ans and Release memory for 2D array
+  int ans = result[numDenominations-1][value];
+  for(int i=0; i<numDenominations; i++)
+    delete [] result[i];
+  delete [] result;
+  return ans;
 }
 
 int mcm(int* p, int n){
@@ -507,6 +543,31 @@ int mcm(int* p, int n){
    * p[i - 1]*p[i]. You need to find minimum number of multiplications needed
    * to multiply the chain.*/
   if(p==nullptr || n<3) return 0; // Invalid input
+  // Matrix of size (n-2)*(n-2)
+  int size = n-2;
+  // result[i][j] represent matrix starting from i and ending at j+2
+  int **result = new int*[size];
+  for(int i=0; i<size; i++)
+    result[i] = new int[size];
+  for(int i=0; i<size; i++)
+    for(int j=0; j<size; j++) {
+      if(i>j) result[i][j] = INT_MAX;
+      else if(i==j) result[i][j] = p[i]*p[i+1]*p[i+2];
+      else {
+        result[i][j] = result[i][j-1] + p[i]*p[j+1]*p[j+2]
+        // Here i<j
+        for(int k=i; k+2<j; k++) {
+          int operations = p[i]*p[i+1]*p[i+2];
+          result[i][j] = p[i]*p[i+1]*p[i+2];
+        }
+      }
+    }
+
+  for(int i=0; i<size; i++)
+    delete [] result[i];
+  delete result[i];
+
+  
   if(n==3) return p[0]*p[1]*p[2]; // Base Case, only 1 possibility
 
   // If we do first matrix multiplication (A1*A2)*..An
@@ -531,12 +592,14 @@ string solve(int n, int x, int y)
    * Output will be A string containing the name of the winner like “Whis” or
    * “Beerus” (without quotes)
    * Constraints: 1<=n<=10^6, 2<=x<=y<=50 */
+  return 0;
 }
 
 int findMaxSquareWithAllZeros(int** arr, int row, int col){
   /* Given a n*m matrix which contains only 0s and 1s, find out the size of
    * maximum square sub-matrix with all 0s. You need to return the size of
    * square with all 0s. */
+  return 0;
 }
 
 int solve(string S,string V)
@@ -544,6 +607,7 @@ int solve(string S,string V)
   /* Gary has two string S and V. Now Gary wants to know the length shortest
    * subsequence in S such that it is not a subsequence in V. Note: input data
    * will be such so there will always be a solution.*/
+  return 0;
 }
 
 int getArray(int arr[], int size)

@@ -88,7 +88,6 @@ class graph {
           q.push(j);
     }
     return false;
-
   }
 
   bool getPathDFS(int source, int dest, vector<bool>& nodesVisited, 
@@ -197,19 +196,47 @@ class graph {
   }
 };
 
+int solve(int n,int m,vector<int>u,vector<int>v)
+{
+  graph g(n);
+  for(int i=0; i<m; i++)
+  {
+    pair<int,int> edge1(u[i]-1, v[i]-1);
+    g[edge1] = 1;
+    pair<int,int> edge2(v[i]-1, u[i]-1);
+    g[edge2] = 1;
+  }
+  int count=0;
+  vector<bool> nodesVisited(n);
+  for(int i=0; i<m; i++)
+  {
+    if(nodesVisited[i]) continue;
+    count++;
+    g.printDepthFirst(i, nodesVisited);
+  }
+  return count;
+}
+
 int main()
 {
   pair<int,int> edge;
   int nVertices, nEdges;
   cin >> nVertices >> nEdges;
   graph g(nVertices);
+  vector<int> u, v;
   for(int i=0; i<nEdges; i++)
   {
     cin >> edge.first >> edge.second;
+    u.push_back(edge.first);
+    v.push_back(edge.second);
+    /*
     g[edge] = 1;
     swap<int>(edge.first, edge.second);
     g[edge] = 1;
+    */
   }
+  cout << solve(nVertices, nEdges, u, v) << endl;
+  return 0;
   cin >> edge.first >> edge.second;
   vector<bool> nodesVisited(nVertices);
   /*
