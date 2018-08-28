@@ -30,8 +30,7 @@ bool myless(const pair<int,node*>& p1, const pair<int,node*>& p2) {
 void addCode(node *root, string code, unordered_map<char, string>& map)
 {
   if(root==nullptr) return;
-  if(root->left==nullptr && root->right==nullptr)
-  {
+  if(root->left==nullptr && root->right==nullptr) {
     // Leaf node
     map[root->c] = code;
     return;
@@ -50,6 +49,7 @@ void huffman(string &data, unordered_map<char, string>& map) {
   // Thus we will use min priority queue with pair <frequency, char>
   priority_queue<pair<int,node*>, vector<pair<int,node*> >, myless> pq;
 
+  // Add all the character nodes to priority queue
   for(unordered_map<char, int>::iterator it = frequency.begin();
       it!=frequency.end(); it++) {
     const pair<char,int>& p1 = *it;
@@ -58,6 +58,7 @@ void huffman(string &data, unordered_map<char, string>& map) {
     pq.push(p2);
   }
 
+  // Create a tree
   while(pq.size()>=2)
   {
     pair<int,node*> p1 = pq.top();

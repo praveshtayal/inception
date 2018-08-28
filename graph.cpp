@@ -1,4 +1,5 @@
 #include<iostream>
+#include<climits>
 #include<vector>
 #include<queue>
 using namespace std;
@@ -9,6 +10,12 @@ class graph {
    * */
   int nVertices, nEdges;
   int **adjacencyMatrix;
+  class comp {
+    public:
+      bool operator()(const pair<pair<int,int>,int>& p1, const pair<pair<int,int>,int>& p2) {
+        return p1.second>p2.second;
+      }
+  };
   public:
   graph(int _nVertices)
     :nVertices(_nVertices), nEdges(0)
@@ -194,6 +201,162 @@ class graph {
     }
     cout << endl;
   }
+
+  int shortestPath(int source, int dest) const
+  {
+    /* Dijiktra's Algorithm: Here, we try to calculate the shortest distance of
+     * every node from source till we reach dest */
+    vector<bool> nodesVisited(nVertices);
+    vector<int> distance(nVertices, INT_MAX);
+
+    int visitCount = 1;
+    nodesVisited[source]=true;
+    distance[source]=0;
+    // dest cannot be visited if its unreachable from source
+    while(nodesVisited[dest]!=true)
+    {
+      int nextNode=source;
+      for (int j=0; j<nVertices; j++)
+        if(!nodesVisited[j])
+        {
+          if(nextNode==source) nextNode=j;
+          if(adjacencyMatrix[source][j])
+            if(distance[j]>distance[source]+adjacencyMatrix[source][j])
+              distance[j] = distance[source]+adjacencyMatrix[source][j];
+          if(distance[nextNode]>distance[j]) nextNode = j;
+        }
+      if(nextNode==source) break;  // No next node found
+      source = nextNode;
+      nodesVisited[source]=true;
+      visitCount++;
+    }
+    return distance[dest];
+  }
+
+  vector<int> shortestPathCodeZen(int source) const
+  {
+    /* Dijiktra's Algorithm: Here, we try to calculate the shortest distance of
+     * every node from source till we reach dest */
+    vector<bool> nodesVisited(nVertices);
+    vector<int> distance(nVertices, INT_MAX);
+
+    int visitCount = 1;
+    nodesVisited[source]=true;
+    distance[source]=0;
+    while(visitCount!=nVertices)
+    {
+      int nextNode=source;
+      for (int j=0; j<nVertices; j++)
+        if(!nodesVisited[j])
+        {
+          if(nextNode==source) nextNode=j;
+          if(adjacencyMatrix[source][j])
+            if(distance[j]>distance[source]+adjacencyMatrix[source][j])
+              distance[j] = distance[source]+adjacencyMatrix[source][j];
+          if(distance[nextNode]>distance[j]) nextNode = j;
+        }
+      if(nextNode==source) break;  // No next node found
+      source = nextNode;
+      nodesVisited[source]=true;
+      visitCount++;
+    }
+    return distance;
+  }
+
+  // 6 10 0 1 1 0 2 2 2 4 5 4 5 4 5 3 9 3 1 6 2 3 7 0 3 3 1 2 3 2 5 8 3 4 10
+  void mstKruskal(vector<pair<pair<int,int>,int> >& edges) {
+    /* here we need to pick edges with minimum weight. So, lets add all the
+     * edges to a min priority queue */
+    priority_queue<pair<pair<int,int>, int>, vector<pair<pair<int,int>,int> >,
+      comp> pq; 
+    for(int i=0; i<nVertices; i++)
+      for(int j=0; j<i; j++) // Note we all only adding lower part of matrix
+        if(adjacencyMatrix[i][j]) {
+          // Add the edge
+          pair<int, int> p(i, j);
+          pair<pair<int,int>,int> p2(p, adjacencyMatrix[i][j]);
+          pq.push(p2);
+        }
+
+    vector<int> parent;
+    for(int j=0; j<nVertices; j++) parent.push_back(j);
+    vector<bool> visited(nVertices, false);
+
+    while(edges.size()!=nVertices-1)
+    {
+      // pick the edge with minimum weight
+      pair<pair<int,int>,int> p2 = pq.top();
+      pq.pop();
+      int from=p2.first.first, to=p2.first.second;
+
+      // Can this edge be added to MST
+      if(visited[from] && visited[to])
+      {
+        // Both nodes of edge already exist
+        // Calculate parent of from and to
+        int parentFrom = parent[from], parentTo = parent[to];
+        while(parentFrom!=parent[parentFrom]) parentFrom = parent[parentFrom];
+        while(parentTo!=parent[parentTo]) parentTo = parent[parentTo];
+        if(parentFrom==parentTo) continue; // Cycle exist
+      }
+      // Add the edge
+      edges.push_back(p2);
+      visited[from] = visited[to] = true;
+      if(from<to) parent[to] = from;
+      else parent[from] = to;
+    }
+  }
+
+  // 6 8 0 1 3 0 3 5 1 2 1 3 2 8 3 4 7 3 5 1 2 5 4 4 5 1
+  void mstPrim(vector<pair<pair<int,int>,int> >& edges, int source=0) {
+    vector<int> parent(nVertices, -1);
+    vector<int> cost(nVertices, INT_MAX);
+    vector<bool> visited(nVertices, false);
+    //parent[source] = -1;
+    cost[source]=0;
+    while(source!=-1)
+    {
+      visited[source]=true;
+      for(int j=0; j<nVertices; j++)
+        if(!visited[j] && adjacencyMatrix[source][j])
+          if(adjacencyMatrix[source][j] < cost[j])
+          {
+            cost[j] = adjacencyMatrix[source][j];
+            parent[j] = source;
+          }
+
+      // Chose the next unvisited vertex with minimum cost
+      source=-1;
+      for(int j=0; j<nVertices; j++)
+        if(!visited[j])
+        {
+          if(source == -1) source=j;
+          else if(cost[j]<cost[source]) source = j;
+        }
+    }
+    for(int j=0; j<nVertices; j++)
+    {
+      if(parent[j]==-1) continue;  // No edge for source
+      // Add the edge
+      pair<int, int> p(parent[j], j);
+      pair<pair<int,int>,int> p2(p, adjacencyMatrix[p.first][p.second]);
+      edges.push_back(p2);
+    }
+  }
+};
+
+class undirectedGraph: public graph {
+  public:
+    undirectedGraph(int nVertices)
+      : graph(nVertices)
+    {
+    }
+
+    void setEdge(pair<int,int> p, int weight=1) {
+      graph::operator[](p) = weight;
+      swap<int>(p.first, p.second);
+      graph::operator[](p) = weight;
+    }
 };
 
 int solve(int n,int m,vector<int>u,vector<int>v)
@@ -220,22 +383,36 @@ int solve(int n,int m,vector<int>u,vector<int>v)
 int main()
 {
   pair<int,int> edge;
-  int nVertices, nEdges;
+  int nVertices, nEdges, weight;
   cin >> nVertices >> nEdges;
-  graph g(nVertices);
-  vector<int> u, v;
+  //graph g(nVertices);
+  undirectedGraph g(nVertices);
+  //vector<int> u, v;
   for(int i=0; i<nEdges; i++)
   {
-    cin >> edge.first >> edge.second;
-    u.push_back(edge.first);
-    v.push_back(edge.second);
-    /*
-    g[edge] = 1;
-    swap<int>(edge.first, edge.second);
-    g[edge] = 1;
-    */
+    cin >> edge.first >> edge.second >> weight;
+    g.setEdge(edge, weight);
+    //u.push_back(edge.first);
+    //v.push_back(edge.second);
+    //g[edge] = weight;
+    //swap<int>(edge.first, edge.second);
+    //g[edge] = weight;
   }
-  cout << solve(nVertices, nEdges, u, v) << endl;
+  /*
+  vector<int> distance = g.shortestPathCodeZen(0);
+  copy(distance.begin(), distance.end(), ostream_iterator<int>(cout, " "));
+  */
+
+  vector<pair<pair<int,int>,int> > v;
+  //g.mstPrim(v, 0);
+  g.mstKruskal(v);
+  for(int i=0; i<v.size(); i++)
+  {
+    int from = v[i].first.first, to = v[i].first.second, w = v[i].second;
+    if(from<to) cout << from << ' ' << to << ' ' << w << endl;
+    else cout << to << ' ' << from << ' ' << w << endl;
+  }
+  //cout << solve(nVertices, nEdges, u, v) << endl;
   return 0;
   cin >> edge.first >> edge.second;
   vector<bool> nodesVisited(nVertices);
