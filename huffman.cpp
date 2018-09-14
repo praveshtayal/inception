@@ -15,17 +15,15 @@ class node {
   }
 };
 
-class myless {
+class mygreater {
   public:
     bool operator()(const node* p1, const node* p2) {
       return p1->freq > p2->freq;
 }
 };
-/* Why is function not working instead of function object
-bool myless(const pair<int,node*>& p1, const pair<int,node*>& p2) {
-      return p1.first<p2.first;
+bool mygreaterF(const node* p1, const node* p2) {
+      return p1->freq > p2->freq;
 }
-*/
 
 void addCode(node *root, string code, unordered_map<char, string>& map)
 {
@@ -47,7 +45,7 @@ void huffman(string &data, unordered_map<char, string>& map) {
 
   // Now we need to sort the characters on frequency.
   // Thus we will use min priority queue with pair <frequency, char>
-  priority_queue<node*, vector<node*>, myless> pq;
+  priority_queue<node*, vector<node*>, mygreater> pq;
 
   // Add all the character nodes to priority queue
   for(unordered_map<char, int>::iterator it = frequency.begin();
@@ -58,7 +56,7 @@ void huffman(string &data, unordered_map<char, string>& map) {
   }
 
   // Create a tree
-  while(pq.size()>=2)
+  while(pq.size()>1)
   {
     node* p1 = pq.top();
     pq.pop();
@@ -71,7 +69,7 @@ void huffman(string &data, unordered_map<char, string>& map) {
   }
   // Here size of pq is 1
   // update the map
-  addCode(pq.top(), " ", map);
+  addCode(pq.top(), "", map);
 }
 
 // abbcccddddeeeee
