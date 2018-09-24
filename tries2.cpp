@@ -1,4 +1,5 @@
 #include<iostream>
+#include<vector>
 #include<stack>
 #define TRIE_SIZE 26
 #define STRING_SIZE 1024
@@ -9,24 +10,23 @@ class trie {
 private:
   class trieNode {
   public:
-    char c;
-    trieNode **child;
-    bool terminal;
+    char data;
+    trieNode **children;
     V value;
     trieNode(char _c='\0', V _value=0)
-      : c(_c), terminal(false), value(_value)
+      : data(_c), value(_value)
     {
-      child = new trieNode*[TRIE_SIZE];
+      children = new trieNode*[TRIE_SIZE];
       for(int i=0; i<TRIE_SIZE; i++)
-        child[i] = nullptr;
+        children[i] = nullptr;
     }
     ~trieNode()
     {
-      if(child==nullptr) return;
+      if(children==nullptr) return;
       for(int i=0; i<TRIE_SIZE; i++)
-        if(child[i]!=nullptr)
-          delete child[i];
-      delete [] child;
+        if(children[i]!=nullptr)
+          delete children[i];
+      delete [] children;
     }
   };
   trieNode *root;
@@ -43,13 +43,13 @@ public:
   {
     for(int i=0; i<TRIE_SIZE; i++)
     {
-      trieNode *curr=root->child[i],*prev=nullptr;
+      trieNode *curr=root->children[i],*prev=nullptr;
       if(curr==nullptr) continue;
       char string[STRING_SIZE];
       int len=0;
       while(curr!=nullptr)
       {
-        string[len++]=curr->c;
+        string[len++]=curr->data;
       }
       cout << string << endl;
     }
@@ -62,15 +62,14 @@ public:
     for(i=0; i<len;i++)
     {
       int index = key[i] - 'a';
-      if(curr->child[index]==nullptr)
+      if(curr->children[index]==nullptr)
         return;
-      curr = curr->child[index];
+      curr = curr->children[index];
       s.push(curr);
-      prev = curr;
     }
     /* curr holds the node to be deleted */
     s.pop();
-    while(curr && curr->terminal==true)
+    while(curr)
     {
       delete curr;
       curr = nullptr;
@@ -79,10 +78,10 @@ public:
       {
         curr = s.top();
         s.pop();
-        curr->child[index] = nullptr;
+        curr->children[index] = nullptr;
       }
       else
-        root->child[index] = nullptr;
+        root->children[index] = nullptr;
     }
   }
   V& operator[](string key)
@@ -92,9 +91,9 @@ public:
     for(int i=0; i<len;i++)
     {
       int index = key[i] - 'a';
-      if(curr->child[index]==nullptr)
+      if(curr->children[index]==nullptr)
         return root->value;
-      curr = curr->child[index];
+      curr = curr->children[index];
     }
     return curr->value;
   }
@@ -106,17 +105,49 @@ public:
     for(int i=0; i<len;i++)
     {
       int index = key[i] - 'a';
-      if(curr->child[index]==nullptr)
-        curr->child[index] = new trieNode(key[i], 0);
-      curr = curr->child[index];
+      if(curr->children[index]==nullptr)
+        curr->children[index] = new trieNode(key[i], 0);
+      curr = curr->children[index];
       if(prev==nullptr)
-        root->child[index] = curr;
+        root->children[index] = curr;
       prev = curr;
     }
-    curr->terminal = true;
     curr->value = value;
   }
+  bool patternMatching(vector<string> vect, string pattern) {
+    /* Given a list of n words and a pattern p that we want to search. Check if
+     * the pattern p is present the given words or not. Return true or false */
+    for(int i=0; i<vect.size(); i++)
+    {
+      int wordLength = vect[i].size();
+      for(int j=0; j<wordLength; j++)
+        t.insert(vect[i].substr(i,wordLength), 1);
+    }
+    return t[pattern]==1;
+  }
 };
+
+
+bool findIfPalindromePair(vector<string> arr) {
+  /* Givan n number of words, you need to find if there exist any two words
+   * which can be joined to make a palindrome or any word itself is
+   * a palindrome. Return true or false */
+  return true;
+}
+
+void autoComplete(vector<string> input, string pattern) {
+  /* Givan n number of words and an incomplete word w. You need to
+   * auto-complete that word w. That means, find and print all the possible
+   * words which can be formed using the incomplete word w. */
+  trie<int> t;
+  for(int i=0; i<input.size(); i++)
+  {
+    int wordLength = input[i].size();
+    for(int j=0; j<wordLength; j++)
+      t.insert(input[i].substr(i,wordLength), 1);
+  }
+
+}
 
 int main()
 {
