@@ -172,6 +172,52 @@ void pairSum(int input[], int size, int x) {
   }
 }
 
+void pairSum2(int input[], int size, int x) {
+  /* Here we do not assume any constraint on integer numbers present in the
+   * array. Thus, we use another approach */
+  /* Given a random integer array A and a number x. Find and print the pair of
+   * elements in the array which sum to x. Array A can contain duplicate
+   * elements. While printing a pair, print the smaller element first. That is,
+   * if a valid pair is (6, 5) print "5 6". There is no constraint that out of
+   * 5 pairs which have to be printed in 1st line. You can print pairs in any
+   * order, just be careful about the order of elements in a pair. */
+  mergeSort(input,size);
+  int start=0, end=size-1;
+  while(start<end){
+    if(input[start]+input[end]==x)
+    {
+      int product;
+      if(input[start]==input[end])
+      {
+        int count=end-start+1;
+        product = count*(count-1)/2;
+        start = end; // To ensure that while loop exits
+      }
+      else
+      {
+        int startCount=1, endCount=1;
+        while(start+1<end && input[start+1]==input[start]) {
+          startCount++;
+          start++;
+        }
+        while(start<end-1 && input[end-1]==input[end]) {
+          endCount++;
+          end--;
+        }
+        product = startCount*endCount;
+      }
+      for(int j=0;j<product;j++)
+        	cout << input[start] << ' ' << input[end] << endl;
+      start++;
+      end--;
+    }
+    else if(input[start]+input[end]<x)
+      start++;
+    else
+      end--;
+  }
+}
+
 void SortZeroesAndOne(int arr[], int n)
 {
   /* You are given an integer array A that contains only integers 0 and 1.
@@ -219,6 +265,48 @@ void FindTriplet(int arr[], int size, int x)
   }
 }
 
+void FindTriplet2(int arr[], int size, int x) {
+  /* Here we do not assume any constraint on integer numbers present in the
+   * array. Thus, we use another approach */
+  mergeSort(arr,size);
+  for(int i=0; i<size-2; i++) // element at index i, i+1 and i+2 are valid
+  {
+    int start=i+1, end=size-1;
+    while(start<end){
+      if(arr[i]+arr[start]+arr[end]==x)
+      {
+        int product;
+        if(arr[start]==arr[end])
+        {
+          int count=end-start+1;
+          product = count*(count-1)/2;
+          start = end; // To ensure that while loop exits
+        }
+        else
+        {
+          int startCount=1, endCount=1;
+          while(start+1<end && arr[start+1]==arr[start]) {
+            startCount++;
+            start++;
+          }
+          while(start<end-1 && arr[end-1]==arr[end]) {
+            endCount++;
+            end--;
+          }
+          product = startCount*endCount;
+        }
+        for(int j=0;j<product;j++)
+          cout << arr[i] << ' ' << arr[start] << ' ' << arr[end] << endl;
+        start++;
+        end--;
+      }
+      else if(arr[i]+arr[start]+arr[end]<x)
+        start++;
+      else
+        end--;
+    }
+  }
+}
 
 int main()
 {
