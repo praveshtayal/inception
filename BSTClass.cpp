@@ -57,10 +57,10 @@ class BST {
         // prev->right is nullptr
         prev->right = node;
     }
-    void deleteData(int value)
+    bool deleteData(int value)
     {
       if(root==nullptr) return false;
-      BinaryTreeNode<int> *curr=root, *prev=root;
+      BinaryTreeNode<int> *curr=root, *prev=nullptr;
       while(curr!=nullptr && curr->data != value)
       {
         prev = curr;
@@ -70,7 +70,7 @@ class BST {
           curr = curr->right;
       }
       // value not found
-      if(curr==nullptr) return;
+      if(curr==nullptr) return false;
       // we have to delete node curr
       if(curr->left && curr->right)
       {
@@ -88,22 +88,37 @@ class BST {
         }
         deleteData(smallest);
         curr->data = smallest;
-        return;
+        return true;
       }
       // At least One subtree is empty
       if(curr->left)
       {
         // Right subtree is empty
         BinaryTreeNode<int> *temp = curr->left;
+        if(prev==nullptr)
+        {
+            // We are deleting the root node
+            root = temp;
+            curr->left = curr->right = nullptr; delete curr;
+            return true;
+        }
         if(prev->left==curr) prev->left = temp;
         else prev->right = temp;
-        delete curr;
-        return;
+        curr->left = curr->right = nullptr; delete curr;
+        return true;
       }
       BinaryTreeNode<int> *temp = curr->right;
+      if(prev==nullptr)
+      {
+          // We are deleting the root node
+          root = temp;
+          curr->left = curr->right = nullptr; delete curr;
+          return true;
+      }
       if(prev->left==curr) prev->left = temp;
       else prev->right = temp;
-      delete curr;
+      curr->left = curr->right = nullptr; delete curr;
+      return true;
     }
 
     bool hasData(int value) const
@@ -138,7 +153,9 @@ class BST {
       printTree(root->left);
       printTree(root->right);
     }
+};
 
+class AVL: protected BST {
 };
 
 int main()
@@ -167,7 +184,6 @@ int main()
                 break;
             default:
                 tree->printTree();
-                return 0;
                 break;
         }
     }  
