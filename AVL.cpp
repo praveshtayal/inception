@@ -8,19 +8,16 @@ template <typename T>
 class BinaryTreeNode {
     public : 
     T data;
-    int bf;
+    int bf;  // This is only calculated in height function. Thus most of the
+             // time this value is incorrect.
+             // Note that we call rotate function after height function is 
+             // called. And rotate function uses this value, which is correct.
     BinaryTreeNode<T> *left;
     BinaryTreeNode<T> *right;
 
-    BinaryTreeNode(T data=0) {
-        this -> data = data;
-        bf = 0;
-        left = nullptr;
-        right = nullptr;
-    }
-    ~BinaryTreeNode() {
-      delete left;
-      delete right;
+    BinaryTreeNode(T _data=0)
+        : data(_data), bf(0), left(nullptr), right(nullptr)
+    {
     }
 };
 
@@ -32,7 +29,11 @@ class AVL {
     }
     ~AVL()
     {
-      delete AVLroot;
+        if(AVLroot) {
+            delete AVLroot->left;
+            delete AVLroot->right;
+            delete AVLroot;
+        }
     }
     void insert(int data)
     {
@@ -134,18 +135,6 @@ class AVL {
       cout << endl;
       printTree(root->right);
     }
-    /*
-    BinaryTreeNode<int> *insert(BinaryTreeNode<int> *root, int data)
-    {
-        if(root==nullptr)
-            return new BinaryTreeNode<int>(data);
-        if(root->data < data)
-            root->right = insert(root->right, data);
-        else
-            root->left = insert(root->left, data);
-        return root;
-    }
-    */
     int height(BinaryTreeNode<int>* root)
     {
         if(root==nullptr) return 0;
@@ -201,7 +190,6 @@ class AVL {
     BinaryTreeNode<int>* rotate(BinaryTreeNode<int>* root)
     {
         //cout << "Calling rotate on " << root->data << endl;
-        //cout << "bf is " << root->bf << endl;
         if(root->bf==-2)
         {
             if(root->right->bf==-1)
@@ -219,28 +207,32 @@ class AVL {
         
         return root;
     }
-    int insert(BinaryTreeNode<int>* &root, int data)
+    // true represents Rotation is already done. Thus, we dont need to
+    // calculate height and do rotation.
+    // false reprsents Rotation is not done yet.
+    bool insert(BinaryTreeNode<int>* &root, int data)
     {
         if(root==nullptr) {
             root = new BinaryTreeNode<int>(data);
-            return root->bf; // Note that this is always 0 for new node
+            return false;
         }
+        bool rotated = false;
         if(root->data < data) {
-            insert(root->right, data);
-            //root->bf -= 1;
+            rotated = insert(root->right, data);
         }
         else {
-            insert(root->left, data);
-            //root->bf += 1;
+            rotated = insert(root->left, data);
         }
 
+        if(rotated) return true;
         int ht = height(root);
         if(root->bf < -1 || 1 < root->bf)
+        {
             root = rotate(root);
-        //int bfl = root->left ? root->left->bf: 0;
-        //int bfr = root->right ? root->right->bf: 0;
-        //if(bfl
-        return root->bf;
+            return true;
+        }
+
+        return rotated;
     }
 };
 
