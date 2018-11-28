@@ -7,13 +7,13 @@ using namespace std;
 template <typename T>
 class BinaryTreeNode {
     public : 
-    T data;
-    int bf;  // This is only calculated in height function. Thus most of the
-             // time this value is incorrect.
-             // Note that we call rotate function after height function is 
-             // called. And rotate function uses this value, which is correct.
-    BinaryTreeNode<T> *left, *right;
-    BinaryTreeNode(T _data=0);
+        T data;
+        int bf;  // This is only calculated in height function. Thus most of the
+        // time this value is incorrect.
+        // Note that we call rotate function after height function is 
+        // called. And rotate function uses this value, which is correct.
+        BinaryTreeNode<T> *left, *right;
+        BinaryTreeNode(T _data=0);
 
 };
 

@@ -73,16 +73,16 @@ class stack {
 
 template<typename T>
 class Node{
-public:
-    T data;
-    Node * next;
-    Node(T data){
-        this->data=data;
-        this->next=NULL;
-    }
+    public:
+        T data;
+        Node * next;
+        Node(T data){
+            this->data=data;
+            this->next=NULL;
+        }
 };
 Node<int>* NextLargeNumber(Node<int> *head) {
-    if(head==nullptr) return;
+    if(head==nullptr) return head;
     Node<int> *last=head;
     int len=1;
     while(last->next != nullptr)
@@ -90,6 +90,7 @@ Node<int>* NextLargeNumber(Node<int> *head) {
         last = last->next;
         len++;
     }
+    return head;
 }
 
 void changeLL(Node<int>* head) {
