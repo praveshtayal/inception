@@ -507,7 +507,7 @@ int countWaysToMakeChange(int denominations[], int numDenominations, int value){
     return countWaysToMakeChange(denominations, numDenominations-1, value);
 }
 
-int countWaysToMakeChange(int denominations[], int numDenominations, int value){
+int countWaysToMakeChange1(int denominations[], int numDenominations, int value){
     /* You are given an infinite supply of coins of each of denominations
      * D = {D0, D1, D2, D3, ...... Dn-1}. You need to figure out the total number
      * of ways W, in which you can make change for Value V using coins of
@@ -565,7 +565,7 @@ int mcm(int* p, int n){
             if(i>j) result[i][j] = INT_MAX;
             else if(i==j) result[i][j] = p[i]*p[i+1]*p[i+2];
             else {
-                result[i][j] = result[i][j-1] + p[i]*p[j+1]*p[j+2]
+                result[i][j] = result[i][j-1] + p[i]*p[j+1]*p[j+2];
                     // Here i<j
                     for(int k=i; k+2<j; k++) {
                         int operations = p[i]*p[i+1]*p[i+2];
@@ -576,7 +576,7 @@ int mcm(int* p, int n){
 
     for(int i=0; i<size; i++)
         delete [] result[i];
-    delete result[i];
+    delete [] result;
 
 
     if(n==3) return p[0]*p[1]*p[2]; // Base Case, only 1 possibility
@@ -606,11 +606,69 @@ string solve(int n, int x, int y)
     return 0;
 }
 
+class MaxSquareWithAllZeros {
+    private:
+        int **arr, row, col;
+    public:
+        MaxSquareWithAllZeros(int** _arr, int _row, int _col)
+            : arr(_arr), row(_row), col(_col)
+        {
+        }
+
+        int findMatrix(int i, int j)
+        {
+            if(i==row || j==col){
+                return 0;
+            }
+            int op1 = findMatrix(i+1, j);
+            int op2 = findMatrix(i, j+1);
+            int maximum = max(op1, op2);
+
+            if(min(row-i, col-j)<maximum)
+                return maximum;
+
+            for(int p=0; p<=maximum; p++)
+                for(int q=0; q<=maximum; q++)
+                    if(arr[i+p][j+q]==1)
+                        return maximum;
+            return maximum+1;
+        }
+};
 int findMaxSquareWithAllZeros(int** arr, int row, int col){
     /* Given a n*m matrix which contains only 0s and 1s, find out the size of
      * maximum square sub-matrix with all 0s. You need to return the size of
      * square with all 0s. */
-    return 0;
+    int **storage;
+    storage = new int*[row+1];
+    for(int i=0; i<=row; i++)
+    {
+        storage[i] = new int[col+1];
+        for(int j=0; j<=col; j++)
+            storage[i][j] = 0;
+    }
+    for(int i=row-1; i>=0; i--)
+        for(int j=col-1; j>=0; j--)
+        {
+            int maximum = storage[i][j] = max(storage[i+1][j], storage[i][j+1]);
+
+            if(min(row-i, col-j)<=maximum)
+                continue;
+
+            bool foundOne = false;
+            for(int p=0; p<=maximum; p++)
+                for(int q=0; q<=maximum; q++)
+                    if(arr[i+p][j+q]==1){
+                        foundOne = true;
+                        p = q = maximum+1;
+                    }
+            if(foundOne==false)
+                storage[i][j] += 1;
+        }
+    int ans = storage[0][0];
+    for(int i=0; i<=row; i++)
+        delete [] storage[i];
+    delete [] storage;
+    return ans;
 }
 
 int solve(string S,string V)
@@ -637,11 +695,22 @@ int main()
     //cout << lcsMZ("adebc", "dcadb") << endl;
     //cout << editDistanceBF("adebc", "dcadb") << endl;
     //cout << editDistanceDP("adebc", "dcadb") << endl;
-    int n, arr[1000000];
-    n = getArray(arr,1000000);
+    //int n, arr[1000000];
+    //n = getArray(arr,1000000);
     //copy(arr, &arr[n-1], istream_iterator<int>(cin, " "));
-    cout << lisDP(arr, n) << endl; 
+    //cout << lisDP(arr, n) << endl; 
     //copy(arr, &arr[n], ostream_iterator<int>(cout, " "));
+    int m, n, **arr;
+    cin >> m >> n;
+    arr = new int*[m];
+    for(int i=0; i<m; i++)
+    {
+        arr[i] = new int[n];
+        for(int j=0; j<n; j++)
+            cin >> arr[i][j];
+    }
+    int maximum = findMaxSquareWithAllZeros(arr, m, n);
+    cout << maximum << endl;
 
     return 0;
 }

@@ -29,6 +29,10 @@ ostream& operator<<(ostream& cout,const Dummy& d)
     return cout;
 }
 
+auto_ptr<Dummy> f_returning_auto_ptr()
+{
+    auto_ptr<Dummy> p1 = new Dummy(1786);
+}
 int main()
 {
     int i = 10;
