@@ -1,5 +1,7 @@
 #include<iostream>
 #include<stack>
+#include<vector>
+#include<string>
 #define TRIE_SIZE 26
 #define STRING_SIZE 1024
 using namespace std;
@@ -121,12 +123,14 @@ class trie {
 bool patternMatching(vector<string> vect, string pattern) {
     /* Given a list of n words and a pattern p that we want to search. Check if
      * the pattern p is present the given words or not. Return true or false */
+    return true;
 }
 
 bool findIfPalindromePair(vector<string> arr) {
     /* Givan n number of words, you need to find if there exist any two words
      * which can be joined to make a palindrome or any word itself is
      * a palindrome. Return true or false */
+    return true;
 }
 
 void autoComplete(vector<string> input, string pattern) {

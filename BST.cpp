@@ -123,6 +123,20 @@ bool isBST(BinaryTreeNode<int> *root){
     return true;
 }
 
+bool inOrder(BinaryTreeNode<int> *root, int& prevValue){
+    if(root==nullptr) return true;
+    if(false==inOrder(root->left, prevValue)) return false;
+    if(root->data < prevValue) return false;
+    prevValue = root->data;
+    return inOrder(root->right, prevValue);
+}
+
+bool isBST(BinaryTreeNode<int> *root){
+    /* Another approach where we check if inorder traversal is ascending */
+    int prevValue=INT_MIN;
+    return inOrder(root, prevValue);
+}
+
 bool findPathBinaryTree(BinaryTreeNode<int> *root , int data, vector<int>& v){
     /* Given a Binary Tree and integer k. Find and return path from the node with
      * data k and root (if a node with data k is present in given BST). Return

@@ -106,7 +106,7 @@ class trie {
             {
                 int index = key[i] - 'a';
                 if(curr->children[index]==nullptr)
-                    curr->children[index] = new trieNode(key[i], 0);
+                    curr->children[index] = new trieNode(key[i], 1);
                 curr = curr->children[index];
                 if(prev==nullptr)
                     root->children[index] = curr;
@@ -114,17 +114,18 @@ class trie {
             }
             curr->value = value;
         }
-        bool patternMatching(vector<string> vect, string pattern) {
-            /* Given a list of n words and a pattern p that we want to search. Check if
-             * the pattern p is present the given words or not. Return true or false */
-            for(int i=0; i<vect.size(); i++)
-            {
-                int wordLength = vect[i].size();
-                for(int j=0; j<wordLength; j++)
-                    t.insert(vect[i].substr(i,wordLength), 1);
-            }
-            return t[pattern]==1;
-        }
+
+bool patternMatching(vector<string> vect, string pattern) {
+    /* Given a list of n words and a pattern p that we want to search. Check if
+     * the pattern p is present the given words or not. Return true or false */
+    for(int i=0; i<vect.size(); i++)
+    {
+        int wordLength = vect[i].size();
+        for(int j=0; j<wordLength; j++)
+            insert(vect[i].substr(j), 1);
+    }
+    return (*this)[pattern]==1;
+}
 };
 
 
@@ -149,11 +150,29 @@ void autoComplete(vector<string> input, string pattern) {
 
 }
 
+typedef trie<int> Trie;
 int main()
 {
+    Trie t;
+    int N;
+    cin >> N;
+    string pattern;
+    vector<string> vect;
+    for (int i=0; i < N; i++) {
+        string word;
+        cin >> word;
+        vect.push_back(word);
+    }
+    cin >> pattern;
+    if (t.patternMatching(vect, pattern)) {
+        cout << "true" << endl;
+    } else {
+        cout << "false" << endl;
+    }
+    return 0;
     int option=1, nWords, value;
     string word;
-    trie<int> t;
+    //trie<int> t;
     while(option!=0)
     {
         cout << "Please input the option (1) Insert, (2) Search, (3) Remove : ";
